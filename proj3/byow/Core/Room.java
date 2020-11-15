@@ -1,2 +1,4 @@
-package byow.Core;public class Room {
+package byow.Core;
+
+public class Room {
 }
