@@ -3,6 +3,10 @@ package byow.Core;
 import byow.TileEngine.TERenderer;
 import byow.TileEngine.TETile;
 import byow.TileEngine.Tileset;
+import byow.lab12.Hexagon;
+import byow.lab12.Position;
+
+import java.util.List;
 
 public class TestingMain {
 
@@ -21,17 +25,25 @@ public class TestingMain {
                 world[x][y] = Tileset.NOTHING;
             }
         }
+        String testSeed = "N232S";
+        TETile testType = Tileset.WALL;
+        Position testPos = new Position(10, 10);
 
-        // fills in a block 14 tiles wide by 4 tiles tall
-        for (int x = 20; x < 35; x += 1) {
-            for (int y = 5; y < 10; y += 1) {
-                world[x][y] = Tileset.FLOWER;
-            }
-        }
+        Room testRoom = new Room(testPos, testSeed, testType);
+
+        addRoom(testRoom, world);
+
+
 
         // draws the world to the screen
         ter.renderFrame(world);
     }
 
+    public static void addRoom(Room r, TETile[][] world) {
+        List<Position> wallPositions = r.getPositions();
+        for (Position p: wallPositions) {
+            world[p.getX()][p.getY()] = r.getTile();
+        }
+    }
 
 }
