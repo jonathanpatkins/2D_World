@@ -3,10 +3,10 @@ package byow.Core;
 import byow.TileEngine.TERenderer;
 import byow.TileEngine.TETile;
 import byow.TileEngine.Tileset;
-import byow.lab12.Hexagon;
 import byow.lab12.Position;
 
 import java.util.List;
+import java.util.Random;
 
 public class TestingMain {
 
@@ -25,11 +25,23 @@ public class TestingMain {
                 world[x][y] = Tileset.NOTHING;
             }
         }
+
+        // Test
         String testSeed = "N232S";
-        TETile testType = Tileset.WALL;
+        TETile testTypeWall = Tileset.WALL;
+        TETile testTypeFloor = Tileset.FLOOR;
         Position testPos = new Position(10, 10);
 
-        Room testRoom = new Room(testPos, testSeed, testType);
+        // Create random obj to be passed around
+        // Get the seed num
+        String subString = testSeed.substring(1, testSeed.length() - 2);
+        int seedNum = Integer.parseInt(subString);
+
+        // Create random generator
+        Random random = new Random(seedNum);
+
+
+        Room testRoom = new Room(testPos, random, testTypeFloor, testTypeWall);
 
         addRoom(testRoom, world);
 
@@ -40,9 +52,13 @@ public class TestingMain {
     }
 
     public static void addRoom(Room r, TETile[][] world) {
-        List<Position> wallPositions = r.getPositions();
+        List<Position> wallPositions = r.getWallLocation();
         for (Position p: wallPositions) {
-            world[p.getX()][p.getY()] = r.getTile();
+            world[p.getX()][p.getY()] = r.getTileWall();
+        }
+        List<Position> floorPositions = r.getFloorLocation();
+        for (Position p: floorPositions) {
+            world[p.getX()][p.getY()] = r.getTileFloor();
         }
     }
 
