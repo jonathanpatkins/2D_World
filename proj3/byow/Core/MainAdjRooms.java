@@ -15,6 +15,9 @@ public class MainAdjRooms {
      * Same as in Main but this time creates multiple rooms
      * Also has the methods inBounds which returns true if a room is within the bounds of our space
      * and method notInterstecting which returns true if a room does not intersect with another room.
+     *
+     * Todo:
+     *  have a correct adj array and then for the times taht it triggers - make it turn into a diff tiel that is very vis on the display
      */
 
 
@@ -35,7 +38,7 @@ public class MainAdjRooms {
         }
 
         // Test
-        List<Room> rooms = new ArrayList<>();
+        List<RoomAdj> rooms = new ArrayList<>();
 
         String testSeed = "N232S";
         TETile testTypeWall = Tileset.WALL;
@@ -49,12 +52,16 @@ public class MainAdjRooms {
         // Create random generator
         Random random = new Random(seedNum);
 
+        // Generates numOfRoomsDesired into the space
+        int numOfRoomsDesired = 50;
         int counter = 0;
-        while (counter != 40) {
+        while (counter < numOfRoomsDesired) {
             int x = RandomUtils.uniform(random, 0, 60);
             int y = RandomUtils.uniform(random, 0, 40);
             Position testPos = new Position(x, y);
-            Room testRoom = new Room(testPos, random, testTypeFloor, testTypeWall);
+
+            RoomAdj testRoom = new RoomAdj(testPos, random, testTypeFloor, testTypeWall);
+
             if (inBounds(testRoom) && notInterstecting(testRoom, world)) {
                 addRoom(testRoom, world);
                 rooms.add(testRoom);
@@ -62,6 +69,19 @@ public class MainAdjRooms {
             }
         }
 
+//        // this was here to verify that I was selecting the correct edges for each room
+//        for (RoomAdj a : rooms) {
+//            List<Position> temp = a.getAdjLocation();
+//            for (Position i : temp) {
+//                int x = i.getX();
+//                int y = i.getY();
+//                if (x >= WIDTH || y >= HEIGHT) {
+//                       // do nothing
+//                } else {
+//                    world[i.getX()][i.getY()] = Tileset.FLOWER;
+//                }
+//            }
+//        }
 
 
         // draws the world to the screen
@@ -73,7 +93,7 @@ public class MainAdjRooms {
      * @param r
      * @param world
      */
-    public static void addRoom(Room r, TETile[][] world) {
+    public static void addRoom(RoomAdj r, TETile[][] world) {
         List<Position> wallPositions = r.getWallLocation();
         for (Position p: wallPositions) {
             world[p.getX()][p.getY()] = r.getTileWall();
@@ -89,7 +109,8 @@ public class MainAdjRooms {
      * @param temp
      * @return
      */
-    public static boolean inBounds(Room temp) {
+    // I think we could have a private helper that checks if a given Position is inside the space
+    public static boolean inBounds(RoomAdj temp) {
         List<Position> wall = temp.getWallLocation();
         for (Position i : wall) {
             int x = i.getX();
@@ -107,7 +128,7 @@ public class MainAdjRooms {
      * @param world
      * @return
      */
-    public static boolean notInterstecting(Room temp, TETile[][] world) {
+    public static boolean notInterstecting(RoomAdj temp, TETile[][] world) {
         for (Position i : temp.getWallLocation()) {
             if (world[i.getX()][i.getY()] != Tileset.NOTHING) {
                 return false;
@@ -115,4 +136,5 @@ public class MainAdjRooms {
         }
         return true;
     }
+
 }

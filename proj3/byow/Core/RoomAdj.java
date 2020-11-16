@@ -18,7 +18,7 @@ public class RoomAdj {
     /**
      * General Constructor:
      *  Same as in Room, but this time keeps track of where the corners of the walls for the room
-     *  are and it keeps track of blocks outside the walls. Illustrated in pic below with 0
+     *  are and it keeps track of edges outside the walls. Illustrated in pic below with 0
      *              00000000
      *              ________
      *            0|        |0
@@ -46,13 +46,12 @@ public class RoomAdj {
         this.lowerRight = new Position(lowerLeft, 0, width);
         this.upperRight = new Position(lowerLeft, length, width);
 
-        // Generate number of doors
-        this.numOfDoors = RandomUtils.uniform(r, 1, 3);
-
         // Generate the positions of the walls and floor
         this.wallLocation = new ArrayList<>();
         this.floorLocation = new ArrayList<>();
         this.doorLocation = new ArrayList<>();
+        this.adjLocation = new ArrayList<>();
+        this.cornerLocation = new ArrayList<>();
         this.getPositions();
 
 
@@ -60,7 +59,7 @@ public class RoomAdj {
     }
 
     /**
-     * Adds to the wallLocation list and floorLocation list the position of all walls and floors for the room
+     * For a given room, records the positions of the outside edges, walls, and floor
      */
     private void getPositions() {
 
@@ -69,6 +68,8 @@ public class RoomAdj {
 
                 // if top or bottom of the room add wall
                 if (i == 0 || i == this.length - 1) {
+
+                    // if its a corner add to corner list
                     if ((i == 0 && j == 0) || (i == 0 && j == this.width - 1)
                             || (i == this.length - 1 && j == 0)
                             || (i == this.length - 1 && j == this.width - 1)) {
@@ -92,35 +93,31 @@ public class RoomAdj {
                 }
             }
         }
-        Position outside = new Position(this.lowerLeft, -1, -1);
-        int outsideL = this.length + 2;
-        int outsideW = this.width + 2;
-        for (int i = 0; i < outsideL; i++) {
-            for (int j = 0; j < outsideW; j++) {
-                Position adj = new Position(outside, j, i);
-                // if top or bottom of the room add wall
-                if (i == 0 || i == outsideL - 1) {
-                    if ((i == 0 && j == 0) || (i == 0 && j == outsideW - 1)
-                            || (i == outsideL - 1 && j == 0)
-                            || (i == outsideL - 1 && j == outsideW - 1)) {
-                        // do nothing
-                    } else {
-                        this.adjLocation.add(adj);
-                    }
-                }
 
-                // if the sides of the room add wall
-                else if (i > 0 && i < outsideL - 1 && (j == 0 || j == outsideW - 1)){
-                    this.adjLocation.add(adj);
-                }
-
-                // everything else can be considered floor
-                else {
-                    this.adjLocation.add(adj);
-                }
+        // generates the outside edges of the room (ignores the corners)
+        // No idea if this info will be helpful later or not
+        // gets the top and the bottom edges
+        for (int i = 0; i < this.width; i++) {
+            Position upper = new Position(this.lowerLeft, i, this.length);
+            if (inBounds(upper)) {
+                this.adjLocation.add(upper);
+            }
+            Position lower = new Position(this.lowerLeft, i, -1);
+            if (inBounds(lower)) {
+                this.adjLocation.add(lower);
             }
         }
-
+        // gets the left and right edges
+        for (int i = 0; i < this.length; i++) {
+            Position left = new Position(this.lowerLeft, -1, i);
+            if (inBounds(left)) {
+                this.adjLocation.add(left);
+            }
+            Position right = new Position(this.lowerLeft, this.width, i);
+            if (inBounds(right)) {
+                this.adjLocation.add(right);
+            }
+        }
     }
 
 
@@ -142,5 +139,22 @@ public class RoomAdj {
 
     public List<Position> getWallLocation() {
         return wallLocation;
+    }
+
+    public List<Position> getAdjLocation() {
+        return adjLocation;
+    }
+
+    public List<Position> getCornerLocation() {
+        return cornerLocation;
+    }
+
+    public boolean inBounds(Position i) {
+        int x = i.getX();
+        int y = i.getY();
+        if (x >= MainAdjRooms.WIDTH || y >= MainAdjRooms.HEIGHT || x <= 0 || y <= 0) {
+            return false;
+            }
+        return true;
     }
 }
