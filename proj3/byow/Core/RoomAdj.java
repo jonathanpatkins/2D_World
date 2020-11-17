@@ -13,7 +13,7 @@ public class RoomAdj {
     private List<Position> doorLocation, wallLocation, floorLocation, cornerLocation, adjLocation;
     private int numOfDoors;
     private TETile tileWall, tileFloor;
-    private int length, width;
+    private int height, width;
 
     /**
      * General Constructor:
@@ -37,14 +37,14 @@ public class RoomAdj {
         this.tileFloor = tileFloor;
         this.tileWall = tileWall;
 
-        // Generate length and width
-        this.length = RandomUtils.uniform(r, 3, 15);
+        // Generate width (x) and height (y)
         this.width = RandomUtils.uniform(r, 3, 15);
+        this.height = RandomUtils.uniform(r, 3, 15);
 
         // Generate upperLeft, upperRight, lowerRight from length and width
-        this.upperLeft = new Position(lowerLeft, length, 0);
-        this.lowerRight = new Position(lowerLeft, 0, width);
-        this.upperRight = new Position(lowerLeft, length, width);
+        this.upperLeft = new Position(lowerLeft, 0, height);
+        this.lowerRight = new Position(lowerLeft, width, 0);
+        this.upperRight = new Position(lowerLeft, width, height);
 
         // Generate the positions of the walls and floor
         this.wallLocation = new ArrayList<>();
@@ -53,52 +53,55 @@ public class RoomAdj {
         this.adjLocation = new ArrayList<>();
         this.cornerLocation = new ArrayList<>();
         this.getPositions();
+    }
 
+    /**
+     * @return whether @param pos can be a door.
+     * Corners cannot be doors. Doors also should not open into invalid spaces.
+     */
+    public boolean validDoor(Position pos) {
+        int x = pos.getX();
+        int y = pos.getY();
 
+        // If it reasonably could be a door (aka there is space to generate a hallway)
+        boolean inBounds = ((x - 2 > 0 && x + 2 < MainAdjRooms.WIDTH) ||
+                (y - 2 > 0 && y + 2 < MainAdjRooms.HEIGHT));
 
+        // If it is a legal spot, we check to see if it is a corner. If not, it can be a door.
+        if (inBounds) {
+            return !cornerLocation.contains(pos);
+        }
+        return false;
     }
 
     /**
      * For a given room, records the positions of the outside edges, walls, and floor
      */
     private void getPositions() {
-
-        for (int i = 0; i < this.length; i++) {
+        for (int i = 0; i < this.height; i++) {
             for (int j = 0; j < this.width; j++) {
-
-                // if top or bottom of the room add wall
-                if (i == 0 || i == this.length - 1) {
-
-                    // if its a corner add to corner list
-                    if ((i == 0 && j == 0) || (i == 0 && j == this.width - 1)
-                            || (i == this.length - 1 && j == 0)
-                            || (i == this.length - 1 && j == this.width - 1)) {
-                        Position corner = new Position(this.lowerLeft, j, i);
-                        this.cornerLocation.add(corner);
+                Position pos = new Position(this.lowerLeft, j, i);
+                // if top, bottom, left, or right row, it is a wall.
+                if (isWall(j, i)) {
+                    // if it is a corner add to corner list
+                    if (isCorner(j, i)) {
+                        this.cornerLocation.add(pos);
                     }
-                    Position wall = new Position(this.lowerLeft, j, i);
-                    this.wallLocation.add(wall);
+                    this.wallLocation.add(pos);
                 }
-
-                // if the sides of the room add wall
-                else if (i > 0 && i < this.length - 1 && (j == 0 || j == width - 1)){
-                    Position wall = new Position(this.lowerLeft, j, i);
-                    this.wallLocation.add(wall);
-                }
-
-                // everything else can be considered floor
+                // if it isn't a wall, it is a floor
                 else {
-                    Position floor = new Position(this.lowerLeft, j, i);
-                    this.floorLocation.add(floor);
+                    this.floorLocation.add(pos);
                 }
             }
         }
 
+
         // generates the outside edges of the room (ignores the corners)
-        // No idea if this info will be helpful later or not
+        // Helpful for good door generation.
         // gets the top and the bottom edges
         for (int i = 0; i < this.width; i++) {
-            Position upper = new Position(this.lowerLeft, i, this.length);
+            Position upper = new Position(this.lowerLeft, i, this.height);
             if (inBounds(upper)) {
                 this.adjLocation.add(upper);
             }
@@ -108,7 +111,7 @@ public class RoomAdj {
             }
         }
         // gets the left and right edges
-        for (int i = 0; i < this.length; i++) {
+        for (int i = 0; i < this.height; i++) {
             Position left = new Position(this.lowerLeft, -1, i);
             if (inBounds(left)) {
                 this.adjLocation.add(left);
@@ -120,6 +123,23 @@ public class RoomAdj {
         }
     }
 
+    /**
+     * @return whether the point (@param x, @param y) could be considered a corner.
+     */
+    private boolean isCorner(int x, int y) {
+        if ( (y == 0 && (x == 0 || x == this.width - 1) ) ||
+                (y == this.height - 1 && (x == 0 || x == this.width - 1)) ) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * @return whether the point (@param x, @param y) could be considered a wall.
+     */
+    private boolean isWall(int x, int y) {
+        return (y == 0 || y == this.height - 1) || (x == 0 || x == this.width - 1);
+    }
 
     public TETile getTileFloor() {
         return tileFloor;
@@ -149,12 +169,55 @@ public class RoomAdj {
         return cornerLocation;
     }
 
+    /**
+     * Adds a door at @param pos.
+     */
+    public void addDoor(Position pos) {
+        doorLocation.add(pos);
+    }
+
+    /**
+     * Removes @param pos from the wall locations.
+     * This is done if a door is to be there instead.
+     */
+    public void removeWall(Position pos) {
+        wallLocation.remove(pos);
+    }
+
     public boolean inBounds(Position i) {
         int x = i.getX();
         int y = i.getY();
         if (x >= MainAdjRooms.WIDTH || y >= MainAdjRooms.HEIGHT || x <= 0 || y <= 0) {
             return false;
-            }
+        }
         return true;
+    }
+
+    /**
+     * @return the lowerLeft position.
+     */
+    public Position getLowerLeft() {
+        return lowerLeft;
+    }
+
+    /**
+     * @return the upperRight position.
+     */
+    public Position getUpperRight() {
+        return upperRight;
+    }
+
+    /**
+     * @return the upperLeft position.
+     */
+    public Position getUpperLeft() {
+        return upperLeft;
+    }
+
+    /**
+     * @return the lowerRight position.
+     */
+    public Position getLowerRight() {
+        return lowerRight;
     }
 }

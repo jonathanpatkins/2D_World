@@ -71,7 +71,6 @@ public class Room {
         this.getPositions();
 
 
-
     }
 
     /**
@@ -122,5 +121,27 @@ public class Room {
 
     public List<Position> getWallLocation() {
         return wallLocation;
+    }
+
+    /**
+     * Takes in another room @param r and @return whether there is an overlap
+     * between the two.
+     * Variables starting with this refer to this class and other refer to @param r.
+     * NOTE: This is helpful for us in ensuring that rooms do not stack on top
+     * of each other. If a room would, we do not add it to the Board.
+     */
+    public boolean checkIntercept(Room r) {
+        int thisLeft = upperLeft.getX();
+        int thisRight = lowerRight.getX();
+        int thisTop = upperLeft.getY();
+        int thisBottom = lowerRight.getY();
+        int otherLeft = r.upperLeft.getX();
+        int otherRight = r.lowerRight.getX();
+        int otherTop = r.upperLeft.getY();
+        int otherBottom = r.lowerRight.getY();
+        if (thisLeft < otherLeft) {
+            return true;
+        }
+        return false;
     }
 }

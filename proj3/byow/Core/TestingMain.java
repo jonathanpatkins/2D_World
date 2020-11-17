@@ -27,23 +27,27 @@ public class TestingMain {
         }
 
         // Test
-        String testSeed = "N232S";
+        String testSeed = "N23423490297423S";
         TETile testTypeWall = Tileset.WALL;
         TETile testTypeFloor = Tileset.FLOOR;
-        Position testPos = new Position(10, 10);
 
         // Create random obj to be passed around
         // Get the seed num
-        String subString = testSeed.substring(1, testSeed.length() - 2);
-        int seedNum = Integer.parseInt(subString);
+        // Switched to long to allow the high # of seeds they want
+        String subString = testSeed.substring(1, testSeed.length() - 1);
+        long seedNum = Long.parseLong(subString);
 
         // Create random generator
         Random random = new Random(seedNum);
-
-
-        Room testRoom = new Room(testPos, random, testTypeFloor, testTypeWall);
-
-        addRoom(testRoom, world);
+        int numRooms = random.nextInt(5);
+        System.out.println("Num Rooms: " + numRooms);
+        for (int i = 0; i < numRooms; i += 1) {
+            int xPos = random.nextInt(WIDTH);
+            int yPos = random.nextInt(HEIGHT);
+            Position testPos = new Position(xPos, yPos);
+            Room testRoom = new Room(testPos, random, testTypeFloor, testTypeWall);
+            addRoom(testRoom, world);
+        }
 
 
 

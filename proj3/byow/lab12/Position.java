@@ -20,4 +20,15 @@ public class Position {
     public int getY() {
         return y;
     }
+
+    @Override
+    public String toString() {
+        return "(" + x + ", " + y + ")";
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        Position other = (Position) o;
+        return x == other.getX() && y == other.getY();
+    }
 }
