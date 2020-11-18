@@ -4,6 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UnionFind {
+    /**
+     * Modified version of UnionFind from Lab
+     * Takes in nothing. You can then add component objects to the class through the addComponent method.
+     * With those components you can connect them and see if they are all connected
+     */
 
     // both of these should be the same size
     List<Integer> parent;
