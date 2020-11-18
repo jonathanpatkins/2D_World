@@ -11,6 +11,8 @@ import java.util.Random;
 
 public class MainAdjRooms {
 
+    // test
+
     /**
      * Same as in Main but this time creates multiple rooms
      * Also has the methods inBounds which returns true if a room is within the bounds of our space
