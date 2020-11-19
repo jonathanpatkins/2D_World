@@ -30,6 +30,9 @@ public class RoomAdj {
      * @param r the random object made from the seed
      * @param tileFloor the type of tile
      * @param tileWall the type of tile
+     *
+     * @source This class was generally inspired by Hexagon.java from the TA's
+     *         implementation of Lab12.
      */
     public RoomAdj(Position lowerLeft, Random r, TETile tileFloor, TETile tileWall) {
 
@@ -52,6 +55,7 @@ public class RoomAdj {
         this.doorLocation = new ArrayList<>();
         this.adjLocation = new ArrayList<>();
         this.cornerLocation = new ArrayList<>();
+
         this.getPositions();
     }
 
@@ -219,5 +223,12 @@ public class RoomAdj {
      */
     public Position getLowerRight() {
         return lowerRight;
+    }
+
+    /**
+     * @return if the RoomAdj contains @param p as a Door.
+     */
+    public boolean containsDoor(Position p) {
+        return doorLocation.contains(p);
     }
 }

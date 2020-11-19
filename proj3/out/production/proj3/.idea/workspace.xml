@@ -25,17 +25,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b2e36da0-76bf-43df-969d-6b4ae888dd0c" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/javalib.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/javalib.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/byow/Core/MainAdjRooms.java" beforeDir="false" afterPath="$PROJECT_DIR$/byow/Core/MainAdjRooms.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/byow/Core/Room.java" beforeDir="false" afterPath="$PROJECT_DIR$/byow/Core/Room.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/byow/Core/RoomAdj.java" beforeDir="false" afterPath="$PROJECT_DIR$/byow/Core/RoomAdj.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/byow/Core/TestingMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/byow/Core/TestingMain.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/byow/lab12/Position.java" beforeDir="false" afterPath="$PROJECT_DIR$/byow/lab12/Position.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/proj3/.idea/libraries/javalib.xml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/proj3/.idea/libraries/javalib.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/proj3/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/proj3/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/proj3/byow/lab12/Position.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/proj3/byow/lab12/Position.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/proj3/byow/lab12/project3prep.md" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/proj3/byow/lab12/project3prep.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj3/byow/Core/MainAdjRooms.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/proj3/byow/Core/MainAdjRooms.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -213,26 +208,42 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
-    <state width="1398" height="255" key="GridCell.Tab.0.bottom" timestamp="1605587598725">
+    <state width="1398" height="281" key="GridCell.Tab.0.bottom" timestamp="1605750530846">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1398" height="255" key="GridCell.Tab.0.bottom/0.0.1440.900@0.0.1440.900" timestamp="1605587598725" />
+    <state width="1398" height="281" key="GridCell.Tab.0.bottom/0.0.1440.900@0.0.1440.900" timestamp="1605750530846" />
     <state width="626" height="245" key="GridCell.Tab.0.bottom/0.23.1440.797@0.23.1440.797" timestamp="1605227156018" />
-    <state width="1398" height="255" key="GridCell.Tab.0.center" timestamp="1605587598723">
+    <state width="1398" height="281" key="GridCell.Tab.0.center" timestamp="1605750530844">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1398" height="255" key="GridCell.Tab.0.center/0.0.1440.900@0.0.1440.900" timestamp="1605587598723" />
+    <state width="1398" height="281" key="GridCell.Tab.0.center/0.0.1440.900@0.0.1440.900" timestamp="1605750530844" />
     <state width="626" height="245" key="GridCell.Tab.0.center/0.23.1440.797@0.23.1440.797" timestamp="1605227156017" />
-    <state width="1398" height="255" key="GridCell.Tab.0.left" timestamp="1605587598722">
+    <state width="1398" height="281" key="GridCell.Tab.0.left" timestamp="1605750530843">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1398" height="255" key="GridCell.Tab.0.left/0.0.1440.900@0.0.1440.900" timestamp="1605587598722" />
+    <state width="1398" height="281" key="GridCell.Tab.0.left/0.0.1440.900@0.0.1440.900" timestamp="1605750530843" />
     <state width="626" height="245" key="GridCell.Tab.0.left/0.23.1440.797@0.23.1440.797" timestamp="1605227156017" />
-    <state width="1398" height="255" key="GridCell.Tab.0.right" timestamp="1605587598724">
+    <state width="1398" height="281" key="GridCell.Tab.0.right" timestamp="1605750530845">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1398" height="255" key="GridCell.Tab.0.right/0.0.1440.900@0.0.1440.900" timestamp="1605587598724" />
+    <state width="1398" height="281" key="GridCell.Tab.0.right/0.0.1440.900@0.0.1440.900" timestamp="1605750530845" />
     <state width="626" height="245" key="GridCell.Tab.0.right/0.23.1440.797@0.23.1440.797" timestamp="1605227156018" />
+    <state width="1398" height="524" key="GridCell.Tab.1.bottom" timestamp="1605745437542">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state width="1398" height="524" key="GridCell.Tab.1.bottom/0.0.1440.900@0.0.1440.900" timestamp="1605745437542" />
+    <state width="1398" height="524" key="GridCell.Tab.1.center" timestamp="1605745437540">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state width="1398" height="524" key="GridCell.Tab.1.center/0.0.1440.900@0.0.1440.900" timestamp="1605745437540" />
+    <state width="1398" height="524" key="GridCell.Tab.1.left" timestamp="1605745437539">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state width="1398" height="524" key="GridCell.Tab.1.left/0.0.1440.900@0.0.1440.900" timestamp="1605745437539" />
+    <state width="1398" height="524" key="GridCell.Tab.1.right" timestamp="1605745437541">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state width="1398" height="524" key="GridCell.Tab.1.right/0.0.1440.900@0.0.1440.900" timestamp="1605745437541" />
     <state x="208" y="31" key="SettingsEditor" timestamp="1605496354029">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
@@ -241,9 +252,32 @@
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state x="296" y="145" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/0.0.1440.900@0.0.1440.900" timestamp="1605220583341" />
-    <state x="385" y="196" width="670" height="676" key="search.everywhere.popup" timestamp="1605497262462">
+    <state x="210" y="193" width="1020" height="617" key="com.intellij.xdebugger.impl.breakpoints.ui.BreakpointsDialogFactory$2" timestamp="1605745350857">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state x="385" y="196" width="670" height="676" key="search.everywhere.popup/0.0.1440.900@0.0.1440.900" timestamp="1605497262462" />
+    <state x="210" y="193" width="1020" height="617" key="com.intellij.xdebugger.impl.breakpoints.ui.BreakpointsDialogFactory$2/0.0.1440.900@0.0.1440.900" timestamp="1605745350857" />
+    <state x="385" y="196" width="670" height="676" key="search.everywhere.popup" timestamp="1605591362054">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state x="385" y="196" width="670" height="676" key="search.everywhere.popup/0.0.1440.900@0.0.1440.900" timestamp="1605591362054" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="java.lang.ArrayIndexOutOfBoundsException" package="java.lang" />
+          <option name="timeStamp" value="1" />
+        </breakpoint>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="java.lang.IndexOutOfBoundsException" package="java.lang" />
+          <option name="timeStamp" value="2" />
+        </breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/proj3$MainAdjRooms.ic" NAME="MainAdjRooms Coverage Results" MODIFIED="1605588906847" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>byow.Core.*</FILTER>
+    </SUITE>
   </component>
 </project>

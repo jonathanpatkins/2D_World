@@ -8,6 +8,7 @@ import byow.lab12.Position;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.HashMap;
 
 public class MainAdjRooms {
 
@@ -16,7 +17,7 @@ public class MainAdjRooms {
     /**
      * Same as in Main but this time creates multiple rooms
      * Also has the methods inBounds which returns true if a room is within the bounds of our space
-     * and method not Interstecting which returns true if a room does not intersect with another room.
+     * and method not Intersecting which returns true if a room does not intersect with another room.
      *
      * Todo:
      *  have a correct adj array and then for the times that it triggers - make it turn into a diff
@@ -42,6 +43,8 @@ public class MainAdjRooms {
 
         // Test
         List<RoomAdj> rooms = new ArrayList<>();
+        List<Position> doors = new ArrayList<>();
+        HashMap<Position, RoomAdj> doorMap = new HashMap<>();
 
         String testSeed = "N232S";
         TETile testTypeWall = Tileset.WALL;
@@ -56,12 +59,12 @@ public class MainAdjRooms {
         Random random = new Random(seedNum);
 
         // Generates numOfRoomsDesired into the space
-        int numOfRoomsDesired = RandomUtils.uniform(random, 10, 30);
+        int numOfRoomsDesired = RandomUtils.uniform(random, 20, 40);
         int counter = 0;
         int fails = 0;
 
         // If it fails to generate a room 20 times in a row, it stops trying.
-        while (fails > 20 || counter < numOfRoomsDesired) {
+        while (fails < 20 && counter < numOfRoomsDesired) {
             int x = RandomUtils.uniform(random, 0, WIDTH);
             int y = RandomUtils.uniform(random, 0, HEIGHT);
             Position testPos = new Position(x, y);
@@ -72,11 +75,61 @@ public class MainAdjRooms {
             if (inBounds(testRoom) && notIntersecting(testRoom, world)) {
                 addRoom(testRoom, world);
                 rooms.add(testRoom);
+                doors.addAll(testRoom.getDoorLocation());
+                for (Position d: testRoom.getDoorLocation()) {
+                    doorMap.put(d, testRoom);
+                }
                 counter += 1;
                 fails = 0;
             } else {
                 fails += 1;
             }
+        }
+
+        /*
+            The procedure for finding nearestDoors is a little byzantine. It generally works like this.
+                - uf is used to make the initial connections between rooms
+                - initialMatches is used to make pairs of doors that are close to each other
+                - Until all rooms are connected, we find close connections between doors
+                - After this is done, we begin to use tunnels to find only the tunnels necessary
+                  to connect the whole map (with the help of finalUf to verify connections)
+            TODO: a) Ensure that it is the closest feasible connections that get added to tunnel -
+                     in some cases this does not occur
+                  b) Perhaps work to allow more doors to be connected depending on Hallway generation.
+         */
+        UnionFind uf = new UnionFind();
+        UnionFind finalUf = new UnionFind();
+        HashMap<Position, Position> initialMatches = new HashMap<>();
+        for (int i = 0; i < rooms.size(); i += 1) {
+            RoomAdj room = rooms.get(i);
+            uf.addComponent(room);
+            finalUf.addComponent(room);
+        }
+        // Done to get the closest (generally) doors connected.
+        while(!checkAllConnected(rooms, uf)) {
+            for (int i = 0; i < doors.size(); i += 1) {
+                closest(rooms, doors, initialMatches, uf, doors.get(i));
+            }
+        }
+
+        // Adding only the essential connections to get everything connected.
+        HashMap<Position, Position> tunnels = new HashMap<>();
+        for (Position d: initialMatches.keySet()) {
+            Position other = initialMatches.get(d);
+            System.out.println("D1: " + d + " D2:" + other + " Dist: " + d.distance(other));
+            RoomAdj thisRoom = getRoom(d, rooms);
+            RoomAdj otherRoom = getRoom(other, rooms);
+            if (!finalUf.isConnected(thisRoom, otherRoom)) {
+                tunnels.put(d, other);
+                finalUf.connect(thisRoom, otherRoom);
+            }
+        }
+
+        //Printing the necessary tunnels to connect all
+        System.out.println("final state");
+        for (Position d: tunnels.keySet()) {
+            Position other = initialMatches.get(d);
+            System.out.println("D1: " + d + " D2:" + other + " Dist: " + d.distance(other));
         }
 
 //        // this was here to verify that I was selecting the correct edges for each room
@@ -232,5 +285,66 @@ public class MainAdjRooms {
         } else { //we know if it isn't any of those it has to be the left side.
             return 3;
         }
+    }
+
+    /**
+     * Finds the closest door to @param p based on certain constraints.
+     *      1. They cannot share the same RoomAdj
+     *      2. Their @param rooms cannot already be connected in @param uf
+     * @param rooms
+     * @param doorsLeft
+     * I removed @param initialMatches for time being
+     * @param p
+     */
+    public static void closest(List<RoomAdj> rooms, List<Position> doorsLeft, HashMap<Position, Position> initialMatches,
+                               UnionFind uf, Position p) {
+        List<Position> doorCopy = new ArrayList<>(doorsLeft);
+        RoomAdj myRoom = getRoom(p, rooms);
+
+        // Remove doors from the same room from consideration.
+        for (Position d: doorsLeft) {
+            if (myRoom.containsDoor(d)) {
+                doorCopy.remove(d);
+            }
+        }
+
+        while (doorCopy.size() > 0) {
+            Position near = p.nearest(doorCopy);
+            RoomAdj nearRoom = getRoom(near, rooms);
+            // If rooms aren't connected then this is a good pair.
+            if (!uf.isConnected(myRoom, nearRoom)) {
+                uf.connect(myRoom, nearRoom);
+                return;
+            } else {
+                doorCopy.remove(near);
+            }
+            initialMatches.put(p, near);
+        }
+    }
+
+    /**
+     * @return the room from @param rooms that @param p belongs to, or null if None.
+     */
+    public static RoomAdj getRoom(Position p, List<RoomAdj> rooms) {
+        for (RoomAdj r : rooms) {
+            if (r.containsDoor(p)) {
+                return r;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * @return whether all @param rooms are connected by @param uf.
+     * The allConnected wasn't working in UnionFind so I made one here.
+     */
+    public static boolean checkAllConnected(List<RoomAdj> rooms, UnionFind uf) {
+        RoomAdj first = rooms.get(0);
+        for (int i = 1; i < rooms.size(); i += 1) {
+            if (!uf.isConnected(first, rooms.get(i))) {
+                return false;
+            }
+        }
+        return true;
     }
 }
