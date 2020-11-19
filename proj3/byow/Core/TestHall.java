@@ -38,16 +38,21 @@ public class TestHall {
 
         // test room
         HallwayObj test = h.makeVerticalHall(new Position(25, 15), 15, true);
-        addHall(test, world);
+        //addHall(test, world);
        HallwayObj test1 = h.makeHorizontalHall(new Position(37, 25), 20, false);
-       addHall(test1, world);
+       //addHall(test1, world);
 
        HallwayObj test2 = h.makeCurvedHall(new Position(1, 1), 20, 8, 1);
-       addHall(test2, world);
+       //addHall(test2, world);
 
 
-
-
+        Position pt1 = new Position(10, 10);
+        Position pt2 = new Position(31, 17);
+        int horiz = pt1.horizontalDistance(pt2);
+        int vert = pt1.verticalDistance(pt2);
+        int direction = getDirection(horiz, vert);
+        HallwayObj test3 = h.makeCurvedHall(pt1, Math.abs(vert), Math.abs(horiz), direction);
+        addHall(test3, world);
         // draws the world to the screen
         System.out.println("render");
         ter.renderFrame(world);
@@ -67,6 +72,29 @@ public class TestHall {
             List<Position> floorPositions = r.getFloor();
             for (Position p : floorPositions) {
                 world[p.getX()][p.getY()] = Tileset.FLOOR;
+            }
+        }
+    }
+
+    //1 means up/right, 2 means up/left, 3 means down/right, 4 means down/left
+    // * 5 left/up 6 left/down 7 right/up 8 right/down
+
+    /**
+     * @return the direction the hallway should go given @param horiz and @param vert
+     * signifying the horizontal and vertical distance between the doors.
+     */
+    public static int getDirection(int horiz, int vert) {
+        if (horiz > 0) {
+            if (vert > 0) {
+                return 1;
+            } else {
+                return 3;
+            }
+        } else {
+            if (vert > 0) {
+                return 2;
+            } else {
+                return 4;
             }
         }
     }

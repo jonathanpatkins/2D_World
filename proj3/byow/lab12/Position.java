@@ -40,13 +40,31 @@ public class Position {
     }
 
     /**
+     * @return the horizontal distance between this and @param other
+     * If negative, it means this is further right than @param other.
+     * If positive, it means this is to the left of @param other.
+     * This can be helpful in tunnel generation
+     */
+    public int horizontalDistance(Position other) {
+        return other.getX() - x;
+    }
+
+    /**
+     * @return the vertical distance between this and @param other.
+     * If negative, it means this is above @param other.
+     * If positive, it means this is below @param other.
+     */
+    public int verticalDistance(Position other) {
+        return other.getY() - y;
+    }
+    /**
      * @return the distance between this and @param other.
      * This is not the TRUE distance between them, but distance considering we
      * can only move up, down, left, and right.
      */
     public int distance(Position other) {
-        int xDist = Math.abs(other.getX() - this.getX());
-        int yDist = Math.abs(other.getY() - this.getY());
+        int xDist = Math.abs(horizontalDistance(other));
+        int yDist = Math.abs(verticalDistance(other));
         return xDist + yDist;
     }
 

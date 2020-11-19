@@ -58,7 +58,7 @@ public class MainAdjRooms {
         Random random = new Random(seedNum);
 
         // Generates numOfRoomsDesired into the space
-        int numOfRoomsDesired = 3;//RandomUtils.uniform(random, 20, 40);
+        int numOfRoomsDesired = 2;//RandomUtils.uniform(random, 20, 40);
         int counter = 0;
         int fails = 0;
 
@@ -143,18 +143,20 @@ public class MainAdjRooms {
             }
         }
 
-        //Printing the necessary tunnels to connect all
+        //Printing the necessary tunnels to connect all and generating hallways
+        Hallway h = new Hallway(world, rooms, finalUf);
         System.out.println("\nFinal state: Generate hallways with these");
         for (Position d: tunnels.keySet()) {
             Position other = tunnels.get(d);
+            int horiz = d.horizontalDistance(other);
+            int vert = d.verticalDistance(other);
+            int direction = getDirection(horiz, vert);
+            HallwayObj newHall = h.makeCurvedHall(d, Math.abs(vert), Math.abs(horiz), direction);
+            addHall(newHall, world);
             System.out.println("D1: " + d + " D2:" + other + " Dist: " + d.distance(other));
         }
-
-        // Finally, generate Hallways
-        // Hallway h = new Hallway(world, rooms, finalUf);
-        // HallwayObj test = h.makeCurvedHall(new Position(51,17), 7, 14, 2);
-        // addHall(test, world);
-
+        //HallwayObj newHall = h.makeCurvedHall(new Position(23, 25), 8, 28, 2);
+        //addHall(newHall, world);
 
 //        // this was here to verify that I was selecting the correct edges for each room
 //        for (RoomAdj a : rooms) {
@@ -169,7 +171,7 @@ public class MainAdjRooms {
 //                }
 //            }
 //        }
-
+        System.out.println("All connected: " + checkAllConnected(rooms, finalUf));
 
         // draws the world to the screen
         ter.renderFrame(world);
@@ -315,10 +317,9 @@ public class MainAdjRooms {
      * Finds the closest door to @param p based on certain constraints.
      *      1. They cannot share the same RoomAdj
      *      2. Their @param rooms cannot already be connected in @param uf
-     * @param rooms
-     * @param doorsLeft
-     * I removed @param initialMatches for time being
-     * @param p
+     * @param rooms is used to ensure points don't compare to ones from the same RoomAdj.
+     * @param doorsLeft is the list of doors essentially.
+     * @param initialMatches is the HashMap for storing closest Position pairs.
      */
     public static void closest(List<RoomAdj> rooms, List<Position> doorsLeft, HashMap<Position, Position> initialMatches,
                                List<Pair<Pair<RoomAdj, RoomAdj>, Integer>> distances, Position p) {
@@ -386,6 +387,29 @@ public class MainAdjRooms {
             List<Position> floorPositions = r.getFloor();
             for (Position p : floorPositions) {
                 world[p.getX()][p.getY()] = Tileset.FLOOR;
+            }
+        }
+    }
+
+    /**
+     * @return the direction the hallway should go given @param horiz and @param vert
+     * signifying the horizontal and vertical distance between the doors.
+     *  NOTE: curvedHallway does have 8 different orientation options, but I believe that
+     *  we really only need the first 4- for #s 5-8, we can just input the other Position
+     *  as our starting point and accomplish the same goal.
+     */
+    public static int getDirection(int horiz, int vert) {
+        if (horiz > 0) {
+            if (vert > 0) {
+                return 1;
+            } else {
+                return 3;
+            }
+        } else {
+            if (vert > 0) {
+                return 2;
+            } else {
+                return 4;
             }
         }
     }

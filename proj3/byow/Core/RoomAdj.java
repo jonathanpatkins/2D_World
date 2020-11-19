@@ -68,7 +68,7 @@ public class RoomAdj {
         int y = pos.getY();
 
         // If it reasonably could be a door (aka there is space to generate a hallway)
-        boolean inBounds = ((x - 2 > 0 && x + 2 < MainAdjRooms.WIDTH) ||
+        boolean inBounds = ((x - 2 > 0 && x + 2 < MainAdjRooms.WIDTH) &&
                 (y - 2 > 0 && y + 2 < MainAdjRooms.HEIGHT));
 
         // If it is a legal spot, we check to see if it is a corner. If not, it can be a door.
