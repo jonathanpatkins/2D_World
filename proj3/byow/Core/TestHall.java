@@ -34,22 +34,24 @@ public class TestHall {
         UnionFind x = new UnionFind();
 
         // make hallway obj
-        Hallway h = new Hallway(world, r, x);
+        // Hallway h = new Hallway(world, r, x);
 
         // test room
-        HallwayObj test = h.makeVerticalHall(new Position(25, 15), 15, true);
-        addHall(test, world);
-       HallwayObj test1 = h.makeHorizontalHall(new Position(37, 25), 20, false);
-       addHall(test1, world);
+//        HallwayObj test = h.makeCurvedHall(new Position(20, 20), 50, 8, 8);
+//        addHall(test, world);
+//        HallwayObj test1 = h.makeHorizontalHall(new Position(27, 25), 20, false);
+//        addHall(test1, world);
 
-       HallwayObj test2 = h.makeCurvedHall(new Position(1, 1), 20, 8, 1);
-       addHall(test2, world);
+        Hallway2 test = new Hallway2(world, r, x);
+        HallwayObj testHall1 = test.makeVerticalHall(new Position(20, 20), 17, true);
+        HallwayObj testHall2 = test.makeHorizontalHall(new Position(27, 27), 17, false);
+        test.addHall(testHall1, world);
+        test.addHall(testHall2, world);
 
 
 
 
         // draws the world to the screen
-        System.out.println("render");
         ter.renderFrame(world);
     }
 
