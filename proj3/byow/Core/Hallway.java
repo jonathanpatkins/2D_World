@@ -9,18 +9,11 @@ import java.util.List;
 
 public class Hallway {
     /**
-     * Should take in parameters the TetTile[][] world and the rooms and the UnionFind Obj
-     *
-     * should have Methods:
-     *  make vertical hall
-     *  make horiz hadd
-     *      these methods should only take in a starting point and they should keep on building up until they hit
-     *      another wall. If that other wall is a corner - return false or something and do not make the wall,
-     *      otherwise make the wall and add it (maybe have a different class for a hall object) to the component list
-     *      in UnionFind
-     *
-     *      Make hallways must be of size 2 or greater
-     *      Todo: need to not make the hall if it goes out of bounds
+     * Todo:
+     *  - Need a general method for adding hallways to the world - this must utilize the UnionFind obj
+     *  - Need to add a condition to each method s.t. the method returns null if you run into a corner
+     *    while building the wall - this will probably need some method that cycles through all the corner of all the
+     *    rooms and hallwayObjs
      */
     TETile[][] world;
     List<RoomAdj> rooms;
@@ -30,13 +23,16 @@ public class Hallway {
         this.rooms = rooms;
     }
 
-    // this will operate on the basis that the starting position is a floor tile
-    // make a hallway vertically
-    // have it take in a specified length
-    // if it hits another wall before the length then create wall
-        // if that hits a corner of the wall do not create
-    // if the length runs out make the hallway
-    //the hallway object should have points beginning at the first doorway
+    /**
+     * Makes a vertical hallway
+     * If it hits a wall before it reaches its desired length, still create the wall (aka merging of hallway with
+     * hallway or hallway with room) if the wall if not a corner. If the hallway is built to its desired length,
+     * then its a dead end hallway
+     * @param p
+     * @param length
+     * @param up
+     * @return
+     */
     public HallwayObj makeVerticalHall(Position p, int length, boolean up) {
         List<Position> floor = new ArrayList<>();
         List<Position> wall = new ArrayList<>();
@@ -83,7 +79,17 @@ public class Hallway {
         HallwayObj hall = new HallwayObj(floor, wall, length, 3);
         return hall;
     }
-    // Todo: need to make alteration for thwn the length is < 3 and need to account for that one thing on ipad
+
+    /**
+     * Makes a horiz hallway
+     * If it hits a wall before it reaches its desired length, still create the wall (aka merging of hallway with
+     * hallway or hallway with room) if the wall if not a corner. If the hallway is built to its desired length,
+     * then its a dead end hallway
+     * @param p
+     * @param width
+     * @param right
+     * @return
+     */
     public HallwayObj makeHorizontalHall(Position p, int width, boolean right) {
         List<Position> floor = new ArrayList<>();
         List<Position> wall = new ArrayList<>();
@@ -129,16 +135,17 @@ public class Hallway {
         HallwayObj hall = new HallwayObj(floor, wall, 3, width);
         return hall;
     }
-    /**
-     * Then there should be some methods for L shaped halls
-     *  This reduces to making a vertical hall and then a horizontal hall or vice versa with minor adjustments
-     */
 
-    // again if you hit something, end early, if its a corner dont make it
-    // if you complete the length and width then make it boxed off end
-    // must be at least of length and width 3
-    // 1 means up/right, 2 means up/left, 3 means down/right, 4 means down/left
-    // 5 left/up 6 left/down 7 right/up 8 right/down - still need to do
+    /**
+     * Same behavior as above, merge if ends early, do not make wall if hits corner, deadend if reaches desired length
+     * 1 means up/right, 2 means up/left, 3 means down/right, 4 means down/left
+     * 5 left/up 6 left/down 7 right/up 8 right/down
+     * @param p
+     * @param length must be of length at least 3
+     * @param width must be of width at least 3
+     * @param option
+     * @return
+     */
     public HallwayObj makeCurvedHall(Position p, int length, int width, int option) {
         if (option == 1) {
             HallwayObj vert = makeVerticalHall(p, length, true);
@@ -264,6 +271,14 @@ public class Hallway {
         return null;
     }
 
+    /**
+     * Gets the corner for storing for later in HallwayObj creation
+     * @param p
+     * @param length
+     * @param width
+     * @param option
+     * @return
+     */
     private Position getCornerOfCurvedHall(Position p, int length, int width, int option) {
         if (option == 1) {
             return new Position(p, -1, length);
@@ -278,6 +293,11 @@ public class Hallway {
         }
     }
 
+    /**
+     * General method to see if method is inbounds of the screen or not
+     * @param p
+     * @return
+     */
     private boolean inBounds(Position p) {
         int x = p.getX();
         int y = p.getY();

@@ -7,9 +7,13 @@ import byow.lab12.Position;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
+
 
 public class TestHall {
+
+    /**
+     * Tests the use of hallways
+     */
 
     private static final int WIDTH = 60;
     private static final int HEIGHT = 40;
@@ -28,7 +32,11 @@ public class TestHall {
         }
         List<RoomAdj> r = new ArrayList<>();
         UnionFind x = new UnionFind();
+
+        // make hallway obj
         Hallway h = new Hallway(world, r, x);
+
+        // test room
         HallwayObj test = h.makeCurvedHall(new Position(20, 20), 50, 8, 8);
         addHall(test, world);
 //        HallwayObj test1 = h.makeHorizontalHall(new Position(27, 25), 20, false);
@@ -41,6 +49,11 @@ public class TestHall {
         ter.renderFrame(world);
     }
 
+    /**
+     * Adds a HallwayObj to the world
+     * @param r the HallwayObj
+     * @param world the world
+     */
     public static void addHall(HallwayObj r, TETile[][] world) {
         if (r != null) {
             List<Position> wallPositions = r.getWall();
