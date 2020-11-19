@@ -20,6 +20,7 @@ public class Hallway {
      *      in UnionFind
      *
      *      Make hallways must be of size 2 or greater
+     *      Todo: need to not make the hall if it goes out of bounds
      */
     TETile[][] world;
     List<RoomAdj> rooms;
@@ -61,6 +62,10 @@ public class Hallway {
             wall.add(nextWall1);
             wall.add(nextWall2);
 
+            if (!inBounds(nextP) || !inBounds(nextWall1) || !inBounds(nextWall2)) {
+                return null;
+            }
+
             if (world[nextWall1.getX()][nextWall1.getY()] == Tileset.FLOOR ||
                     world[nextWall2.getX()][nextWall2.getY()] == Tileset.FLOOR) {
                 return null;
@@ -78,6 +83,7 @@ public class Hallway {
         HallwayObj hall = new HallwayObj(floor, wall, length, 3);
         return hall;
     }
+    // Todo: need to make alteration for thwn the length is < 3 and need to account for that one thing on ipad
     public HallwayObj makeHorizontalHall(Position p, int width, boolean right) {
         List<Position> floor = new ArrayList<>();
         List<Position> wall = new ArrayList<>();
@@ -101,6 +107,10 @@ public class Hallway {
             floor.add(nextP);
             wall.add(nextWall1);
             wall.add(nextWall2);
+
+            if (!inBounds(nextP) || !inBounds(nextWall1) || !inBounds(nextWall2)) {
+                return null;
+            }
 
             if (world[nextWall1.getX()][nextWall1.getY()] == Tileset.FLOOR ||
                     world[nextWall2.getX()][nextWall2.getY()] == Tileset.FLOOR) {
@@ -132,37 +142,152 @@ public class Hallway {
     public HallwayObj makeCurvedHall(Position p, int length, int width, int option) {
         if (option == 1) {
             HallwayObj vert = makeVerticalHall(p, length, true);
+            if (vert == null) {
+                return null;
+            }
             if (vert.getLength() == length) {
-                Position start = new Position(p, length - 1, 1);
+                Position start = new Position(p, 1, vert.getLength() - 2);
                 HallwayObj horiz = makeHorizontalHall(start, width - 2, true);
-                HallwayObj curved = new HallwayObj(vert, horiz, vert.getLength(), horiz.getWidth());
+                if (horiz == null) {
+                    return null;
+                }
+                Position corner = this.getCornerOfCurvedHall(p, vert.getLength(), horiz.getWidth(), option);
+                HallwayObj curved = new HallwayObj(vert, horiz, vert.getLength(), horiz.getWidth(), corner);
                 return curved;
             }
         } else if (option == 2) {
             HallwayObj vert = makeVerticalHall(p, length, true);
+            if (vert == null) {
+                return null;
+            }
             if (vert.getLength() == length) {
-                Position start = new Position(p, length - 1, -1);
+                Position start = new Position(p, -1, vert.getLength() - 2);
                 HallwayObj horiz = makeHorizontalHall(start, width - 2, false);
-                HallwayObj curved = new HallwayObj(vert, horiz, vert.getLength(), horiz.getWidth());
+                if (horiz == null) {
+                    return null;
+                }
+                Position corner = this.getCornerOfCurvedHall(p, vert.getLength(), horiz.getWidth(), option);
+                HallwayObj curved = new HallwayObj(vert, horiz, vert.getLength(), horiz.getWidth(), corner);
                 return curved;
             }
         } else if (option == 3) {
             HallwayObj vert = makeVerticalHall(p, length, false);
+            if (vert == null) {
+                return null;
+            }
             if (vert.getLength() == length) {
-                Position start = new Position(p, -(length - 1), 1);
+                Position start = new Position(p, 1, -(vert.getLength() - 2));
                 HallwayObj horiz = makeHorizontalHall(start, width - 2, true);
-                HallwayObj curved = new HallwayObj(vert, horiz, vert.getLength(), horiz.getWidth());
+                if (horiz == null) {
+                    return null;
+                }
+                Position corner = this.getCornerOfCurvedHall(p, vert.getLength(), horiz.getWidth(), option);
+                HallwayObj curved = new HallwayObj(vert, horiz, vert.getLength(), horiz.getWidth(), corner);
                 return curved;
             }
         } else if (option == 4) {
             HallwayObj vert = makeVerticalHall(p, length, false);
+            if (vert == null) {
+                return null;
+            }
             if (vert.getLength() == length) {
-                Position start = new Position(p, -(length - 1), -1);
+                Position start = new Position(p, -1, -(vert.getLength() - 2));
                 HallwayObj horiz = makeHorizontalHall(start, width - 2, false);
-                HallwayObj curved = new HallwayObj(vert, horiz, vert.getLength(), horiz.getWidth());
+                if (horiz == null) {
+                    return null;
+                }
+                Position corner = this.getCornerOfCurvedHall(p, vert.getLength(), horiz.getWidth(), option);
+                HallwayObj curved = new HallwayObj(vert, horiz, vert.getLength(), horiz.getWidth(), corner);
+                return curved;
+            }
+        } else if (option == 5) {
+            HallwayObj horiz = makeHorizontalHall(p, width, false);
+            if (horiz == null) {
+                return null;
+            }
+            if (horiz.getWidth() == width) {
+                Position start = new Position(p, -(horiz.getWidth() - 2), 1);
+                HallwayObj vert = makeVerticalHall(start, length - 2, true);
+                if (vert == null) {
+                    return null;
+                }
+                Position corner = this.getCornerOfCurvedHall(p, vert.getLength(), horiz.getWidth(), option);
+                HallwayObj curved = new HallwayObj(vert, horiz, vert.getLength(), horiz.getWidth(), corner);
+                return curved;
+            }
+        } else if (option == 6) {
+            HallwayObj horiz = makeHorizontalHall(p, width, false);
+            if (horiz == null) {
+                return null;
+            }
+            if (horiz.getWidth() == width) {
+                Position start = new Position(p, -(horiz.getWidth() - 2), -1);
+                HallwayObj vert = makeVerticalHall(start, length - 2, false);
+                if (vert == null) {
+                    return null;
+                }
+                Position corner = this.getCornerOfCurvedHall(p, vert.getLength(), horiz.getWidth(), option);
+                HallwayObj curved = new HallwayObj(vert, horiz, vert.getLength(), horiz.getWidth(), corner);
+                return curved;
+            }
+        } else if (option == 7) {
+            HallwayObj horiz = makeHorizontalHall(p, width, true);
+            if (horiz == null) {
+                return null;
+            }
+            if (horiz.getWidth() == width) {
+                Position start = new Position(p, horiz.getWidth() - 2, 1);
+                HallwayObj vert = makeVerticalHall(start, length - 2, true);
+                if (vert == null) {
+                    return null;
+                }
+                Position corner = this.getCornerOfCurvedHall(p, vert.getLength(), horiz.getWidth(), option);
+                HallwayObj curved = new HallwayObj(vert, horiz, vert.getLength(), horiz.getWidth(), corner);
+                return curved;
+            }
+        } else if (option == 8) {
+            HallwayObj horiz = makeHorizontalHall(p, width, true);
+            if (horiz == null) {
+                return null;
+            }
+            if (horiz.getWidth() == width) {
+                Position start = new Position(p, horiz.getWidth() - 2, -1);
+                HallwayObj vert = makeVerticalHall(start, length - 2, false);
+                if (vert == null) {
+                    return null;
+                }
+                Position corner = this.getCornerOfCurvedHall(p, vert.getLength(), horiz.getWidth(), option);
+                HallwayObj curved = new HallwayObj(vert, horiz, vert.getLength(), horiz.getWidth(), corner);
                 return curved;
             }
         }
         return null;
+    }
+
+    private Position getCornerOfCurvedHall(Position p, int length, int width, int option) {
+        if (option == 1) {
+            return new Position(p, -1, length);
+        } else if (option == 2) {
+            return new Position(p, 1, length);
+        } else if (option == 3) {
+            return new Position(p, -1, -length);
+        } else if (option == 4) {
+            return new Position(p, 1, -length);
+        } else {
+            return null;
+        }
+    }
+
+    private boolean inBounds(Position p) {
+        int x = p.getX();
+        int y = p.getY();
+
+        if (x >= MainAdjRooms.WIDTH || x < 0) {
+            return false;
+        }
+        if (y >= MainAdjRooms.HEIGHT || y < 0) {
+            return false;
+        }
+        return true;
     }
 }
