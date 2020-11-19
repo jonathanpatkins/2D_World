@@ -1,6 +1,9 @@
 package byow.lab12;
 import java.util.List;
 
+/**
+ * @source inspired by TA implementation of Hexagon points in lab 12.
+ */
 public class Position {
     private int x;
     private int y;
@@ -59,21 +62,12 @@ public class Position {
         }
         Position near = positions.get(0);
         int dist = this.distance(near);
-        if (this.equals(new Position(51, 17))) {
-            //System.out.println("Door: " + this.toString());
-        }
         for (int i = 0; i < positions.size(); i += 1) {
             Position newPos = positions.get(i);
             int newDist = this.distance(newPos);
-            if (this.equals(new Position(51, 17))) {
-                //System.out.println("Other: " + newPos.toString() + " Dist: " + newDist);
-            }
             if (newDist < dist) {
                 near = newPos;
             }
-        }
-        if (this.equals(new Position(51, 17))) {
-            //System.out.println("Near: " + near);
         }
         return near;
     }

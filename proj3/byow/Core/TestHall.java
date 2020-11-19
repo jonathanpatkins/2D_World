@@ -37,15 +37,19 @@ public class TestHall {
         Hallway h = new Hallway(world, r, x);
 
         // test room
-        HallwayObj test = h.makeCurvedHall(new Position(20, 20), 50, 8, 8);
+        HallwayObj test = h.makeVerticalHall(new Position(25, 15), 15, true);
         addHall(test, world);
-//        HallwayObj test1 = h.makeHorizontalHall(new Position(27, 25), 20, false);
-//        addHall(test1, world);
+       HallwayObj test1 = h.makeHorizontalHall(new Position(37, 25), 20, false);
+       addHall(test1, world);
+
+       HallwayObj test2 = h.makeCurvedHall(new Position(1, 1), 20, 8, 1);
+       addHall(test2, world);
 
 
 
 
         // draws the world to the screen
+        System.out.println("render");
         ter.renderFrame(world);
     }
 

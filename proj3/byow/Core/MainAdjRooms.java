@@ -44,8 +44,7 @@ public class MainAdjRooms {
         // Test
         List<RoomAdj> rooms = new ArrayList<>();
         List<Position> doors = new ArrayList<>();
-        HashMap<Position, RoomAdj> doorMap = new HashMap<>();
-
+        HashMap<RoomAdj, List<Position>> doorMap = new HashMap<>();
         String testSeed = "N232S";
         TETile testTypeWall = Tileset.WALL;
         TETile testTypeFloor = Tileset.FLOOR;
@@ -59,7 +58,7 @@ public class MainAdjRooms {
         Random random = new Random(seedNum);
 
         // Generates numOfRoomsDesired into the space
-        int numOfRoomsDesired = RandomUtils.uniform(random, 20, 40);
+        int numOfRoomsDesired = 3;//RandomUtils.uniform(random, 20, 40);
         int counter = 0;
         int fails = 0;
 
@@ -75,10 +74,9 @@ public class MainAdjRooms {
             if (inBounds(testRoom) && notIntersecting(testRoom, world)) {
                 addRoom(testRoom, world);
                 rooms.add(testRoom);
-                doors.addAll(testRoom.getDoorLocation());
-                for (Position d: testRoom.getDoorLocation()) {
-                    doorMap.put(d, testRoom);
-                }
+                List<Position> doorLocs = testRoom.getDoorLocation();
+                doors.addAll(doorLocs);
+                doorMap.put(testRoom, doorLocs);
                 counter += 1;
                 fails = 0;
             } else {
@@ -93,44 +91,70 @@ public class MainAdjRooms {
                 - Until all rooms are connected, we find close connections between doors
                 - After this is done, we begin to use tunnels to find only the tunnels necessary
                   to connect the whole map (with the help of finalUf to verify connections)
-            TODO: a) Ensure that it is the closest feasible connections that get added to tunnel -
-                     in some cases this does not occur
-                  b) Perhaps work to allow more doors to be connected depending on Hallway generation.
+            TODO:
+                  a) Mess around with hallway generation to see how well this holds up
          */
-        UnionFind uf = new UnionFind();
         UnionFind finalUf = new UnionFind();
         HashMap<Position, Position> initialMatches = new HashMap<>();
+        List<Pair<Pair<RoomAdj, RoomAdj>, Integer>> distances = new ArrayList<>();
+
+        //Setting up the UnionFind
         for (int i = 0; i < rooms.size(); i += 1) {
             RoomAdj room = rooms.get(i);
-            uf.addComponent(room);
             finalUf.addComponent(room);
         }
+
         // Done to get the closest (generally) doors connected.
-        while(!checkAllConnected(rooms, uf)) {
-            for (int i = 0; i < doors.size(); i += 1) {
-                closest(rooms, doors, initialMatches, uf, doors.get(i));
-            }
+        for (int i = 0; i < doors.size(); i += 1) {
+            closest(rooms, doors, initialMatches, distances, doors.get(i));
         }
 
         // Adding only the essential connections to get everything connected.
         HashMap<Position, Position> tunnels = new HashMap<>();
+        System.out.println("Initial closest doors");
         for (Position d: initialMatches.keySet()) {
             Position other = initialMatches.get(d);
-            System.out.println("D1: " + d + " D2:" + other + " Dist: " + d.distance(other));
+            int dist = d.distance(other);
+            System.out.println("D1: " + d + " D2:" + other + " Dist: " + dist);
             RoomAdj thisRoom = getRoom(d, rooms);
             RoomAdj otherRoom = getRoom(other, rooms);
+
+            //If rooms aren't connected, then we add that tunnel and connect.
             if (!finalUf.isConnected(thisRoom, otherRoom)) {
                 tunnels.put(d, other);
                 finalUf.connect(thisRoom, otherRoom);
+            } else {
+                for (int i = 0; i < distances.size(); i += 1) {
+                    Pair<RoomAdj, RoomAdj> curr = distances.get(i).getKey();
+                    int currDist = distances.get(i).getValue();
+                    RoomAdj first = curr.getKey();
+                    RoomAdj second = curr.getValue();
+                    boolean firstPair = thisRoom == first && otherRoom == second;
+                    boolean secondPair = otherRoom == first && thisRoom == second;
+
+                    // If there is a shorter distance found between already connected rooms,
+                    // add that to the tunnel.
+                    // TODO: Sometimes the no-longer correct tunnels are not removed from tunnel.
+                    if ((firstPair || secondPair) && (dist < currDist)) {
+                        distances.set(i, new Pair<>(curr, dist));
+                        tunnels.put(d, other);
+                    }
+                }
             }
         }
 
         //Printing the necessary tunnels to connect all
-        System.out.println("final state");
+        System.out.println("\nFinal state: Generate hallways with these");
         for (Position d: tunnels.keySet()) {
-            Position other = initialMatches.get(d);
+            Position other = tunnels.get(d);
             System.out.println("D1: " + d + " D2:" + other + " Dist: " + d.distance(other));
         }
+
+        // Finally, generate Hallways
+        // Hallway h = new Hallway(world, rooms, finalUf);
+        // HallwayObj test = h.makeCurvedHall(new Position(51,17), 7, 14, 2);
+        // addHall(test, world);
+
 
 //        // this was here to verify that I was selecting the correct edges for each room
 //        for (RoomAdj a : rooms) {
@@ -297,7 +321,7 @@ public class MainAdjRooms {
      * @param p
      */
     public static void closest(List<RoomAdj> rooms, List<Position> doorsLeft, HashMap<Position, Position> initialMatches,
-                               UnionFind uf, Position p) {
+                               List<Pair<Pair<RoomAdj, RoomAdj>, Integer>> distances, Position p) {
         List<Position> doorCopy = new ArrayList<>(doorsLeft);
         RoomAdj myRoom = getRoom(p, rooms);
 
@@ -308,16 +332,16 @@ public class MainAdjRooms {
             }
         }
 
-        while (doorCopy.size() > 0) {
+        //while (doorCopy.size() > 0) {
+        for (int i = 0; i < doorCopy.size(); i+= 1) {
             Position near = p.nearest(doorCopy);
+            int dist = p.distance(near);
             RoomAdj nearRoom = getRoom(near, rooms);
-            // If rooms aren't connected then this is a good pair.
-            if (!uf.isConnected(myRoom, nearRoom)) {
-                uf.connect(myRoom, nearRoom);
-                return;
-            } else {
-                doorCopy.remove(near);
-            }
+            // If rooms aren't connected then this is a good pair. TODO remove
+            Pair<RoomAdj, RoomAdj> connection = new Pair<>(myRoom, nearRoom);
+            Pair<Pair<RoomAdj, RoomAdj>, Integer> connectDist = new Pair<>(connection, dist);
+
+            distances.add(connectDist);
             initialMatches.put(p, near);
         }
     }
@@ -346,5 +370,23 @@ public class MainAdjRooms {
             }
         }
         return true;
+    }
+
+    /**
+     * Adds a HallwayObj to the world
+     * @param r the HallwayObj
+     * @param world the world
+     */
+    public static void addHall(HallwayObj r, TETile[][] world) {
+        if (r != null) {
+            List<Position> wallPositions = r.getWall();
+            for (Position p : wallPositions) {
+                world[p.getX()][p.getY()] = Tileset.WALL;
+            }
+            List<Position> floorPositions = r.getFloor();
+            for (Position p : floorPositions) {
+                world[p.getX()][p.getY()] = Tileset.FLOOR;
+            }
+        }
     }
 }
