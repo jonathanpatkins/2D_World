@@ -16,21 +16,13 @@ public class Pair<K, V> {
 
     /**
      * @return if @param o equals this.
-     * Complicated for our Pair: if one key equals the other's value and vice versa,
-     * the Pair is also considered equal. In other words, it doesn't matter which
-     * is the key and which is the value.
      */
     @Override
     public boolean equals(Object o) {
         Pair<K, V> p = (Pair) o;
         boolean direct = k.equals(p.getKey()) && v.equals(p.getValue());
-        boolean indirect = k.equals(p.getValue()) && v.equals(p.getKey());
-        boolean check = direct ;//|| indirect;
-        return direct;
-    }
 
-    public boolean equalKey(K o) {
-        return k.equals(o);
+        return direct;
     }
 
     @Override
