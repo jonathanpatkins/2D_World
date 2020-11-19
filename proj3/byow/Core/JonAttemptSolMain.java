@@ -72,7 +72,7 @@ public class JonAttemptSolMain {
         for (RoomAdj i : rooms) {
             u.addComponent(i);
         }
-        Hallway3 h = new Hallway3(world, rooms, u);
+        Hallway2 h = new Hallway2(world, rooms, u);
         h.connectAllRooms();
 
 
