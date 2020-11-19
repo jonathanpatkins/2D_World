@@ -84,7 +84,6 @@ public class HallwayObj {
     }
 
     public List<Position> getWall() {
-        System.out.println("get wall");
         return wall;
     }
 

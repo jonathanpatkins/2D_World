@@ -23,13 +23,18 @@ public class UnionFind {
 
         // this will be our dummy node used to see connections like in percolation hw
         dummyNode = new Object();
-        addComponent(dummyNode);
+        parent.add(-1);
+        component.add(dummyNode);
 
     }
 
     public void addComponent(Object a) {
+
         parent.add(-1);
         component.add(a);
+        if (parent.get(0) == -1) {
+            connect(dummyNode, a);
+        }
     }
 
     /* Throws an exception if v1 is not a valid vertex. */
@@ -82,14 +87,10 @@ public class UnionFind {
             if (sizeOf(v1) > sizeOf(v2)) {
                 parent.set(find(v1), -1 * (sizeOf(v1) + sizeOf(v2)));
                 parent.set(find(v2), find(v1));
-//                parent[find(v1)] = -1 * (sizeOf(v1) + sizeOf(v2));
-//                parent[find(v2)] = find(v1);
             }
             else {
                 parent.set(find(v2), -1 * (sizeOf(v1) + sizeOf(v2)));
                 parent.set(find(v1), find(v2));
-//                parent[find(v2)] = -1 * (sizeOf(v1) + sizeOf(v2));
-//                parent[find(v1)] = find(v2);
             }
         }
     }
