@@ -245,7 +245,10 @@ public class Hallway {
                 nextPos = new Position(p, -1, 0);
             }
         }
-        return getWorldTile(nextPos) == Tileset.FLOOR;
+        if (Engine.inBounds(nextPos)) {
+            return getWorldTile(nextPos) == Tileset.FLOOR;
+        }
+        return false;
     }
 
 
