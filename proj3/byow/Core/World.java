@@ -10,7 +10,7 @@ import java.util.Random;
 /**
  * A class that randomly generates worlds in an intelligent and surprisingly intuitive
  * fashion based on the seed from the inputted String.
- * @author Johnathan Atkins, Jake Webster 11/20/20 - though there were many predecessors
+ * @author Jonathan Atkins, Jake Webster 11/20/20 - though there were many predecessors
  * to this simple-looking class that were far from simple.
  */
 public class World {

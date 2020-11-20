@@ -5,7 +5,7 @@ import byow.TileEngine.TETile;
 
 /**
  * A class that generates a world using either Keyboard or String inputs.
- * @author Johnathan Atkins Jake Webster 11/20/20.
+ * @author Jonathan Atkins Jake Webster 11/20/20.
  */
 public class Engine {
     private TERenderer ter = new TERenderer();

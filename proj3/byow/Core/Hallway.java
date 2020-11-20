@@ -8,7 +8,7 @@ import java.util.Random;
 
 /**
  * A more intelligent Hallway that finds optimal places to generate Hallways.
- * @author Johnathan Atkins, Jake Webster 11/18/20.
+ * @author Jonathan Atkins, Jake Webster 11/18/20.
  */
 public class Hallway {
     /**
