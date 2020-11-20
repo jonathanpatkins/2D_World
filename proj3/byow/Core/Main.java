@@ -1,9 +1,9 @@
-//KEEP
 package byow.Core;
 
 /** This is the main entry point for the program. This class simply parses
  *  the command line inputs, and lets the byow.Core.Engine class take over
  *  in either keyboard or input string mode.
+ * @author Johnathan Atkins Jake Webster CS61B Staff 11/12/20.
  */
 public class Main {
     public static void main(String[] args) {

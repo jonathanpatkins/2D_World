@@ -1,5 +1,4 @@
 package byow.Core;
-import java.util.List;
 
 /**
  * A useful class that can be used for many calculations in generation.
@@ -15,12 +14,12 @@ public class Position {
     private int y;
 
     /**
-     * Sets x to @param x.
-     * Sets y to @param y.
+     * Sets x to @param x1.
+     * Sets y to @param y1.
      */
-    public Position(int x, int y) {
-        this.x = x;
-        this.y = y;
+    public Position(int x1, int y1) {
+        this.x = x1;
+        this.y = y1;
     }
 
     /**
@@ -73,61 +72,5 @@ public class Position {
     @Override
     public int hashCode() {
         return 17 * x * y;
-    }
-
-    /**
-     * TODO: Remove?
-     * @return the horizontal distance between this and @param other
-     * If negative, it means this is further right than @param other.
-     * If positive, it means this is to the left of @param other.
-     * This can be helpful in tunnel generation.
-     */
-    public int horizontalDistance(Position other) {
-        return other.getX() - x;
-    }
-
-    /**
-     * TODO: Remove?
-     * @return the vertical distance between this and @param other.
-     * If negative, it means this is above @param other.
-     * If positive, it means this is below @param other.
-     */
-    public int verticalDistance(Position other) {
-        return other.getY() - y;
-    }
-
-    /**
-     * TODO: Remove?
-     * @return the distance between this and @param other.
-     * This is not the TRUE distance between them, but distance considering we
-     * can only move up, down, left, and right.
-     */
-    public int distance(Position other) {
-        int xDist = Math.abs(horizontalDistance(other));
-        int yDist = Math.abs(verticalDistance(other));
-        return xDist + yDist;
-    }
-
-    /**
-     * TODO: Remove.
-     * @return the nearest Position from the list @param positions.
-     * Application: this could be used to find the two nearest doors to each other.
-     * Runs in theta(N), we could use KdTree but with such a small number of doors
-     * I don't think it is necessary.
-     */
-    public Position nearest(List<Position> positions) {
-        if (positions.size() == 0) {
-            return null;
-        }
-        Position near = positions.get(0);
-        int dist = this.distance(near);
-        for (int i = 0; i < positions.size(); i += 1) {
-            Position newPos = positions.get(i);
-            int newDist = this.distance(newPos);
-            if (newDist < dist) {
-                near = newPos;
-            }
-        }
-        return near;
     }
 }

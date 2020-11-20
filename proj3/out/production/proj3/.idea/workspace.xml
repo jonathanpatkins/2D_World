@@ -20,39 +20,37 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b2e36da0-76bf-43df-969d-6b4ae888dd0c" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/byow/Core/Engine.java" beforeDir="false" afterPath="$PROJECT_DIR$/byow/Core/Engine.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/byow/Core/FinalizedVersionOfHallway.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/byow/Core/Hallway.java" beforeDir="false" afterPath="$PROJECT_DIR$/byow/Core/Hallway.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/byow/Core/Hallway2.java" beforeDir="false" afterPath="$PROJECT_DIR$/byow/Core/Hallway2.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/byow/Core/Hallway2.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/byow/Core/HallwayObj.java" beforeDir="false" afterPath="$PROJECT_DIR$/byow/Core/HallwayObj.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/byow/Core/JonAttemptSolMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/byow/Core/JonAttemptSolMain.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/byow/Core/MainAdjRooms.java" beforeDir="false" afterPath="$PROJECT_DIR$/byow/Core/MainAdjRooms.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/byow/Core/Pair.java" beforeDir="false" afterPath="$PROJECT_DIR$/byow/Core/Pair.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/byow/Core/JonAttemptSolMain.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/byow/Core/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/byow/Core/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/byow/Core/MainAdjRooms.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/byow/Core/Pair.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/byow/Core/Room.java" beforeDir="false" afterPath="$PROJECT_DIR$/byow/Core/Room.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/byow/Core/RoomAdj.java" beforeDir="false" afterPath="$PROJECT_DIR$/byow/Core/RoomAdj.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/byow/Core/TestHall.java" beforeDir="false" afterPath="$PROJECT_DIR$/byow/Core/TestHall.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/byow/Core/TestUnionFind.java" beforeDir="false" afterPath="$PROJECT_DIR$/byow/Core/TestUnionFind.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/byow/Core/TestingMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/byow/Core/TestingMain.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/byow/Core/RoomAdj.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/byow/Core/TestHall.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/byow/Core/TestUnionFind.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/byow/Core/TestingMain.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/byow/Core/UnionFind.java" beforeDir="false" afterPath="$PROJECT_DIR$/byow/Core/UnionFind.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/byow/lab12/HexWorld.java" beforeDir="false" afterPath="$PROJECT_DIR$/byow/lab12/HexWorld.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/byow/lab12/Hexagon.java" beforeDir="false" afterPath="$PROJECT_DIR$/byow/lab12/Hexagon.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/byow/lab12/Position.java" beforeDir="false" afterPath="$PROJECT_DIR$/byow/Core/Position.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/byow/lab12/Tessellation.java" beforeDir="false" afterPath="$PROJECT_DIR$/byow/lab12/Tessellation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/byow/Core/World.java" beforeDir="false" afterPath="$PROJECT_DIR$/byow/Core/World.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj3/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/proj3/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj3/byow/Core/Engine.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/proj3/byow/Core/Engine.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj3/byow/Core/FinalizedVersionOfHallway.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/proj3/byow/Core/Hallway.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/proj3/byow/Core/Hallway.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/proj3/byow/Core/Hallway2.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/proj3/byow/Core/Hallway2.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/proj3/byow/Core/HallwayObj.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/proj3/byow/Core/HallwayObj.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/proj3/byow/Core/JonAttemptSolMain.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/proj3/byow/Core/JonAttemptSolMain.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/proj3/byow/Core/MainAdjRooms.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/proj3/byow/Core/MainAdjRooms.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj3/byow/Core/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/proj3/byow/Core/Main.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj3/byow/Core/RandomUtils.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/proj3/byow/Core/RandomUtils.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/proj3/byow/Core/Room.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/proj3/byow/Core/Room.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/proj3/byow/Core/RoomAdj.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/proj3/byow/Core/RoomAdj.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/proj3/byow/Core/TestHall.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/proj3/byow/Core/TestHall.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/proj3/byow/Core/TestUnionFind.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/proj3/byow/Core/TestUnionFind.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/proj3/byow/Core/TestingMain.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/proj3/byow/Core/TestingMain.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/proj3/byow/Core/UnionFind.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/proj3/byow/Core/UnionFind.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/proj3/byow/lab12/HexWorld.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/proj3/byow/lab12/HexWorld.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/proj3/byow/lab12/Hexagon.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/proj3/byow/lab12/Hexagon.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/proj3/byow/lab12/Position.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/proj3/byow/lab12/Tessellation.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/proj3/byow/lab12/Tessellation.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj3/byow/Core/TestHall.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj3/byow/Core/TestUnionFind.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj3/byow/Core/TestingMain.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj3/byow/Core/World.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/proj3/byow/Core/World.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -83,7 +81,7 @@
     <property name="project.structure.proportion" value="0.15527344" />
     <property name="project.structure.side.proportion" value="0.2" />
   </component>
-  <component name="RunManager" selected="Application.JonAttemptSolMain">
+  <component name="RunManager" selected="Application.Main">
     <configuration default="true" type="Applet" factoryName="Applet">
       <option name="WIDTH" value="400" />
       <option name="HEIGHT" value="300" />
@@ -91,8 +89,8 @@
       <module />
       <method />
     </configuration>
-    <configuration name="HexWorld" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="byow.lab12.HexWorld" />
+    <configuration name="JonAttemptSolMain" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="byow.Core.JonAttemptSolMain" />
       <module name="proj3" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <extension name="coverage">
@@ -105,8 +103,8 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="JonAttemptSolMain" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="byow.Core.JonAttemptSolMain" />
+    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="byow.Core.Main" />
       <module name="proj3" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <extension name="coverage">
@@ -199,11 +197,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.Main" />
         <item itemvalue="Application.JonAttemptSolMain" />
         <item itemvalue="Application.TestHall" />
         <item itemvalue="Application.MainAdjRooms" />
         <item itemvalue="Application.TestingMain" />
-        <item itemvalue="Application.HexWorld" />
       </list>
     </recent_temporary>
   </component>
@@ -231,32 +229,32 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="458" y="204" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1605850986100">
+    <state x="458" y="204" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1605909587483">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state x="458" y="204" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1440.900@0.0.1440.900" timestamp="1605850986100" />
-    <state width="1398" height="230" key="GridCell.Tab.0.bottom" timestamp="1605852381162">
+    <state x="458" y="204" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1440.900@0.0.1440.900" timestamp="1605909587483" />
+    <state width="1398" height="230" key="GridCell.Tab.0.bottom" timestamp="1605909486215">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1398" height="230" key="GridCell.Tab.0.bottom/0.0.1440.900@0.0.1440.900" timestamp="1605852381162" />
+    <state width="1398" height="230" key="GridCell.Tab.0.bottom/0.0.1440.900@0.0.1440.900" timestamp="1605909486215" />
     <state width="626" height="245" key="GridCell.Tab.0.bottom/0.23.1440.797@0.23.1440.797" timestamp="1605227156018" />
     <state width="1398" height="230" key="GridCell.Tab.0.bottom/0.23.1440.800@0.23.1440.800" timestamp="1605846945274" />
-    <state width="1398" height="230" key="GridCell.Tab.0.center" timestamp="1605852381160">
+    <state width="1398" height="230" key="GridCell.Tab.0.center" timestamp="1605909486213">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1398" height="230" key="GridCell.Tab.0.center/0.0.1440.900@0.0.1440.900" timestamp="1605852381160" />
+    <state width="1398" height="230" key="GridCell.Tab.0.center/0.0.1440.900@0.0.1440.900" timestamp="1605909486213" />
     <state width="626" height="245" key="GridCell.Tab.0.center/0.23.1440.797@0.23.1440.797" timestamp="1605227156017" />
     <state width="1398" height="230" key="GridCell.Tab.0.center/0.23.1440.800@0.23.1440.800" timestamp="1605846945272" />
-    <state width="1398" height="230" key="GridCell.Tab.0.left" timestamp="1605852381159">
+    <state width="1398" height="230" key="GridCell.Tab.0.left" timestamp="1605909486212">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1398" height="230" key="GridCell.Tab.0.left/0.0.1440.900@0.0.1440.900" timestamp="1605852381159" />
+    <state width="1398" height="230" key="GridCell.Tab.0.left/0.0.1440.900@0.0.1440.900" timestamp="1605909486212" />
     <state width="626" height="245" key="GridCell.Tab.0.left/0.23.1440.797@0.23.1440.797" timestamp="1605227156017" />
     <state width="1398" height="230" key="GridCell.Tab.0.left/0.23.1440.800@0.23.1440.800" timestamp="1605846945272" />
-    <state width="1398" height="230" key="GridCell.Tab.0.right" timestamp="1605852381161">
+    <state width="1398" height="230" key="GridCell.Tab.0.right" timestamp="1605909486214">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1398" height="230" key="GridCell.Tab.0.right/0.0.1440.900@0.0.1440.900" timestamp="1605852381161" />
+    <state width="1398" height="230" key="GridCell.Tab.0.right/0.0.1440.900@0.0.1440.900" timestamp="1605909486214" />
     <state width="626" height="245" key="GridCell.Tab.0.right/0.23.1440.797@0.23.1440.797" timestamp="1605227156018" />
     <state width="1398" height="230" key="GridCell.Tab.0.right/0.23.1440.800@0.23.1440.800" timestamp="1605846945273" />
     <state width="1398" height="524" key="GridCell.Tab.1.bottom" timestamp="1605745437542">
@@ -287,10 +285,10 @@
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state x="210" y="193" width="1020" height="617" key="com.intellij.xdebugger.impl.breakpoints.ui.BreakpointsDialogFactory$2/0.0.1440.900@0.0.1440.900" timestamp="1605745350857" />
-    <state x="385" y="196" width="670" height="676" key="search.everywhere.popup" timestamp="1605851443710">
+    <state x="385" y="196" width="670" height="676" key="search.everywhere.popup" timestamp="1605853728955">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state x="385" y="196" width="670" height="676" key="search.everywhere.popup/0.0.1440.900@0.0.1440.900" timestamp="1605851443710" />
+    <state x="385" y="196" width="670" height="676" key="search.everywhere.popup/0.0.1440.900@0.0.1440.900" timestamp="1605853728955" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

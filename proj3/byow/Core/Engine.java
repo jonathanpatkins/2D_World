@@ -1,11 +1,15 @@
-//KEEP
 package byow.Core;
 
 import byow.TileEngine.TERenderer;
 import byow.TileEngine.TETile;
 
+/**
+ * A class that generates a world using either Keyboard or String inputs.
+ * @author Johnathan Atkins Jake Webster 11/20/20.
+ */
 public class Engine {
-    TERenderer ter = new TERenderer();
+    private TERenderer ter = new TERenderer();
+    private TETile[][] finalWorldFrame;
     /* Feel free to change the width and height. */
     public static final int WIDTH = 80;
     public static final int HEIGHT = 30;
@@ -39,15 +43,46 @@ public class Engine {
      * @return the 2D TETile[][] representing the state of the world
      */
     public TETile[][] interactWithInputString(String input) {
-        // TODO: Fill out this method so that it run the engine using the input
         // passed in as an argument, and return a 2D tile representation of the
         // world that would have been drawn if the same inputs had been given
         // to interactWithKeyboard().
         //
         // See proj3.byow.InputDemo for a demo of how you can make a nice clean interface
         // that works for many different input types.
-
-        TETile[][] finalWorldFrame = null;
+        World world = new World(input);
+        finalWorldFrame = world.generateWorld();
+        ter.initialize(Engine.WIDTH, Engine.HEIGHT);
+        ter.renderFrame(finalWorldFrame);
         return finalWorldFrame;
+    }
+
+    /**
+     * @Return whether @param p is within the bounds of the world.
+     */
+    public static boolean inBounds(Position p) {
+        int x = p.getX();
+        int y = p.getY();
+
+        if (x >= Engine.WIDTH || x < 0) {
+            return false;
+        }
+        if (y >= Engine.HEIGHT || y < 0) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * @Return a String representation of the generated world.
+     */
+    public String toString() {
+        String s = "";
+        for (int i = 0; i < Engine.WIDTH; i += 1) {
+            for (int j = 0; j < Engine.HEIGHT; j += 1) {
+                s += finalWorldFrame[i][j] + " ";
+            }
+            s += "\n";
+        }
+        return s;
     }
 }
