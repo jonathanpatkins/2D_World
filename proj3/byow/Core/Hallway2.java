@@ -2,20 +2,32 @@ package byow.Core;
 
 import byow.TileEngine.TETile;
 import byow.TileEngine.Tileset;
-import byow.lab12.Position;
 
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * A more intelligent Hallway that finds optimal places to generate Hallways.
+ * @author Johnathan Atkins, Jake Webster 11/18/20.
+ */
 public class Hallway2 {
     /**
-     * Hallway2.java but uses the UnionFind obj
+     * @param world: The grid that everything is generated on.
+     * @param rooms: The List of RoomAdjs that exist in @param world.
+     * @param halls: The list of HallwayObjs that exist in @param world.
+     * @param obj: The UnionFind that is used to ensure a connected structure.
      */
-    TETile[][] world;
-    List<RoomAdj> rooms;
-    List<HallwayObj> halls;
-    UnionFind obj;
+    private TETile[][] world;
+    private List<RoomAdj> rooms;
+    private List<HallwayObj> halls;
+    private UnionFind obj;
 
+    /**
+     * @param world sets the world array of this class.
+     * @param rooms sets the rooms list of this class.
+     * @param obj sets the UnionFind obj of this class.
+     * Also initializes @param halls: There are no Hallways before we start generation.
+     */
     public Hallway2(TETile[][] world, List<RoomAdj> rooms, UnionFind obj) {
         this.world = world;
         this.rooms = rooms;
@@ -23,59 +35,48 @@ public class Hallway2 {
         this.halls = new ArrayList<>();
     }
 
+    /**
+     * Makes function calls to connect all the rooms.
+     */
     public void connectAllRooms() {
-        for (RoomAdj i : rooms) {
-            for (RoomAdj j : rooms) {
+        for (RoomAdj i: rooms) {
+            for (RoomAdj j: rooms) {
                 if (i != j) {
-                    connectRoomsStraight(i , j);
+                    connectRoomsStraight(i, j);
                 }
             }
         }
+        //TODO: Remove once we have confidence in our solution
         if (!obj.allConnected()) {
-            List<RoomAdj> redo = new ArrayList<>();
-            for (int i = 0; i < rooms.size(); i += 1) {
-                int misCount = 0;
-                RoomAdj curRoom = rooms.get(i);
-                for (int j = 0; j < rooms.size(); j += 1) {
-                    if (!obj.isConnected(curRoom, rooms.get(j))) {
-                        misCount += 1;
-                    }
-                }
-                // This will only fail if more than 3 rooms aren't connected (near impossible)
-                if (misCount > 3) {
-                    redo.add(rooms.get(i));
-                }
-            }
-            for (int i = 0; i < redo.size(); i += 1) {
-                System.out.println("bad " + redo.get(i));
-            }
-            System.out.println("fuck");
+            System.out.println("not connected");
         } else {
-            System.out.println("yeah");
+            System.out.println("connected");
         }
     }
 
+    /**
+     * Begins the process of connecting rooms @param i and @param j.
+     */
     private void connectRoomsStraight(RoomAdj i, RoomAdj j) {
         if (!obj.isConnected(i, j)) {
-
             HallwayObj temp = null;
+            List<Position> closeWalls = closestWalls(i, j);
+            // a is the start position, and b is the end position.
+            Position a = closeWalls.get(0);
+            Position b = closeWalls.get(1);
 
-            List<Position> closeWalls = closestWalls(i, j); // kinda break the abstraction barrier right here
-            Position a = closeWalls.get(0); // start position
-            Position b = closeWalls.get(1); // end position
-
-            int dirn = checkDirection(a);
+            int direction = checkDirection(a);
             int x = Math.abs(b.getX() - a.getX());
             int y = Math.abs(b.getY() - a.getY());
-            // x == x
+
             if (x == 0) {
-                if (dirn == 1) {
+                if (direction == 1) {
                     temp = makeVerticalHall(a, y + 1, true);
                 } else {
                     temp = makeVerticalHall(a, y + 1, false);
                 }
             } else if (y == 0) {
-                if (dirn == 2) {
+                if (direction == 2) {
                     temp = makeHorizontalHall(a, x + 1, true);
                 } else {
                     temp = makeHorizontalHall(a, x + 1, false);
@@ -90,8 +91,17 @@ public class Hallway2 {
     // 3 down
     // 4 left
     // 0 catch all for anything else
+
+    /**
+     * @Return the direction for @param a.
+     * Direction is defined by where you could best generate a Hallway from-
+     * so you wouldn't want to build inwards towards a floor for instance.
+     *
+     * Directions: 0 = anything else (should not occur), 1 = up, 2 = right,
+     * 3 = down, 4 = left.
+     */
     private int checkDirection(Position a) {
-        // if it hits nothing or wall - so basically cant hit floor
+        // If it hits nothing or wall - so basically it can't hit the floor.
         Position up = new Position(a, 0, 1);
         Position right = new Position(a, 1, 0);
         Position down = new Position(a, 0, -1);
@@ -120,6 +130,10 @@ public class Hallway2 {
         return 0;
     }
 
+    /**
+     * @Return a list containing the closest Positions on the walls of RoomAdj @param a
+     * and RoomAdj @param b. Corners are excluded.
+     */
     private List<Position> closestWalls(RoomAdj a, RoomAdj b) {
         List<Position> returnV = new ArrayList<>();
 
@@ -131,11 +145,11 @@ public class Hallway2 {
 
         Position bestAWall = aWalls.get(0);
         Position bestBWall = bWalls.get(0);
-        double bestD = aWalls.get(0).distance(bWalls.get(0));
+        double bestD = bestAWall.distance(bestBWall);
 
-        for (Position i : aWalls) {
+        for (Position i: aWalls) {
             if (!aCorner.contains(i)) {
-                for (Position j : bWalls) {
+                for (Position j: bWalls) {
                     if (!bCorner.contains(j)) {
                         double contender = i.distance(j);
                         if (contender < bestD) {
@@ -154,23 +168,19 @@ public class Hallway2 {
 
 
     /**
-     * Makes a vertical hallway
-     * If it hits a wall before it reaches its desired length, still create the wall (aka merging of hallway with
-     * hallway or hallway with room) if the wall if not a corner. If the hallway is built to its desired length,
-     * then its a dead end hallway
-     * @param p
-     * @param length
-     * @param up
-     * @return
+     * Makes a vertical hallway.
+     * If it hits a wall before it reaches its desired length, still create the wall,
+     * thus merging the Hallway with another Hallway or a Room, as long as the wall
+     * is not a corner. If the hallway is built to its desired length, then it is a
+     * dead end hallway.
+     *
+     * Starts the Hallway of @param length from Position @param p.
+     * Orientation is determined by @param up: true = up, false = down.
+     * @Return the HallwayObj generated in the process.
      */
-    public HallwayObj makeVerticalHall(Position p, int length, boolean up) {
+    private HallwayObj makeVerticalHall(Position p, int length, boolean up) {
         List<Position> floor = new ArrayList<>();
         List<Position> wall = new ArrayList<>();
-
-//        floor.add(p);
-//        wall.add(new Position(p, -1, 0));
-//        wall.add(new Position(p, 1, 0));
-
 
         for (int j = 0; j < length; j++) {
             int i;
@@ -192,7 +202,7 @@ public class Hallway2 {
                 return null;
             }
 
-            // stop if floor hits corner
+            // Stop generating the Hallway if a corner is hit.
             if (up) {
                 if (isCorner(p, world, 1) && length != 2) {
                     return null;
@@ -203,9 +213,9 @@ public class Hallway2 {
                 }
             }
 
-            // if you try to put a wall on a floor thats a no go
-            if (world[nextWall1.getX()][nextWall1.getY()] == Tileset.FLOOR ||
-                    world[nextWall2.getX()][nextWall2.getY()] == Tileset.FLOOR) {
+            // You cannot put a Hallway on a floor- stop generation.
+            if (world[nextWall1.getX()][nextWall1.getY()] == Tileset.FLOOR
+                    || world[nextWall2.getX()][nextWall2.getY()] == Tileset.FLOOR) {
                 return null;
             }
 
@@ -221,37 +231,20 @@ public class Hallway2 {
         return hall;
     }
 
-    private boolean isCorner(Position p, TETile[][] world, int direction) {
-        Position nextPos;
-        if (direction == 1) {
-            nextPos = new Position(p, 0, 1);
-        } else if (direction == 2) {
-            nextPos = new Position(p, 0, 1);
-        } else if (direction == 3) {
-            nextPos = new Position(p, 1, 0);
-        } else {
-            nextPos = new Position(p, -1, 0);
-        }
-        return inBounds(nextPos) && world[p.getX()][p.getY()] == Tileset.WALL &&
-                world[nextPos.getX()][nextPos.getY()] == Tileset.WALL;
-    }
-
     /**
-     * Makes a horiz hallway
-     * If it hits a wall before it reaches its desired length, still create the wall (aka merging of hallway with
-     * hallway or hallway with room) if the wall if not a corner. If the hallway is built to its desired length,
-     * then its a dead end hallway
-     * @param p
-     * @param width
-     * @param right
-     * @return
+     * Makes a horizontal hallway.
+     * If it hits a wall before it reaches its desired length, still create the wall,
+     * thus merging the Hallway with another Hallway or a Room, as long as the wall
+     * is not a corner. If the hallway is built to its desired length, then it is a
+     * dead end hallway.
+     *
+     * Starts the Hallway of @param length from Position @param p.
+     * Orientation is determined by @param up: true = up, false = down.
+     * @Return the HallwayObj generated in the process.
      */
-    public HallwayObj makeHorizontalHall(Position p, int width, boolean right) {
+    private HallwayObj makeHorizontalHall(Position p, int width, boolean right) {
         List<Position> floor = new ArrayList<>();
         List<Position> wall = new ArrayList<>();
-//        floor.add(p);
-//        wall.add(new Position(p, 0, -1));
-//        wall.add(new Position(p, 0, 1));
 
         for (int j = 0; j < width; j++) {
             int i;
@@ -272,7 +265,7 @@ public class Hallway2 {
                 return null;
             }
 
-            // stop if floor hits corner
+            // Stop generating the Hallway if a corner is hit.
             if (right) {
                 if (isCorner(p, world, 3) && width != 2) {
                     return null;
@@ -283,8 +276,9 @@ public class Hallway2 {
                 }
             }
 
-            // if you try to put a wall on a floor thats a no go
-            if (world[nextWall1.getX()][nextWall1.getY()] == Tileset.FLOOR || world[nextWall2.getX()][nextWall2.getY()] == Tileset.FLOOR) {
+            // You cannot put a Hallway on a floor- stop generation.
+            if (world[nextWall1.getX()][nextWall1.getY()] == Tileset.FLOOR
+                    || world[nextWall2.getX()][nextWall2.getY()] == Tileset.FLOOR) {
                 return null;
             }
         }
@@ -298,9 +292,28 @@ public class Hallway2 {
         return hall;
     }
 
-    public void addHall(HallwayObj r, TETile[][] world) {
-        //System.out.println(r.getWall().size());
-        if (r != null) { //&& r.getWall().size() < 30) {
+    /**
+     * @Return whether Position @param p is a corner looking within grid @param world.
+     * @param direction is used to look in the appropriate direction for the Position
+     *                  to make the determination.
+     */
+    private boolean isCorner(Position p, TETile[][] world, int direction) {
+        Position nextPos;
+        if (direction == 1) {
+            nextPos = new Position(p, 0, 1);
+        } else if (direction == 2) {
+            nextPos = new Position(p, 0, 1);
+        } else if (direction == 3) {
+            nextPos = new Position(p, 1, 0);
+        } else {
+            nextPos = new Position(p, -1, 0);
+        }
+        return inBounds(nextPos) && world[p.getX()][p.getY()] == Tileset.WALL
+                && world[nextPos.getX()][nextPos.getY()] == Tileset.WALL;
+    }
+
+    private void addHall(HallwayObj r, TETile[][] world) {
+        if (r != null && r.getWall().size() < 30) {
             obj.addComponent(r);
             halls.add(r);
             List<Position> wallPositions = r.getWall();
@@ -312,36 +325,36 @@ public class Hallway2 {
                 }
             }
             List<Position> floorPositions = r.getFloor();
-            for (Position p : floorPositions) {
-                /**
+            for (Position p: floorPositions) {
+                /*
                  * Could make this even better:
                  *  Everytime you encounter a wall when placing a floor tile
                  *   You first call a whatIsThisPart of method to see what component it is
                  *   Then connect the two things and go on your merry way
+                 *   TODO: Remove this comment when we figure stuff out.
                  */
                 if (world[p.getX()][p.getY()] == Tileset.WALL) {
                     Object temp = whichComponent(p);
                     obj.connect(temp, r);
                 }
                 world[p.getX()][p.getY()] = Tileset.FLOOR;
-
-
-
             }
         }
-
     }
 
+    /**
+     * @Return the type that the component that contains @param p is.
+     */
     private Object whichComponent(Position p) {
-        for (RoomAdj i : rooms) {
-            for (Position wall : i.getWallLocation()) {
+        for (RoomAdj i: rooms) {
+            for (Position wall: i.getWallLocation()) {
                 if (p.equals(wall)) {
                     return i;
                 }
             }
         }
-        for (HallwayObj i : halls) {
-            for (Position wall : i.getWall()) {
+        for (HallwayObj i: halls) {
+            for (Position wall: i.getWall()) {
                 if (p.equals(wall)) {
                     return i;
                 }
@@ -351,18 +364,19 @@ public class Hallway2 {
     }
 
     /**
-     * General method to see if method is inbounds of the screen or not
-     * @param p
-     * @return
+     * @Return whether @param p is in bounds in the world.
+     * TODO: Maybe we make only one of these in Main and use that instead.
+     *      Also, change the JonAttemptSolMain.WIDTH/HEIGHT to the class we
+     *      define stuff in at the end. (probably Engine)
      */
     private boolean inBounds(Position p) {
         int x = p.getX();
         int y = p.getY();
 
-        if (x >= MainAdjRooms.WIDTH || x < 0) {
+        if (x >= JonAttemptSolMain.WIDTH || x < 0) {
             return false;
         }
-        if (y >= MainAdjRooms.HEIGHT || y < 0) {
+        if (y >= JonAttemptSolMain.HEIGHT || y < 0) {
             return false;
         }
         return true;

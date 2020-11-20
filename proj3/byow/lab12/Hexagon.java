@@ -1,5 +1,6 @@
 package byow.lab12;
 
+import byow.Core.Position;
 import byow.TileEngine.TETile;
 
 import java.util.ArrayList;

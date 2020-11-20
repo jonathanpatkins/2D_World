@@ -1,4 +1,5 @@
 package byow.lab12;
+import byow.Core.Position;
 import byow.Core.RandomUtils;
 import byow.TileEngine.TETile;
 import byow.TileEngine.Tileset;

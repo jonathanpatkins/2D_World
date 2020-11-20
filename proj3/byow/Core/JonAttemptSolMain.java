@@ -3,25 +3,27 @@ package byow.Core;
 import byow.TileEngine.TERenderer;
 import byow.TileEngine.TETile;
 import byow.TileEngine.Tileset;
-import byow.lab12.Position;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.HashMap;
 
+//TODO: DELETE BEFORE SUBMISSION- send this to Main or Engine.
 public class JonAttemptSolMain {
 
-
+    /**
+     * @param WIDTH: the width (x) of the the World.
+     * @param HEIGHT: the height (y) of the World.
+     */
     public static final int WIDTH = 60;
     public static final int HEIGHT = 40;
 
     public static void main(String[] args) {
-        // initialize the tile rendering engine with a window of size WIDTH x HEIGHT
+        // Initialize the tile rendering engine with a window of size WIDTH x HEIGHT.
         TERenderer ter = new TERenderer();
         ter.initialize(WIDTH, HEIGHT);
 
-        // initialize tiles
+        // Initialize tiles
         TETile[][] world = new TETile[WIDTH][HEIGHT];
         for (int x = 0; x < WIDTH; x += 1) {
             for (int y = 0; y < HEIGHT; y += 1) {
@@ -29,24 +31,20 @@ public class JonAttemptSolMain {
             }
         }
 
-        // Test
         List<RoomAdj> rooms = new ArrayList<>();
-        List<Position> doors = new ArrayList<>();
-        HashMap<Position, RoomAdj> doorMap = new HashMap<>();
 
-        String testSeed = "N232S";
+        String testSeed = "N1467S";
         TETile testTypeWall = Tileset.WALL;
         TETile testTypeFloor = Tileset.FLOOR;
 
-        // Create random obj to be passed around
-        // Get the seed num
+        // Get the seed number.
         String subString = testSeed.substring(1, testSeed.length() - 1);
         long seedNum = Long.parseLong(subString);
 
-        // Create random generator
+        // Create the random generator.
         Random random = new Random(seedNum);
 
-        // Generates numOfRoomsDesired into the space
+        // Generates numOfRoomsDesired into the space.
         int numOfRoomsDesired = RandomUtils.uniform(random, 20, 40);
         int counter = 0;
         int fails = 0;
@@ -69,20 +67,18 @@ public class JonAttemptSolMain {
                 fails += 1;
             }
         }
-        for (RoomAdj i : rooms) {
-            u.addComponent(i);
-        }
         Hallway2 h = new Hallway2(world, rooms, u);
         h.connectAllRooms();
 
-        //draw the world
+        //Draw the world
         ter.renderFrame(world);
     }
 
     /**
      * Adds a room (@param r) to our space (@param world).
+     * Also adds the room @param r to the UnionFind @param u.
      */
-    public static void addRoom(RoomAdj r, TETile[][] world, UnionFind u) {
+    private static void addRoom(RoomAdj r, TETile[][] world, UnionFind u) {
         u.addComponent(r);
         List<Position> wallPositions = r.getWallLocation();
         for (Position p: wallPositions) {
@@ -95,14 +91,11 @@ public class JonAttemptSolMain {
     }
 
     /**
-     * Returns whether the room is in bounds of our space
-     * @param temp
-     * @return
+     * @Return whether the room @param room is in bounds of our space.
      */
-    // I think we could have a private helper that checks if a given Position is inside the space
-    public static boolean inBounds(RoomAdj temp) {
-        List<Position> wall = temp.getWallLocation();
-        for (Position i : wall) {
+    private static boolean inBounds(RoomAdj room) {
+        List<Position> wall = room.getWallLocation();
+        for (Position i: wall) {
             int x = i.getX();
             int y = i.getY();
             if (x >= WIDTH || y >= HEIGHT) {
@@ -113,10 +106,10 @@ public class JonAttemptSolMain {
     }
 
     /**
-     * @Return whether the @param room does not intersect any of the other rooms in @param world.
-     * Also ensures that a room would not be spawning and blocking a hallway from generating.
+     * @Return whether the @param room does not intersect any of the other
+     * rooms in @param world.
      */
-    public static boolean notIntersecting(RoomAdj room, TETile[][] world) {
+    private static boolean notIntersecting(RoomAdj room, TETile[][] world) {
         for (Position i : room.getWallLocation()) {
             if (world[i.getX()][i.getY()] != Tileset.NOTHING) {
                 return false;
@@ -124,21 +117,6 @@ public class JonAttemptSolMain {
         }
         for (Position i: room.getFloorLocation()) {
             if (world[i.getX()][i.getY()] != Tileset.NOTHING) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-
-    /**
-     * @return whether all @param rooms are connected by @param uf.
-     * The allConnected wasn't working in UnionFind so I made one here.
-     */
-    public static boolean checkAllConnected(List<RoomAdj> rooms, UnionFind uf) {
-        RoomAdj first = rooms.get(0);
-        for (int i = 1; i < rooms.size(); i += 1) {
-            if (!uf.isConnected(first, rooms.get(i))) {
                 return false;
             }
         }

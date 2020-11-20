@@ -1,12 +1,11 @@
 package byow.Core;
 
 import byow.TileEngine.TETile;
-import byow.lab12.Position;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-
+//DELETE BEFORE SUBMISSION
 public class Room {
     private Position upperLeft, upperRight, lowerLeft, lowerRight;
     private List<Position> doorLocation, wallLocation, floorLocation;

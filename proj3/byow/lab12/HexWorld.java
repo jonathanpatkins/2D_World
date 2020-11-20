@@ -1,6 +1,7 @@
 
 package byow.lab12;
 
+import byow.Core.Position;
 import byow.TileEngine.TERenderer;
 import byow.TileEngine.TETile;
 import byow.TileEngine.Tileset;

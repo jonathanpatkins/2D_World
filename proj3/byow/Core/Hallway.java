@@ -2,11 +2,10 @@ package byow.Core;
 
 import byow.TileEngine.TETile;
 import byow.TileEngine.Tileset;
-import byow.lab12.Position;
 
 import java.util.ArrayList;
 import java.util.List;
-
+//DELETE BEFORE SUBMISSION
 public class Hallway {
     /**
      * Todo:
@@ -302,10 +301,10 @@ public class Hallway {
         int x = p.getX();
         int y = p.getY();
 
-        if (x >= MainAdjRooms.WIDTH || x < 0) {
+        if (x >= JonAttemptSolMain.WIDTH || x < 0) {
             return false;
         }
-        if (y >= MainAdjRooms.HEIGHT || y < 0) {
+        if (y >= JonAttemptSolMain.HEIGHT || y < 0) {
             return false;
         }
         return true;
