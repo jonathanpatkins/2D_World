@@ -1,49 +1,37 @@
 package byow.Core;
 
 import byow.TileEngine.TETile;
+import byow.lab12.Position;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-//DELETE BEFORE SUBMISSION
+
 public class Room {
+
     private Position upperLeft, upperRight, lowerLeft, lowerRight;
-    private List<Position> doorLocation, wallLocation, floorLocation;
-    private int numOfDoors;
+    private List<Position> doorLocation, wallLocation, floorLocation, cornerLocation, adjLocation;
     private TETile tileWall, tileFloor;
-    private int length, width;
+    private int height, width;
 
     /**
      * General Constructor:
-     *  Builds a room by treating the lowerLeft position as the bottom left corner
-     *  of a room and then it spreads up and right from that.
-     *  Ex:
-     *          width
-     *         ________
-     *        |        |
-     * Length |        |
-     *        |        |
-     *        |________|
-     * (start)^
-     *
-     * Todo:
-     *  Add doors:
-     *   - I was thinking that to do this first shuffle the wallLocation list
-     *     and then iterate through it and test and see if a wall location would
-     *     be suitable to be a door (i.e. has enough space for a hallway and the
-     *     wall location is not a corner of the room)
-     *  Not sure how the process should be for building the next door after the first.
-     *   Things to keep in mind with this:
-     *    - Need to account for the fact that I am currently building rooms based on the
-     *      loc of the lowerLeft corner and then going up and right
-     *    - What happens if the "next" room that we generate intersects an existing room
-     *      or does not fit in our canvas space - do we keep on generating new "next" rooms
-     *      until one succeeds?
-     *
+     *  Same as in Room, but this time keeps track of where the corners of the walls for the room
+     *  are and it keeps track of edges outside the walls. Illustrated in pic below with 0
+     *              00000000
+     *              ________
+     *            0|        |0
+     *            0|        |0
+     *            0|        |0
+     *            0|________|0
+     *              00000000
      * @param lowerLeft the initial position we will build the room from
      * @param r the random object made from the seed
      * @param tileFloor the type of tile
      * @param tileWall the type of tile
+     *
+     * @source This class was generally inspired by Hexagon.java from the TA's
+     *         implementation of Lab12.
      */
     public Room(Position lowerLeft, Random r, TETile tileFloor, TETile tileWall) {
 
@@ -51,56 +39,66 @@ public class Room {
         this.tileFloor = tileFloor;
         this.tileWall = tileWall;
 
-        // Generate length and width
-        this.length = RandomUtils.uniform(r, 3, 15);
+        // Generate width (x) and height (y)
         this.width = RandomUtils.uniform(r, 3, 15);
+        this.height = RandomUtils.uniform(r, 3, 15);
 
         // Generate upperLeft, upperRight, lowerRight from length and width
-        this.upperLeft = new Position(lowerLeft, length, 0);
-        this.lowerRight = new Position(lowerLeft, 0, width);
-        this.upperRight = new Position(lowerLeft, length, width);
-
-        // Generate number of doors
-        this.numOfDoors = RandomUtils.uniform(r, 1, 3);
+        this.upperLeft = new Position(lowerLeft, 0, height);
+        this.lowerRight = new Position(lowerLeft, width, 0);
+        this.upperRight = new Position(lowerLeft, width, height);
 
         // Generate the positions of the walls and floor
         this.wallLocation = new ArrayList<>();
         this.floorLocation = new ArrayList<>();
         this.doorLocation = new ArrayList<>();
+        this.adjLocation = new ArrayList<>();
+        this.cornerLocation = new ArrayList<>();
+
         this.getPositions();
-
-
     }
 
+
     /**
-     * Adds to the wallLocation list and floorLocation list the position of all walls and floors for the room
+     * For a given room, records the positions of the outside edges, walls, and floor
      */
     private void getPositions() {
-
-        for (int i = 0; i < this.length; i++) {
+        for (int i = 0; i < this.height; i++) {
             for (int j = 0; j < this.width; j++) {
-
-                // if top or bottom of the room add wall
-                if (i == 0 || i == this.length - 1) {
-                    Position wall = new Position(this.lowerLeft, j, i);
-                    this.wallLocation.add(wall);
+                Position pos = new Position(this.lowerLeft, j, i);
+                // if top, bottom, left, or right row, it is a wall.
+                if (isWall(j, i)) {
+                    // if it is a corner add to corner list
+                    if (isCorner(j, i)) {
+                        this.cornerLocation.add(pos);
+                    }
+                    this.wallLocation.add(pos);
                 }
-
-                // if the sides of the room add wall
-                else if (i > 0 && i < this.length - 1 && (j == 0 || j == width - 1)){
-                    Position wall = new Position(this.lowerLeft, j, i);
-                    this.wallLocation.add(wall);
-                }
-
-                // everything else can be considered floor
+                // if it isn't a wall, it is a floor
                 else {
-                    Position floor = new Position(this.lowerLeft, j, i);
-                    this.floorLocation.add(floor);
+                    this.floorLocation.add(pos);
                 }
             }
         }
     }
 
+    /**
+     * @return whether the point (@param x, @param y) could be considered a corner.
+     */
+    private boolean isCorner(int x, int y) {
+        if ( (y == 0 && (x == 0 || x == this.width - 1) ) ||
+                (y == this.height - 1 && (x == 0 || x == this.width - 1)) ) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * @return whether the point (@param x, @param y) could be considered a wall.
+     */
+    private boolean isWall(int x, int y) {
+        return (y == 0 || y == this.height - 1) || (x == 0 || x == this.width - 1);
+    }
 
     public TETile getTileFloor() {
         return tileFloor;
@@ -122,25 +120,57 @@ public class Room {
         return wallLocation;
     }
 
-    /**
-     * Takes in another room @param r and @return whether there is an overlap
-     * between the two.
-     * Variables starting with this refer to this class and other refer to @param r.
-     * NOTE: This is helpful for us in ensuring that rooms do not stack on top
-     * of each other. If a room would, we do not add it to the Board.
-     */
-    public boolean checkIntercept(Room r) {
-        int thisLeft = upperLeft.getX();
-        int thisRight = lowerRight.getX();
-        int thisTop = upperLeft.getY();
-        int thisBottom = lowerRight.getY();
-        int otherLeft = r.upperLeft.getX();
-        int otherRight = r.lowerRight.getX();
-        int otherTop = r.upperLeft.getY();
-        int otherBottom = r.lowerRight.getY();
-        if (thisLeft < otherLeft) {
-            return true;
+    public List<Position> getCornerLocation() {
+        return cornerLocation;
+    }
+
+
+    public boolean inBounds(Position i) {
+        int x = i.getX();
+        int y = i.getY();
+        if (x >= JonAttemptSolMain.WIDTH || y >= JonAttemptSolMain.HEIGHT || x <= 0 || y <= 0) {
+            return false;
         }
-        return false;
+        return true;
+    }
+
+    /**
+     * @return the lowerLeft position.
+     */
+    public Position getLowerLeft() {
+        return lowerLeft;
+    }
+
+    /**
+     * @return the upperRight position.
+     */
+    public Position getUpperRight() {
+        return upperRight;
+    }
+
+    /**
+     * @return the upperLeft position.
+     */
+    public Position getUpperLeft() {
+        return upperLeft;
+    }
+
+    /**
+     * @return the lowerRight position.
+     */
+    public Position getLowerRight() {
+        return lowerRight;
+    }
+
+    /**
+     * @return if the RoomAdj contains @param p as a Door.
+     */
+    public boolean containsDoor(Position p) {
+        return doorLocation.contains(p);
+    }
+
+    @Override
+    public String toString() {
+        return "Lower left: " + lowerLeft + " , Upper right: " + upperRight;
     }
 }
