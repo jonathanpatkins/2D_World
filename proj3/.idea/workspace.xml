@@ -21,13 +21,18 @@
   <component name="ChangeListManager">
     <list default="true" id="b2e36da0-76bf-43df-969d-6b4ae888dd0c" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/byow/Core/Hallway2.java" beforeDir="false" afterPath="$PROJECT_DIR$/byow/Core/Hallway2.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/byow/Core/HallwayObj.java" beforeDir="false" afterPath="$PROJECT_DIR$/byow/Core/HallwayObj.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/byow/Core/JonAttemptSolMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/byow/Core/JonAttemptSolMain.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/byow/Core/MainAdjRooms.java" beforeDir="false" afterPath="$PROJECT_DIR$/byow/Core/MainAdjRooms.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/byow/Core/RoomAdj.java" beforeDir="false" afterPath="$PROJECT_DIR$/byow/Core/RoomAdj.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/byow/Core/TestHall.java" beforeDir="false" afterPath="$PROJECT_DIR$/byow/Core/TestHall.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/byow/lab12/Position.java" beforeDir="false" afterPath="$PROJECT_DIR$/byow/lab12/Position.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj3/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/proj3/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj3/byow/Core/Hallway2.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/proj3/byow/Core/Hallway2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj3/byow/Core/HallwayObj.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/proj3/byow/Core/HallwayObj.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/proj3/byow/Core/MainAdjRooms.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/proj3/byow/Core/MainAdjRooms.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj3/byow/Core/RoomAdj.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/proj3/byow/Core/RoomAdj.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/proj3/byow/Core/TestHall.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/proj3/byow/Core/TestHall.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/proj3/byow/lab12/Position.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/proj3/byow/lab12/Position.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -57,7 +62,7 @@
     <property name="project.structure.proportion" value="0.15527344" />
     <property name="project.structure.side.proportion" value="0.2" />
   </component>
-  <component name="RunManager" selected="Application.MainAdjRooms">
+  <component name="RunManager" selected="Application.JonAttemptSolMain">
     <configuration default="true" type="Applet" factoryName="Applet">
       <option name="WIDTH" value="400" />
       <option name="HEIGHT" value="300" />
@@ -79,8 +84,8 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="MainAdjRooms" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="byow.Core.MainAdjRooms" />
+    <configuration name="JonAttemptSolMain" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="byow.Core.JonAttemptSolMain" />
       <module name="proj3" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <extension name="coverage">
@@ -93,13 +98,13 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="RandomWorldDemo" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="byow.lab12.RandomWorldDemo" />
+    <configuration name="MainAdjRooms" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="byow.Core.MainAdjRooms" />
       <module name="proj3" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="byow.lab12.*" />
+          <option name="PATTERN" value="byow.Core.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -173,11 +178,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.MainAdjRooms" />
+        <item itemvalue="Application.JonAttemptSolMain" />
         <item itemvalue="Application.TestHall" />
+        <item itemvalue="Application.MainAdjRooms" />
         <item itemvalue="Application.TestingMain" />
         <item itemvalue="Application.HexWorld" />
-        <item itemvalue="Application.RandomWorldDemo" />
       </list>
     </recent_temporary>
   </component>
@@ -205,26 +210,30 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
-    <state width="1398" height="185" key="GridCell.Tab.0.bottom" timestamp="1605826133169">
+    <state width="1398" height="230" key="GridCell.Tab.0.bottom" timestamp="1605848511064">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1398" height="185" key="GridCell.Tab.0.bottom/0.0.1440.900@0.0.1440.900" timestamp="1605826133169" />
+    <state width="1398" height="230" key="GridCell.Tab.0.bottom/0.0.1440.900@0.0.1440.900" timestamp="1605848511064" />
     <state width="626" height="245" key="GridCell.Tab.0.bottom/0.23.1440.797@0.23.1440.797" timestamp="1605227156018" />
-    <state width="1398" height="185" key="GridCell.Tab.0.center" timestamp="1605826133168">
+    <state width="1398" height="230" key="GridCell.Tab.0.bottom/0.23.1440.800@0.23.1440.800" timestamp="1605846945274" />
+    <state width="1398" height="230" key="GridCell.Tab.0.center" timestamp="1605848511063">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1398" height="185" key="GridCell.Tab.0.center/0.0.1440.900@0.0.1440.900" timestamp="1605826133168" />
+    <state width="1398" height="230" key="GridCell.Tab.0.center/0.0.1440.900@0.0.1440.900" timestamp="1605848511063" />
     <state width="626" height="245" key="GridCell.Tab.0.center/0.23.1440.797@0.23.1440.797" timestamp="1605227156017" />
-    <state width="1398" height="185" key="GridCell.Tab.0.left" timestamp="1605826133167">
+    <state width="1398" height="230" key="GridCell.Tab.0.center/0.23.1440.800@0.23.1440.800" timestamp="1605846945272" />
+    <state width="1398" height="230" key="GridCell.Tab.0.left" timestamp="1605848511062">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1398" height="185" key="GridCell.Tab.0.left/0.0.1440.900@0.0.1440.900" timestamp="1605826133167" />
+    <state width="1398" height="230" key="GridCell.Tab.0.left/0.0.1440.900@0.0.1440.900" timestamp="1605848511062" />
     <state width="626" height="245" key="GridCell.Tab.0.left/0.23.1440.797@0.23.1440.797" timestamp="1605227156017" />
-    <state width="1398" height="185" key="GridCell.Tab.0.right" timestamp="1605826133169">
+    <state width="1398" height="230" key="GridCell.Tab.0.left/0.23.1440.800@0.23.1440.800" timestamp="1605846945272" />
+    <state width="1398" height="230" key="GridCell.Tab.0.right" timestamp="1605848511063">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1398" height="185" key="GridCell.Tab.0.right/0.0.1440.900@0.0.1440.900" timestamp="1605826133169" />
+    <state width="1398" height="230" key="GridCell.Tab.0.right/0.0.1440.900@0.0.1440.900" timestamp="1605848511063" />
     <state width="626" height="245" key="GridCell.Tab.0.right/0.23.1440.797@0.23.1440.797" timestamp="1605227156018" />
+    <state width="1398" height="230" key="GridCell.Tab.0.right/0.23.1440.800@0.23.1440.800" timestamp="1605846945273" />
     <state width="1398" height="524" key="GridCell.Tab.1.bottom" timestamp="1605745437542">
       <screen x="0" y="0" width="1440" height="900" />
     </state>

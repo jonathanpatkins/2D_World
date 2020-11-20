@@ -28,9 +28,11 @@ public class HallwayObj {
         this.wall = wall;
         this.length = length;
         this.width = width;
-
     }
-
+    @Override
+    public String toString() {
+        return "len: " + length + " and width: " + width;
+    }
     /**
      * Constructor for when you want to make a curved hall
      * @param a

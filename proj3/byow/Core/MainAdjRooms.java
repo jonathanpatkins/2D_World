@@ -144,15 +144,15 @@ public class MainAdjRooms {
         }
 
         //Printing the necessary tunnels to connect all and generating hallways
-        Hallway h = new Hallway(world, rooms, finalUf);
+        Hallway2 h = new Hallway2(world, rooms, finalUf);
         System.out.println("\nFinal state: Generate hallways with these");
         for (Position d: tunnels.keySet()) {
             Position other = tunnels.get(d);
             int horiz = d.horizontalDistance(other);
             int vert = d.verticalDistance(other);
             int direction = getDirection(horiz, vert);
-            HallwayObj newHall = h.makeCurvedHall(d, Math.abs(vert), Math.abs(horiz), direction);
-            addHall(newHall, world);
+            //HallwayObj newHall = h.makeCurvedHall(d, Math.abs(vert), Math.abs(horiz), direction);
+            //addHall(newHall, world);
             System.out.println("D1: " + d + " D2:" + other + " Dist: " + d.distance(other));
         }
         //HallwayObj newHall = h.makeCurvedHall(new Position(23, 25), 8, 28, 2);

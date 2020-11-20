@@ -52,8 +52,8 @@ public class JonAttemptSolMain {
         int fails = 0;
         UnionFind u = new UnionFind();
 
-        // If it fails to generate a room 20 times in a row, it stops trying.
-        while (fails < 20 && counter < numOfRoomsDesired) {
+        // If it fails to generate a room 30 times in a row, it stops trying.
+        while (fails < 30 && counter < numOfRoomsDesired) {
             int x = RandomUtils.uniform(random, 0, WIDTH);
             int y = RandomUtils.uniform(random, 0, HEIGHT);
             Position testPos = new Position(x, y);
@@ -75,10 +75,7 @@ public class JonAttemptSolMain {
         Hallway2 h = new Hallway2(world, rooms, u);
         h.connectAllRooms();
 
-
-
-
-        // draws the world to the screen
+        //draw the world
         ter.renderFrame(world);
     }
 
@@ -121,6 +118,11 @@ public class JonAttemptSolMain {
      */
     public static boolean notIntersecting(RoomAdj room, TETile[][] world) {
         for (Position i : room.getWallLocation()) {
+            if (world[i.getX()][i.getY()] != Tileset.NOTHING) {
+                return false;
+            }
+        }
+        for (Position i: room.getFloorLocation()) {
             if (world[i.getX()][i.getY()] != Tileset.NOTHING) {
                 return false;
             }

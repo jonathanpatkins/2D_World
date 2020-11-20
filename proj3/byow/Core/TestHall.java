@@ -7,7 +7,7 @@ import byow.lab12.Position;
 
 import java.util.ArrayList;
 import java.util.List;
-
+import java.util.Random;
 
 public class TestHall {
 
@@ -43,10 +43,14 @@ public class TestHall {
 //        addHall(test1, world);
 
         Hallway2 test = new Hallway2(world, r, x);
-        HallwayObj testHall1 = test.makeVerticalHall(new Position(20, 20), 17, true);
-        HallwayObj testHall2 = test.makeHorizontalHall(new Position(27, 27), 17, false);
-        test.addHall(testHall1, world);
-        test.addHall(testHall2, world);
+        Random ran = new Random(123);
+        r.add(new RoomAdj(new Position(10, 10), ran, Tileset.FLOOR, Tileset.WALL));
+        r.add(new RoomAdj(new Position(27, 33), ran, Tileset.FLOOR, Tileset.WALL));
+        test.connectAllRooms();
+        //HallwayObj testHall1 = test.makeVerticalHall(new Position(20, 20), 17, true);
+        //HallwayObj testHall2 = test.makeHorizontalHall(new Position(27, 27), 17, false);
+        //test.addHall(testHall1, world);
+        //test.addHall(testHall2, world);
 
 
 

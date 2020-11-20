@@ -32,7 +32,26 @@ public class Hallway2 {
             }
         }
         if (!obj.allConnected()) {
+            List<RoomAdj> redo = new ArrayList<>();
+            for (int i = 0; i < rooms.size(); i += 1) {
+                int misCount = 0;
+                RoomAdj curRoom = rooms.get(i);
+                for (int j = 0; j < rooms.size(); j += 1) {
+                    if (!obj.isConnected(curRoom, rooms.get(j))) {
+                        misCount += 1;
+                    }
+                }
+                // This will only fail if more than 3 rooms aren't connected (near impossible)
+                if (misCount > 3) {
+                    redo.add(rooms.get(i));
+                }
+            }
+            for (int i = 0; i < redo.size(); i += 1) {
+                System.out.println("bad " + redo.get(i));
+            }
             System.out.println("fuck");
+        } else {
+            System.out.println("yeah");
         }
     }
 
@@ -45,12 +64,9 @@ public class Hallway2 {
             Position a = closeWalls.get(0); // start position
             Position b = closeWalls.get(1); // end position
 
-
             int dirn = checkDirection(a);
-
             int x = Math.abs(b.getX() - a.getX());
             int y = Math.abs(b.getY() - a.getY());
-
             // x == x
             if (x == 0) {
                 if (dirn == 1) {
@@ -67,8 +83,6 @@ public class Hallway2 {
             }
             addHall(temp, world);
         }
-
-
     }
 
     // 1 up
@@ -190,7 +204,8 @@ public class Hallway2 {
             }
 
             // if you try to put a wall on a floor thats a no go
-            if (world[nextWall1.getX()][nextWall1.getY()] == Tileset.FLOOR || world[nextWall2.getX()][nextWall2.getY()] == Tileset.FLOOR) {
+            if (world[nextWall1.getX()][nextWall1.getY()] == Tileset.FLOOR ||
+                    world[nextWall2.getX()][nextWall2.getY()] == Tileset.FLOOR) {
                 return null;
             }
 
@@ -217,7 +232,8 @@ public class Hallway2 {
         } else {
             nextPos = new Position(p, -1, 0);
         }
-        return inBounds(nextPos) && world[p.getX()][p.getY()] == Tileset.WALL && world[nextPos.getX()][nextPos.getY()] == Tileset.WALL;
+        return inBounds(nextPos) && world[p.getX()][p.getY()] == Tileset.WALL &&
+                world[nextPos.getX()][nextPos.getY()] == Tileset.WALL;
     }
 
     /**
@@ -233,7 +249,6 @@ public class Hallway2 {
     public HallwayObj makeHorizontalHall(Position p, int width, boolean right) {
         List<Position> floor = new ArrayList<>();
         List<Position> wall = new ArrayList<>();
-
 //        floor.add(p);
 //        wall.add(new Position(p, 0, -1));
 //        wall.add(new Position(p, 0, 1));
@@ -249,7 +264,6 @@ public class Hallway2 {
             Position nextP = new Position(p, i, 0);
             Position nextWall1 = new Position(nextP, 0, -1);
             Position nextWall2 = new Position(nextP, 0, 1);
-
             floor.add(nextP);
             wall.add(nextWall1);
             wall.add(nextWall2);
@@ -285,7 +299,8 @@ public class Hallway2 {
     }
 
     public void addHall(HallwayObj r, TETile[][] world) {
-        if (r != null && r.getWall().size() < 30) {
+        //System.out.println(r.getWall().size());
+        if (r != null) { //&& r.getWall().size() < 30) {
             obj.addComponent(r);
             halls.add(r);
             List<Position> wallPositions = r.getWall();

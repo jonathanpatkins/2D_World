@@ -231,4 +231,9 @@ public class RoomAdj {
     public boolean containsDoor(Position p) {
         return doorLocation.contains(p);
     }
+
+    @Override
+    public String toString() {
+        return "Lower left: " + lowerLeft + " , Upper right: " + upperRight;
+    }
 }
