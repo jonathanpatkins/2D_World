@@ -86,12 +86,6 @@ public class Hallway2 {
         }
     }
 
-    // 1 up
-    // 2 right
-    // 3 down
-    // 4 left
-    // 0 catch all for anything else
-
     /**
      * @Return the direction for @param a.
      * Direction is defined by where you could best generate a Hallway from-

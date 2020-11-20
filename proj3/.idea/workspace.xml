@@ -20,40 +20,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b2e36da0-76bf-43df-969d-6b4ae888dd0c" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/byow/Core/Hallway.java" beforeDir="false" afterPath="$PROJECT_DIR$/byow/Core/Hallway.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/byow/Core/Hallway2.java" beforeDir="false" afterPath="$PROJECT_DIR$/byow/Core/Hallway2.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/byow/Core/HallwayObj.java" beforeDir="false" afterPath="$PROJECT_DIR$/byow/Core/HallwayObj.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/byow/Core/JonAttemptSolMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/byow/Core/JonAttemptSolMain.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/byow/Core/MainAdjRooms.java" beforeDir="false" afterPath="$PROJECT_DIR$/byow/Core/MainAdjRooms.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/byow/Core/Pair.java" beforeDir="false" afterPath="$PROJECT_DIR$/byow/Core/Pair.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/byow/Core/Room.java" beforeDir="false" afterPath="$PROJECT_DIR$/byow/Core/Room.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/byow/Core/RoomAdj.java" beforeDir="false" afterPath="$PROJECT_DIR$/byow/Core/RoomAdj.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/byow/Core/TestHall.java" beforeDir="false" afterPath="$PROJECT_DIR$/byow/Core/TestHall.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/byow/Core/TestUnionFind.java" beforeDir="false" afterPath="$PROJECT_DIR$/byow/Core/TestUnionFind.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/byow/Core/TestingMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/byow/Core/TestingMain.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/byow/Core/UnionFind.java" beforeDir="false" afterPath="$PROJECT_DIR$/byow/Core/UnionFind.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/byow/lab12/HexWorld.java" beforeDir="false" afterPath="$PROJECT_DIR$/byow/lab12/HexWorld.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/byow/lab12/Hexagon.java" beforeDir="false" afterPath="$PROJECT_DIR$/byow/lab12/Hexagon.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/byow/lab12/Position.java" beforeDir="false" afterPath="$PROJECT_DIR$/byow/Core/Position.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/byow/lab12/Tessellation.java" beforeDir="false" afterPath="$PROJECT_DIR$/byow/lab12/Tessellation.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/proj3/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/proj3/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/proj3/byow/Core/Hallway.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/proj3/byow/Core/Hallway.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/proj3/byow/Core/Hallway2.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/proj3/byow/Core/Hallway2.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/proj3/byow/Core/HallwayObj.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/proj3/byow/Core/HallwayObj.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/proj3/byow/Core/JonAttemptSolMain.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/proj3/byow/Core/JonAttemptSolMain.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/proj3/byow/Core/MainAdjRooms.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/proj3/byow/Core/MainAdjRooms.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/proj3/byow/Core/Room.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/proj3/byow/Core/Room.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/proj3/byow/Core/RoomAdj.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/proj3/byow/Core/RoomAdj.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/proj3/byow/Core/TestHall.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/proj3/byow/Core/TestHall.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/proj3/byow/Core/TestUnionFind.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/proj3/byow/Core/TestUnionFind.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/proj3/byow/Core/TestingMain.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/proj3/byow/Core/TestingMain.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/proj3/byow/Core/UnionFind.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/proj3/byow/Core/UnionFind.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/proj3/byow/lab12/HexWorld.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/proj3/byow/lab12/HexWorld.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/proj3/byow/lab12/Hexagon.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/proj3/byow/lab12/Hexagon.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/proj3/byow/lab12/Position.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/proj3/byow/lab12/Tessellation.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/proj3/byow/lab12/Tessellation.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
