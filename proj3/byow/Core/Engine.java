@@ -51,8 +51,9 @@ public class Engine {
         // that works for many different input types.
         World world = new World(input);
         finalWorldFrame = world.generateWorld();
-        ter.initialize(Engine.WIDTH, Engine.HEIGHT);
-        ter.renderFrame(finalWorldFrame);
+        // Do not render yet- merely return the finalWorldFrame.
+        //ter.initialize(Engine.WIDTH, Engine.HEIGHT);
+        //ter.renderFrame(finalWorldFrame);
         return finalWorldFrame;
     }
 
