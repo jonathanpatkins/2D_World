@@ -1,7 +1,7 @@
 package byow.Core;
 
-import byow.TileEngine.TETile;
-import byow.TileEngine.Tileset;
+import byow.Core.TileEngine.TETile;
+import byow.Core.TileEngine.Tileset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;

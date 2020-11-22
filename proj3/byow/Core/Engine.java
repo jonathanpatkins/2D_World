@@ -1,7 +1,7 @@
 package byow.Core;
 
-import byow.TileEngine.TERenderer;
-import byow.TileEngine.TETile;
+import byow.Core.TileEngine.TERenderer;
+import byow.Core.TileEngine.TETile;
 
 /**
  * A class that generates a world using either Keyboard or String inputs.
