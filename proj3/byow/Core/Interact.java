@@ -1,8 +1,8 @@
 package byow.Core;
 
-import byow.TileEngine.TERenderer;
-import byow.TileEngine.TETile;
-import byow.TileEngine.Tileset;
+import byow.Core.TileEngine.TERenderer;
+import byow.Core.TileEngine.TETile;
+import byow.Core.TileEngine.Tileset;
 import edu.princeton.cs.introcs.StdDraw;
 
 import java.util.Random;
@@ -110,8 +110,7 @@ public class Interact {
      * @return
      */
     private static boolean isFloor(Position nextPos, TETile[][] world, TETile x) {
-        TETile s = getWorldTile(nextPos, world);
-        return s == x;
+        return getWorldTile(nextPos, world).equals(Tileset.FLOOR);
     }
 
 

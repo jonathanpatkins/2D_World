@@ -1,4 +1,6 @@
-package byow.TileEngine;
+package byow.Core.TileEngine;
+
+import byow.Core.Position;
 
 import java.awt.Color;
 
@@ -16,7 +18,7 @@ import java.awt.Color;
  * characters. This is OK.
  */
 
-public class Tileset {
+public class Tileset implements java.io.Serializable{
     public static final TETile AVATAR = new TETile('@', Color.white, Color.black, "you");
     public static final TETile WALL = new TETile('#', new Color(216, 128, 128), Color.darkGray,
             "wall");
@@ -33,6 +35,7 @@ public class Tileset {
     public static final TETile SAND = new TETile('▒', Color.yellow, Color.black, "sand");
     public static final TETile MOUNTAIN = new TETile('▲', Color.gray, Color.black, "mountain");
     public static final TETile TREE = new TETile('♠', Color.green, Color.black, "tree");
+
 }
 
 

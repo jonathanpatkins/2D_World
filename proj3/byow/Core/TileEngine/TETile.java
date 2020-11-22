@@ -1,4 +1,4 @@
-package byow.TileEngine;
+package byow.Core.TileEngine;
 
 import java.awt.Color;
 import java.util.Arrays;
@@ -21,7 +21,7 @@ import byow.Core.RandomUtils;
  * to make your TETile class mutable, if you prefer.
  */
 
-public class TETile {
+public class TETile implements java.io.Serializable{
     private final char character; // Do not rename character or the autograder will break.
     private final Color textColor;
     private final Color backgroundColor;
@@ -188,5 +188,15 @@ public class TETile {
         }
 
         return copy;
+    }
+
+
+    /**
+     * @Return whether this TETile equals TETile @param o.
+     */
+    @Override
+    public boolean equals(Object o) {
+        TETile other = (TETile) o;
+        return this.description().equals(other.description());
     }
 }
