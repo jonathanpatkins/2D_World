@@ -10,7 +10,7 @@ import java.util.Random;
  * A more intelligent Hallway that finds optimal places to generate Hallways.
  * @author Jonathan Atkins, Jake Webster 11/18/20.
  */
-public class Hallway {
+public class Hallway  implements java.io.Serializable {
     /**
      * @param world: The grid that everything is generated on.
      * @param rooms: The List of RoomAdjs that exist in @param world.

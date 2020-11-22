@@ -1,7 +1,9 @@
 package byow.Core;
 
+import byow.TileEngine.TERenderer;
 import byow.TileEngine.TETile;
 import byow.TileEngine.Tileset;
+import edu.princeton.cs.algs4.In;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +15,7 @@ import java.util.Random;
  * @author Jonathan Atkins, Jake Webster 11/20/20 - though there were many predecessors
  * to this simple-looking class that were far from simple.
  */
-public class World {
+public class World implements java.io.Serializable {
 
     /**
      * @param world: A 2D array representing the TETiles at each part of the world.
@@ -25,21 +27,27 @@ public class World {
      * @param random: The Random object used for random generation.
      */
     private TETile[][] world;
-    private TETile testTypeWall, testTypeFloor;
     private List<Room> rooms;
     private String seedString;
     private long seed;
     private Random random;
+    private TERenderer ter;
+
+    public World(TERenderer ter, TETile[][] world, Random random, Position avatar, TETile x) {
+        this.ter = ter;
+        this.world = world;
+        this.random = random;
+        interact(avatar, x);
+    }
 
     /**
      * Uses @param seedInput to set up the Random object's seed.
      * Prepares generation of the world based on the dimensions of the Engine.
      * Instantiates instance variables.
      */
-    public World(String seedInput) {
+    public World(String seedInput, TERenderer ter) {
         this.world = new TETile[Engine.WIDTH][Engine.HEIGHT];
-        this.testTypeWall = Tileset.WALL;
-        this.testTypeFloor = Tileset.FLOOR;
+        this.ter = ter;
 
         for (int x = 0; x < Engine.WIDTH; x += 1) {
             for (int y = 0; y < Engine.HEIGHT; y += 1) {
@@ -78,7 +86,7 @@ public class World {
             int y = RandomUtils.uniform(random, 0, Engine.HEIGHT);
             Position testPos = new Position(x, y);
 
-            Room testRoom = new Room(testPos, random, testTypeFloor, testTypeWall);
+            Room testRoom = new Room(testPos, random, Tileset.FLOOR, Tileset.WALL);
 
             if (inBounds(testRoom) && notIntersecting(testRoom, world)) {
                 addRoom(testRoom, world, u);
@@ -93,8 +101,23 @@ public class World {
         Hallway h = new Hallway(world, rooms, u, random);
         h.connectAllRooms();
 
+
+
         return world;
     }
+
+    public TETile[][] interact() {
+        Interact interact = new Interact(ter, world, random, Tileset.FLOOR);
+
+        return world;
+    }
+
+    public TETile[][] interact(Position avatar, TETile x) {
+        Interact interact = new Interact(ter, world, random, avatar, x);
+        return world;
+    }
+
+
 
     /**
      * Adds a Room @param r to our space (@param world) and our UnionFind @param u.
@@ -141,4 +164,6 @@ public class World {
         }
         return true;
     }
+
+
 }

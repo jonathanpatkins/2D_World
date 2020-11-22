@@ -5,7 +5,7 @@ package byow.Core;
  * @author Jonathan Atkins, Jake Webster 11/12/20.
  * @source inspired by TA implementation of Hexagon points in lab 12.
  */
-public class Position {
+public class Position  implements java.io.Serializable {
     /**
      * @param x: The x coordinate.
      * @param y: The y coordinate.

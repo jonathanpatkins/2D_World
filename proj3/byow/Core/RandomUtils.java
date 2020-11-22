@@ -13,7 +13,7 @@ import java.util.Random;
  * Adapted from https://introcs.cs.princeton.edu/java/22library/StdRandom.java.html
 *
  */
-public class RandomUtils {
+public class RandomUtils  implements java.io.Serializable {
 
     /**
      * Returns a random real number uniformly in [0, 1).

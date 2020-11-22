@@ -10,7 +10,7 @@ import java.util.Random;
  * A class that generates rooms and keeps track of key elements of the Room.
  * @author Jonathan Atkins, Jake Webster 11/15/20.
  */
-public class Room {
+public class Room  implements java.io.Serializable {
     /**
      * @param upperLeft: The upper left position just outside the room.
      * @param upperRight: The upper right position just outside the room.

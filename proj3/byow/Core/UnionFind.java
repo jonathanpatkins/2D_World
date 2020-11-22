@@ -8,7 +8,7 @@ import java.util.List;
  * @author Jonathan Atkins, Jake Webster 11/17/20
  * @source Lab 6.
  */
-public class UnionFind {
+public class UnionFind  implements java.io.Serializable {
     /**
      * Takes in nothing. You can then add component objects through addComponent.
      * With those components you can connect them and see if they are all connected.

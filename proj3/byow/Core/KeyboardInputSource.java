@@ -6,7 +6,7 @@ package byow.Core;
 import edu.princeton.cs.introcs.StdDraw;
 
 public class KeyboardInputSource implements InputSource {
-    private static final boolean PRINT_TYPED_KEYS = false;
+    private static final boolean PRINT_TYPED_KEYS = true;
 
     public char getNextKey() {
         while (true) {

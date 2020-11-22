@@ -17,18 +17,18 @@ import java.util.Random;
  */
 public class TestInteractiveKeyboard {
 
-    private static final int WIDTH = 80;
-    private static final int HEIGHT = 30;
 
     public static void main(String[] args) {
-        // initialize the tile rendering engine with a window of size WIDTH x HEIGHT
+
+
+        // initialize the tile rendering engine with a window of size Engine.WIDTH x Engine.HEIGHT
         TERenderer ter = new TERenderer();
-        ter.initialize(WIDTH, HEIGHT);
+        StartWindow startWindow = new StartWindow(ter);
 
         // initialize tiles
-        TETile[][] world = new TETile[WIDTH][HEIGHT];
-        for (int x = 0; x < WIDTH; x += 1) {
-            for (int y = 0; y < HEIGHT; y += 1) {
+        TETile[][] world = new TETile[Engine.WIDTH][Engine.HEIGHT];
+        for (int x = 0; x < Engine.WIDTH; x += 1) {
+            for (int y = 0; y < Engine.HEIGHT; y += 1) {
                 world[x][y] = Tileset.NOTHING;
             }
         }
@@ -37,7 +37,8 @@ public class TestInteractiveKeyboard {
         List<Room> rooms = new ArrayList<>();
 
         // test seed
-        String testSeed = "N78979234S";
+        String seed = startWindow.start();
+        String testSeed = seed;
         TETile testTypeWall = Tileset.WALL;
         TETile testTypeFloor = Tileset.FLOOR;
 
@@ -57,8 +58,8 @@ public class TestInteractiveKeyboard {
 
         // If it fails to generate a room 30 times in a row, it stops trying.
         while (fails < 30 && counter < numOfRoomsDesired) {
-            int x = RandomUtils.uniform(random, 0, WIDTH);
-            int y = RandomUtils.uniform(random, 0, HEIGHT);
+            int x = RandomUtils.uniform(random, 0, Engine.WIDTH);
+            int y = RandomUtils.uniform(random, 0, Engine.HEIGHT);
             Position testPos = new Position(x, y);
 
             Room testRoom = new Room(testPos, random, testTypeFloor, testTypeWall);
@@ -108,8 +109,8 @@ public class TestInteractiveKeyboard {
 
     private static Position generateStartingPos(TETile[][] world, Random r) {
         while (true) {
-            int x = RandomUtils.uniform(r, 0, WIDTH);
-            int y = RandomUtils.uniform(r, 0, HEIGHT);
+            int x = RandomUtils.uniform(r, 0, Engine.WIDTH);
+            int y = RandomUtils.uniform(r, 0, Engine.HEIGHT);
             Position temp = new Position(x, y);
             if (isFloor(temp, world)) {
                 return temp;
@@ -142,7 +143,7 @@ public class TestInteractiveKeyboard {
         for (Position i : wall) {
             int x = i.getX();
             int y = i.getY();
-            if (x >= WIDTH || y >= HEIGHT) {
+            if (x >= Engine.WIDTH || y >= Engine.HEIGHT) {
                 return false;
             }
         }

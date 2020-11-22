@@ -6,7 +6,7 @@ import java.util.List;
  * A class that can be used to help generate hallways.
  * @author Jonathan Atkins, Jake Webster 11/17/20.
  */
-public class HallwayObj {
+public class HallwayObj  implements java.io.Serializable {
 
     /**
      * @param floor: The floor Positions of a Hallway.

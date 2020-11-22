@@ -19,6 +19,35 @@ public class Engine {
      * including inputs from the main menu.
      */
     public void interactWithKeyboard() {
+        StartWindow startWindow = new StartWindow(ter);
+        String seed = startWindow.start();
+        char[] seedArray = seed.toCharArray();
+
+        /**
+         * When we save the game what elements should we keep track of
+         *  - the window state
+         *  - the position of the avatar
+         */
+
+        for (char c : seedArray) {
+            if (c == 'N') {
+                interactWithInputString(seed);
+                break;
+            } else if (c == 'L') {
+                // do something
+                // fetch save
+                LoadWorld loadWorld = new LoadWorld();
+                break;
+            } else if (c == ':') {
+                // do something - nothing?
+            } else if (c == 'Q') {
+                // save before quiting
+
+                System.exit(0);
+            } else if (c == 'S') {
+                // do something
+            }
+        }
     }
 
     /**
@@ -49,11 +78,12 @@ public class Engine {
         //
         // See proj3.byow.InputDemo for a demo of how you can make a nice clean interface
         // that works for many different input types.
-        World world = new World(input);
+        World world = new World(input, ter);
         finalWorldFrame = world.generateWorld();
+        finalWorldFrame = world.interact();
         // Do not render yet- merely return the finalWorldFrame.
-        //ter.initialize(Engine.WIDTH, Engine.HEIGHT);
-        //ter.renderFrame(finalWorldFrame);
+        // ter.initialize(Engine.WIDTH, Engine.HEIGHT);
+        // ter.renderFrame(finalWorldFrame);
         return finalWorldFrame;
     }
 
