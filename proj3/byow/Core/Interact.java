@@ -9,22 +9,18 @@ import java.util.Random;
 
 public class Interact {
 
-    // floor tile type
-    TETile x;
-
     // now you can take input from keyboard to interact with world
-    public Interact(TERenderer ter, TETile[][] world, Random random, TETile x) {
-        this(ter, world, random, null, x);
+    public Interact(TERenderer ter, TETile[][] world, Random random) {
+        this(ter, world, random, null);
     }
 
     // now you can take input from keyboard to interact with world
-    public Interact(TERenderer ter, TETile[][] world, Random random, Position p, TETile x) {
+    public Interact(TERenderer ter, TETile[][] world, Random random, Position p) {
         // Starting position of the avatar in a valid location
-        this.x = x;
 
         Position currPos = p;
         if (p == null) {
-            currPos = generateStartingPos(world, random, x);
+            currPos = generateStartingPos(world, random);
         }
 
 
@@ -49,9 +45,9 @@ public class Interact {
             } else if (c == ':') {
                 getReadyForQuit = true;
             } else if (c == 'Q' && getReadyForQuit) {
-                SaveWorld saveWorld = new SaveWorld(ter, world, currPos, random, x);
+                SaveWorld saveWorld = new SaveWorld(ter, world, currPos, random);
             }
-            if (nextPos != null && Engine.inBounds(nextPos) && isFloor(nextPos, world, x)) {
+            if (nextPos != null && Engine.inBounds(nextPos) && isFloor(nextPos, world)) {
                 currPos = nextPos;
                 drawFrame(ter, world, currPos);
             }
@@ -64,15 +60,14 @@ public class Interact {
      * If no starting pos of the avatar is given, generate one
      * @param world
      * @param r
-     * @param floor
      * @return
      */
-    private static Position generateStartingPos(TETile[][] world, Random r, TETile floor) {
+    private static Position generateStartingPos(TETile[][] world, Random r) {
         while (true) {
             int x = RandomUtils.uniform(r, 0, Engine.WIDTH);
             int y = RandomUtils.uniform(r, 0, Engine.HEIGHT);
             Position temp = new Position(x, y);
-            if (isFloor(temp, world, floor)) {
+            if (isFloor(temp, world)) {
                 return temp;
             }
         }
@@ -109,7 +104,7 @@ public class Interact {
      * @param world
      * @return
      */
-    private static boolean isFloor(Position nextPos, TETile[][] world, TETile x) {
+    private static boolean isFloor(Position nextPos, TETile[][] world) {
         return getWorldTile(nextPos, world).equals(Tileset.FLOOR);
     }
 

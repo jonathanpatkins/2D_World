@@ -19,7 +19,6 @@ public class LoadWorld implements Serializable{
     Position avatar;
     Random random;
     TERenderer ter;
-    TETile x;
 
     public LoadWorld() {
 
@@ -35,7 +34,6 @@ public class LoadWorld implements Serializable{
             this.world = (TETile[][]) in.readObject();
             this.avatar = (Position) in.readObject();
             this.random = (Random) in.readObject();
-            this.x = (TETile) in.readObject();
 
             // once done using a file, always close
             file.close();
@@ -43,7 +41,7 @@ public class LoadWorld implements Serializable{
 
             // reload the world
             ter.initialize(Engine.WIDTH, Engine.HEIGHT);
-            World loadedWorld = new World(ter, world, random, avatar, x);
+            World loadedWorld = new World(ter, world, random, avatar);
 
         } catch (IOException ex) {
             System.out.println("IOException is caught");

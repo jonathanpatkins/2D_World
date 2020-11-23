@@ -32,11 +32,11 @@ public class World implements java.io.Serializable {
     private Random random;
     private TERenderer ter;
 
-    public World(TERenderer ter, TETile[][] world, Random random, Position avatar, TETile x) {
+    public World(TERenderer ter, TETile[][] world, Random random, Position avatar) {
         this.ter = ter;
         this.world = world;
         this.random = random;
-        interact(avatar, x);
+        interact(avatar);
     }
 
     /**
@@ -106,13 +106,13 @@ public class World implements java.io.Serializable {
     }
 
     public TETile[][] interact() {
-        Interact interact = new Interact(ter, world, random, Tileset.FLOOR);
+        Interact interact = new Interact(ter, world, random);
 
         return world;
     }
 
-    public TETile[][] interact(Position avatar, TETile x) {
-        Interact interact = new Interact(ter, world, random, avatar, x);
+    public TETile[][] interact(Position avatar) {
+        Interact interact = new Interact(ter, world, random, avatar);
         return world;
     }
 
