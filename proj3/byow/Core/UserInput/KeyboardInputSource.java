@@ -16,6 +16,9 @@ public class KeyboardInputSource implements InputSource {
                     System.out.print(c);
                 }
                 return c;
+            } else {
+                StdDraw.pause(50);
+                return '0';
             }
         }
     }

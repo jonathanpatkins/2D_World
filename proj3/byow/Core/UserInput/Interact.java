@@ -9,6 +9,7 @@ import byow.Core.Utils.RandomUtils;
 import byow.Core.Utils.SaveWorld;
 import edu.princeton.cs.introcs.StdDraw;
 
+import java.awt.*;
 import java.util.Random;
 
 public class Interact {
@@ -61,8 +62,10 @@ public class Interact {
                     SaveWorld saveWorld = new SaveWorld(ter, world, avatar, random);
                     break;
                 }
-                if (nextPos != null && Engine.inBounds(nextPos) && isFloor(nextPos, world)) {
-                    avatar = nextPos;
+                if ((nextPos != null && Engine.inBounds(nextPos) && isFloor(nextPos, world)) || c == '0') {
+                    if (c != '0') {
+                        avatar = nextPos;
+                    }
                     drawFrame(ter, world, avatar);
                 }
 
@@ -149,6 +152,25 @@ public class Interact {
             world[i.getX()][i.getY()] = Tileset.AVATAR;
             ter.renderFrame(world);
             world[i.getX()][i.getY()] = orgTile;
+
+            // basic structure for hud
+            // it should be this in some sort of continuous loop
+            int x = (int) StdDraw.mouseX();
+            int y = (int) StdDraw.mouseY();
+            Position nextMouse = new Position(x, y);
+            if (Engine.inBounds(nextMouse)) {
+                TETile mouseTile = getWorldTile(nextMouse, world);
+                StringBuilder temp = new StringBuilder();
+                temp.append(mouseTile.description());
+                temp.append(" (");
+                temp.append(x);
+                temp.append(", ");
+                temp.append(y);
+                temp.append(")");
+                StdDraw.setPenColor(Color.GREEN);
+                StdDraw.text(4, 1, temp.toString());
+                StdDraw.show();
+            }
         }
     }
 
