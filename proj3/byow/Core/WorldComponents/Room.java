@@ -1,6 +1,8 @@
-package byow.Core;
+package byow.Core.WorldComponents;
 
 import byow.Core.TileEngine.TETile;
+import byow.Core.Utils.Position;
+import byow.Core.Utils.RandomUtils;
 
 import java.util.ArrayList;
 import java.util.List;

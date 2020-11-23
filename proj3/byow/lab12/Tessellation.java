@@ -1,8 +1,8 @@
 package byow.lab12;
-import byow.Core.Position;
-import byow.Core.RandomUtils;
-import byow.TileEngine.TETile;
-import byow.TileEngine.Tileset;
+import byow.Core.Utils.Position;
+import byow.Core.Utils.RandomUtils;
+import byow.Core.TileEngine.TETile;
+import byow.Core.TileEngine.Tileset;
 
 import java.util.HashMap;
 import java.util.List;

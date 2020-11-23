@@ -1,8 +1,12 @@
-package byow.Core;
+package byow.Core.UserInput;
 
+import byow.Core.*;
 import byow.Core.TileEngine.TERenderer;
 import byow.Core.TileEngine.TETile;
 import byow.Core.TileEngine.Tileset;
+import byow.Core.Utils.Position;
+import byow.Core.Utils.RandomUtils;
+import byow.Core.Utils.SaveWorld;
 import edu.princeton.cs.introcs.StdDraw;
 
 import java.util.Random;

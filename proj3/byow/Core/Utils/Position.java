@@ -1,4 +1,4 @@
-package byow.Core;
+package byow.Core.Utils;
 
 /**
  * A useful class that can be used for many calculations in generation.

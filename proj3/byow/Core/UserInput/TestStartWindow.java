@@ -1,4 +1,4 @@
-package byow.Core;
+package byow.Core.UserInput;
 
 import byow.InputDemo.InputSource;
 import byow.InputDemo.KeyboardInputSource;

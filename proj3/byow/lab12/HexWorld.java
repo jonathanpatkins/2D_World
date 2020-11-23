@@ -1,10 +1,10 @@
 
 package byow.lab12;
 
-import byow.Core.Position;
-import byow.TileEngine.TERenderer;
-import byow.TileEngine.TETile;
-import byow.TileEngine.Tileset;
+import byow.Core.Utils.Position;
+import byow.Core.TileEngine.TERenderer;
+import byow.Core.TileEngine.TETile;
+import byow.Core.TileEngine.Tileset;
 
 import java.util.List;
 

@@ -1,8 +1,14 @@
-package byow.Core;
+package byow.Core.UserInput;
 
+import byow.Core.Engine;
 import byow.Core.TileEngine.TERenderer;
 import byow.Core.TileEngine.TETile;
 import byow.Core.TileEngine.Tileset;
+import byow.Core.Utils.UnionFind;
+import byow.Core.Utils.Position;
+import byow.Core.Utils.RandomUtils;
+import byow.Core.WorldComponents.Hallway;
+import byow.Core.WorldComponents.Room;
 import edu.princeton.cs.introcs.StdDraw;
 
 import java.util.ArrayList;

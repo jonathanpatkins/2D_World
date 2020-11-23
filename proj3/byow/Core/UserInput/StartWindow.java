@@ -1,5 +1,6 @@
-package byow.Core;
+package byow.Core.UserInput;
 
+import byow.Core.Engine;
 import byow.InputDemo.InputSource;
 import byow.InputDemo.KeyboardInputSource;
 import byow.Core.TileEngine.TERenderer;

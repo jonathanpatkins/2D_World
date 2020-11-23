@@ -2,6 +2,10 @@ package byow.Core;
 
 import byow.Core.TileEngine.TERenderer;
 import byow.Core.TileEngine.TETile;
+import byow.Core.UserInput.StartWindow;
+import byow.Core.Utils.LoadWorld;
+import byow.Core.Utils.Position;
+import byow.Core.WorldComponents.World;
 
 /**
  * A class that generates a world using either Keyboard or String inputs.

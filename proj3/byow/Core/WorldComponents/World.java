@@ -1,8 +1,15 @@
-package byow.Core;
+package byow.Core.WorldComponents;
 
+import byow.Core.Engine;
 import byow.Core.TileEngine.TERenderer;
 import byow.Core.TileEngine.TETile;
 import byow.Core.TileEngine.Tileset;
+import byow.Core.UserInput.Interact;
+import byow.Core.Utils.Position;
+import byow.Core.Utils.RandomUtils;
+import byow.Core.Utils.UnionFind;
+import byow.Core.WorldComponents.Hallway;
+import byow.Core.WorldComponents.Room;
 
 import java.util.ArrayList;
 import java.util.List;

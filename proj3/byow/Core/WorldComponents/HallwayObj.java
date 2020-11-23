@@ -1,4 +1,6 @@
-package byow.Core;
+package byow.Core.WorldComponents;
+
+import byow.Core.Utils.Position;
 
 import java.util.List;
 

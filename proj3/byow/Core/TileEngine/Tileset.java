@@ -1,7 +1,5 @@
 package byow.Core.TileEngine;
 
-import byow.Core.Position;
-
 import java.awt.Color;
 
 /**
