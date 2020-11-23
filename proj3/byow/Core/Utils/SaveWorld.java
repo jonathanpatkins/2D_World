@@ -32,7 +32,7 @@ public class SaveWorld implements Serializable{
 
 
         // Use your own path file to the Core directory - this one is specific to my own computer
-        String filename = "C:\\Users\\Jonathan\\cs61b\\fa20-proj3-g523 - Copy\\proj3\\byow\\Core\\World.txt";
+        String filename = "C:\\Users\\Jonathan\\cs61b\\fa20-proj3-g523 - Copy (3)\\proj3\\byow\\Core\\World.txt";
         File myObj = new File(filename);
 
         try {
@@ -50,8 +50,7 @@ public class SaveWorld implements Serializable{
             out.close();
             file.close();
 
-            // once done with all of that quit the program
-            System.exit(0);
+
         }
         catch(IOException ex) {
             System.out.println("IOException is caught");

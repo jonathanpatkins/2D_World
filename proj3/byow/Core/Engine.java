@@ -41,6 +41,7 @@ public class Engine {
                 // do something
                 // fetch save
                 LoadWorld loadWorld = new LoadWorld();
+                loadWorld.load();
                 break;
             } else if (c == ':') {
                 // do something - nothing?
@@ -52,6 +53,7 @@ public class Engine {
                 // do something
             }
         }
+
     }
 
     /**
@@ -83,8 +85,7 @@ public class Engine {
         // See proj3.byow.InputDemo for a demo of how you can make a nice clean interface
         // that works for many different input types.
         World world = new World(input, ter);
-        finalWorldFrame = world.generateWorld();
-        finalWorldFrame = world.interact();
+        finalWorldFrame = world.getWorld();
         // Do not render yet- merely return the finalWorldFrame.
         // ter.initialize(Engine.WIDTH, Engine.HEIGHT);
         // ter.renderFrame(finalWorldFrame);

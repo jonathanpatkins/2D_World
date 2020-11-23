@@ -24,7 +24,7 @@ public class LoadWorld implements Serializable{
 
     public LoadWorld() {
 
-        String filename = "C:\\Users\\Jonathan\\cs61b\\fa20-proj3-g523 - Copy\\proj3\\byow\\Core\\World.txt";
+        String filename = "C:\\Users\\Jonathan\\cs61b\\fa20-proj3-g523 - Copy (3)\\proj3\\byow\\Core\\World.txt";
 
         try {
             // No idea what this is for, just patterned matched stuff
@@ -41,9 +41,7 @@ public class LoadWorld implements Serializable{
             file.close();
             in.close();
 
-            // reload the world
-            ter.initialize(Engine.WIDTH, Engine.HEIGHT);
-            World loadedWorld = new World(ter, world, random, avatar);
+
 
         } catch (IOException ex) {
             System.out.println("IOException is caught");
@@ -51,5 +49,27 @@ public class LoadWorld implements Serializable{
         catch (ClassNotFoundException ex) {
             System.out.println("ClassNotFoundException is caught");
         }
+    }
+
+    public void load() {
+        // reload the world
+        ter.initialize(Engine.WIDTH, Engine.HEIGHT);
+        World loadedWorld = new World(ter, world, random, avatar);
+    }
+
+    public TETile[][] getWorld() {
+        return world;
+    }
+
+    public Position getAvatar() {
+        return avatar;
+    }
+
+    public Random getRandom() {
+        return random;
+    }
+
+    public TERenderer getTer() {
+        return ter;
     }
 }

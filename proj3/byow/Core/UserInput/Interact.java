@@ -13,51 +13,101 @@ import java.util.Random;
 
 public class Interact {
 
-    // now you can take input from keyboard to interact with world
-    public Interact(TERenderer ter, TETile[][] world, Random random) {
-        this(ter, world, random, null);
-    }
+    TERenderer ter;
+    TETile[][] world;
+    Random random;
+    Position avatar;
+    String userInput;
 
     // now you can take input from keyboard to interact with world
-    public Interact(TERenderer ter, TETile[][] world, Random random, Position p) {
+    public Interact(TERenderer ter, TETile[][] world, Random random, Position p, String userInput) {
         // Starting position of the avatar in a valid location
 
-        Position currPos = p;
+        this.ter = ter;
+        this.world = world;
+        this.random = random;
+        this.avatar = p;
+        this.userInput = userInput;
+
         if (p == null) {
-            currPos = generateStartingPos(world, random);
+            avatar = generateStartingPos(world, random);
         }
 
+        // returns if the program should quit or not
+        if (!doUserInput(userInput)) {
+            ter.initialize(Engine.WIDTH, Engine.HEIGHT);
 
-        // create input source and draw first frame - before the avatar has moved
-        InputSource inputSource = new KeyboardInputSource();
-        drawFrame(ter, world, currPos);
+            // create input source and draw first frame - before the avatar has moved
+            InputSource inputSource = new KeyboardInputSource();
+            drawFrame(ter, world, avatar);
 
-        boolean getReadyForQuit = false;
+            boolean getReadyForQuit = false;
 
-        // change frame due to keyboard input
-        while (inputSource.possibleNextInput()) {
-            Position nextPos = null;
-            char c = inputSource.getNextKey();
-            if (c == 'W') {
-                nextPos = new Position(currPos, 0 , 1);
-            } else if (c == 'A') {
-                nextPos = new Position(currPos, -1 , 0);
-            } else if (c == 'S') {
-                nextPos = new Position(currPos, 0, -1);
-            } else if (c == 'D') {
-                nextPos = new Position(currPos, 1 , 0);
-            } else if (c == ':') {
-                getReadyForQuit = true;
-            } else if (c == 'Q' && getReadyForQuit) {
-                SaveWorld saveWorld = new SaveWorld(ter, world, currPos, random);
+            // change frame due to keyboard input
+            while (inputSource.possibleNextInput()) {
+                Position nextPos = null;
+                char c = inputSource.getNextKey();
+                if (c == 'W') {
+                    nextPos = new Position(avatar, 0, 1);
+                } else if (c == 'A') {
+                    nextPos = new Position(avatar, -1, 0);
+                } else if (c == 'S') {
+                    nextPos = new Position(avatar, 0, -1);
+                } else if (c == 'D') {
+                    nextPos = new Position(avatar, 1, 0);
+                } else if (c == ':') {
+                    getReadyForQuit = true;
+                } else if (c == 'Q' && getReadyForQuit) {
+                    SaveWorld saveWorld = new SaveWorld(ter, world, avatar, random);
+                    break;
+                }
+                if (nextPos != null && Engine.inBounds(nextPos) && isFloor(nextPos, world)) {
+                    avatar = nextPos;
+                    drawFrame(ter, world, avatar);
+                }
+
+
             }
-            if (nextPos != null && Engine.inBounds(nextPos) && isFloor(nextPos, world)) {
-                currPos = nextPos;
-                drawFrame(ter, world, currPos);
-            }
-
-
         }
+    }
+
+    // for now lets go off the assumption that you are passed an unparsed string
+    private boolean doUserInput(String userInput) {
+        boolean quit = false;
+        if (userInput != null) {
+            char[] charArray = userInput.toCharArray();
+            Position nextPos = avatar;
+            boolean getReadyForQuit = false;
+            int sCounter = 1;
+
+            if (userInput.charAt(0) == 'N') {
+                sCounter = 0;
+            }
+
+
+            for (char c : charArray) {
+                if (c == 'W') {
+                    nextPos = new Position(avatar, 0, 1);
+                } else if (c == 'A') {
+                    nextPos = new Position(avatar, -1, 0);
+                } else if (c == 'S' && sCounter > 0) {
+                    nextPos = new Position(avatar, 0, -1);
+                } else if (c == 'S') {
+                    sCounter += 1;
+                } else if (c == 'D') {
+                    nextPos = new Position(avatar, 1, 0);
+                } else if (c == ':') {
+                    getReadyForQuit = true;
+                } else if (c == 'Q' && getReadyForQuit) {
+                    new SaveWorld(ter, world, avatar, random);
+                    quit = true;
+                }
+                if (nextPos != null && Engine.inBounds(nextPos) && isFloor(nextPos, world)) {
+                    avatar = nextPos;
+                }
+            }
+        }
+        return quit;
     }
 
     /**

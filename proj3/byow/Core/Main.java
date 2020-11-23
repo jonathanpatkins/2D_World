@@ -14,9 +14,15 @@ public class Main {
             Engine engine = new Engine();
             engine.interactWithInputString(args[0]);
             System.out.println(engine.toString());
+
+            // once done with all of that quit the program
+            System.exit(0);
         } else {
             Engine engine = new Engine();
             engine.interactWithKeyboard();
+
+            // once done with all of that quit the program
+            System.exit(0);
         }
     }
 }

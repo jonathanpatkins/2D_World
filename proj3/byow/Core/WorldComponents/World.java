@@ -5,6 +5,7 @@ import byow.Core.TileEngine.TERenderer;
 import byow.Core.TileEngine.TETile;
 import byow.Core.TileEngine.Tileset;
 import byow.Core.UserInput.Interact;
+import byow.Core.Utils.LoadWorld;
 import byow.Core.Utils.Position;
 import byow.Core.Utils.RandomUtils;
 import byow.Core.Utils.UnionFind;
@@ -38,12 +39,14 @@ public class World implements java.io.Serializable {
     private long seed;
     private Random random;
     private TERenderer ter;
+    private Position avatar;
 
     public World(TERenderer ter, TETile[][] world, Random random, Position avatar) {
         this.ter = ter;
         this.world = world;
         this.random = random;
-        interact(avatar);
+        this.avatar = avatar;
+        interact(avatar, null);
     }
 
     /**
@@ -52,20 +55,57 @@ public class World implements java.io.Serializable {
      * Instantiates instance variables.
      */
     public World(String seedInput, TERenderer ter) {
-        this.world = new TETile[Engine.WIDTH][Engine.HEIGHT];
-        this.ter = ter;
+        /**
+         * This is where we will parse things
+         * they could recieve N*S****
+         * or N***S
+         * or L:Q
+         * or L****
+         * or L****:Q
+         * or L
+         */
+        char first = seedInput.charAt(0);
+        if (first == 'L') {
+            LoadWorld l = new LoadWorld();
+            this.ter = l.getTer();
+            this.random = l.getRandom();
+            this.world = l.getWorld();
+            this.avatar = l.getAvatar();
+            interact(avatar, seedInput);
+        } else {
+            this.world = new TETile[Engine.WIDTH][Engine.HEIGHT];
+            this.ter = ter;
 
-        for (int x = 0; x < Engine.WIDTH; x += 1) {
-            for (int y = 0; y < Engine.HEIGHT; y += 1) {
-                world[x][y] = Tileset.NOTHING;
+            for (int x = 0; x < Engine.WIDTH; x += 1) {
+                for (int y = 0; y < Engine.HEIGHT; y += 1) {
+                    world[x][y] = Tileset.NOTHING;
+                }
             }
-        }
 
-        this.rooms = new ArrayList<>();
-        this.seedString = seedInput;
-        String numString = seedString.substring(1, seedString.length() - 1);
-        this.seed = Long.parseLong(numString);
-        this.random = new Random(seed);
+            this.rooms = new ArrayList<>();
+            this.seedString = seedInput;
+
+
+
+            String substring = seedString.substring(1, seedString.length());
+            char[] seedArray = substring.toCharArray();
+            String numString = "";
+            for (char c : seedArray) {
+                if (c == 'S') {
+                    break;
+                } else {
+                    numString += c;
+                }
+            }
+
+
+
+            this.seed = Long.parseLong(numString);
+            this.random = new Random(seed);
+
+            this.world = generateWorld();
+            this.world = interact(null, seedInput);
+        }
     }
 
     /**
@@ -112,14 +152,9 @@ public class World implements java.io.Serializable {
         return world;
     }
 
-    public TETile[][] interact() {
-        Interact interact = new Interact(ter, world, random);
 
-        return world;
-    }
-
-    public TETile[][] interact(Position avatar) {
-        Interact interact = new Interact(ter, world, random, avatar);
+    public TETile[][] interact(Position avatar, String userInput) {
+        Interact interact = new Interact(ter, world, random, avatar, userInput);
         return world;
     }
 
@@ -171,5 +206,7 @@ public class World implements java.io.Serializable {
         return true;
     }
 
-
+    public TETile[][] getWorld() {
+        return world;
+    }
 }
