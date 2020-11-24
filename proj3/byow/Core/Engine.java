@@ -24,7 +24,7 @@ public class Engine {
      */
     public void interactWithKeyboard() {
         StartWindow startWindow = new StartWindow(ter);
-        String seed = startWindow.start();
+        String seed = startWindow.start().toUpperCase();
         char[] seedArray = seed.toCharArray();
 
         /**

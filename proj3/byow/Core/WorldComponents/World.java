@@ -103,7 +103,7 @@ public class World implements java.io.Serializable {
             this.random = new Random(seed);
 
             this.world = generateWorld();
-            this.world = interact(null, seedInput);
+            this.world = interact(null, seedString);
         }
     }
 
