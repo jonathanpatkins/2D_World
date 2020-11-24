@@ -68,6 +68,8 @@ public class Interact {
                 } else if (c == 'Q' && getReadyForQuit) {
                     SaveWorld saveWorld = new SaveWorld(ter, world, avatar, random, floorType, wallType);
                     break;
+                } else if (c == '0') {
+                    makeMove(nextPos, c);
                 }
             }
         }
