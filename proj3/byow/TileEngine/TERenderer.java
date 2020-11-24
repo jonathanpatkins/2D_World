@@ -1,4 +1,4 @@
-package byow.Core.TileEngine;
+package byow.TileEngine;
 
 import edu.princeton.cs.introcs.StdDraw;
 

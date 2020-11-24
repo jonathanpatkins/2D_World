@@ -1,4 +1,4 @@
-package byow.Core.TileEngine;
+package byow.TileEngine;
 
 import java.awt.Color;
 
