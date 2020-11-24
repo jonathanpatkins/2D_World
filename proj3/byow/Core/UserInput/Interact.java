@@ -159,7 +159,12 @@ public class Interact {
             int y = (int) StdDraw.mouseY();
             Position nextMouse = new Position(x, y);
             if (Engine.inBounds(nextMouse)) {
-                TETile mouseTile = getWorldTile(nextMouse, world);
+                TETile mouseTile;
+                if (nextMouse.equals(i)) {
+                    mouseTile = Tileset.AVATAR;
+                } else {
+                    mouseTile = getWorldTile(nextMouse, world);
+                }
                 StringBuilder temp = new StringBuilder();
                 temp.append(mouseTile.description());
                 temp.append(" (");

@@ -24,7 +24,7 @@ public class LoadWorld implements Serializable{
 
     public LoadWorld() {
 
-        String filename = "C:\\Users\\Jonathan\\cs61b\\fa20-proj3-g523 - Copy (3)\\proj3\\byow\\Core\\World.txt";
+        String filename = "C:\\Users\\Jonathan\\cs61b\\fa20-proj3-g523\\proj3\\byow\\Core\\World.txt";
 
         try {
             // No idea what this is for, just patterned matched stuff

@@ -81,7 +81,7 @@ public class World implements java.io.Serializable {
             }
 
             this.rooms = new ArrayList<>();
-            this.seedString = seedInput;
+            this.seedString = seedInput.toUpperCase();
 
 
 
@@ -95,6 +95,7 @@ public class World implements java.io.Serializable {
                     numString += c;
                 }
             }
+            // n7313251667695476404sasdw
 
 
 
