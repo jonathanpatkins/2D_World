@@ -24,7 +24,9 @@ public class LoadWorld implements Serializable{
     TETile floorType, wallType;
 
     public LoadWorld() {
-        String filename = "C:\\Users\\Jonathan\\cs61b\\fa20-proj3-g523\\proj3\\byow\\Core\\World.txt";
+
+        // file
+        String filename = "World.txt";
 
         try {
             // No idea what this is for, just patterned matched stuff

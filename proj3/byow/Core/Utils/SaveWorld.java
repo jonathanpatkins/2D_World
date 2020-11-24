@@ -33,8 +33,8 @@ public class SaveWorld implements Serializable{
 
 
 
-        // Use your own path file to the Core directory - this one is specific to my own computer
-        String filename = "C:\\Users\\Jonathan\\cs61b\\fa20-proj3-g523\\proj3\\byow\\Core\\World.txt";
+        // create file
+        String filename = "World.txt";
         File myObj = new File(filename);
 
         try {
