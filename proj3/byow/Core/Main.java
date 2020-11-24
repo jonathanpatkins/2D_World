@@ -20,7 +20,6 @@ public class Main {
         } else {
             Engine engine = new Engine();
             engine.interactWithKeyboard();
-
             // once done with all of that quit the program
             System.exit(0);
         }

@@ -19,9 +19,11 @@ public class Interact {
     Random random;
     Position avatar;
     String userInput;
+    private TETile floorType, wallType;
 
     // now you can take input from keyboard to interact with world
-    public Interact(TERenderer ter, TETile[][] world, Random random, Position p, String userInput) {
+    public Interact(TERenderer ter, TETile[][] world, Random random, Position p, String userInput,
+                    TETile f, TETile w) {
         // Starting position of the avatar in a valid location
 
         this.ter = ter;
@@ -29,7 +31,8 @@ public class Interact {
         this.random = random;
         this.avatar = p;
         this.userInput = userInput;
-
+        this.floorType = f;
+        this.wallType = w;
         if (p == null) {
             avatar = generateStartingPos(world, random);
         }
@@ -50,30 +53,33 @@ public class Interact {
                 char c = inputSource.getNextKey();
                 if (c == 'W') {
                     nextPos = new Position(avatar, 0, 1);
+                    makeMove(nextPos, c);
                 } else if (c == 'A') {
                     nextPos = new Position(avatar, -1, 0);
+                    makeMove(nextPos, c);
                 } else if (c == 'S') {
                     nextPos = new Position(avatar, 0, -1);
+                    makeMove(nextPos, c);
                 } else if (c == 'D') {
                     nextPos = new Position(avatar, 1, 0);
+                    makeMove(nextPos, c);
                 } else if (c == ':') {
                     getReadyForQuit = true;
                 } else if (c == 'Q' && getReadyForQuit) {
-                    SaveWorld saveWorld = new SaveWorld(ter, world, avatar, random);
+                    SaveWorld saveWorld = new SaveWorld(ter, world, avatar, random, floorType, wallType);
                     break;
                 }
-                if ((nextPos != null && Engine.inBounds(nextPos) && isFloor(nextPos, world)) || c == '0') {
-                    if (c != '0') {
-                        avatar = nextPos;
-                    }
-                    drawFrame(ter, world, avatar);
-                }
-
-
             }
         }
     }
-
+    private void makeMove(Position next, char c) {
+        if ((next != null && Engine.inBounds(next) && isFloor(next, world)) || c == '0') {
+            if (c != '0') {
+                avatar = next;
+            }
+            drawFrame(ter, world, avatar);
+        }
+    }
     // for now lets go off the assumption that you are passed an unparsed string
     private boolean doUserInput(String userInput) {
         boolean quit = false;
@@ -86,7 +92,6 @@ public class Interact {
             if (userInput.charAt(0) == 'N') {
                 sCounter = 0;
             }
-
 
             for (char c : charArray) {
                 if (c == 'W') {
@@ -102,7 +107,7 @@ public class Interact {
                 } else if (c == ':') {
                     getReadyForQuit = true;
                 } else if (c == 'Q' && getReadyForQuit) {
-                    new SaveWorld(ter, world, avatar, random);
+                    new SaveWorld(ter, world, avatar, random, floorType, wallType);
                     quit = true;
                 }
                 if (nextPos != null && Engine.inBounds(nextPos) && isFloor(nextPos, world)) {
@@ -119,7 +124,7 @@ public class Interact {
      * @param r
      * @return
      */
-    private static Position generateStartingPos(TETile[][] world, Random r) {
+    private Position generateStartingPos(TETile[][] world, Random r) {
         while (true) {
             int x = RandomUtils.uniform(r, 0, Engine.WIDTH);
             int y = RandomUtils.uniform(r, 0, Engine.HEIGHT);
@@ -143,7 +148,7 @@ public class Interact {
      * @param world
      * @param i
      */
-    public static void drawFrame(TERenderer ter, TETile[][] world, Position i) {
+    public void drawFrame(TERenderer ter, TETile[][] world, Position i) {
 
         // edu.princeton.cs.introcs.StdDraw
         if (Engine.inBounds(i)) {
@@ -160,7 +165,7 @@ public class Interact {
             Position nextMouse = new Position(x, y);
             if (Engine.inBounds(nextMouse)) {
                 TETile mouseTile;
-                if (nextMouse.equals(i)) {
+                if (nextMouse == i) {
                     mouseTile = Tileset.AVATAR;
                 } else {
                     mouseTile = getWorldTile(nextMouse, world);
@@ -185,8 +190,8 @@ public class Interact {
      * @param world
      * @return
      */
-    private static boolean isFloor(Position nextPos, TETile[][] world) {
-        return getWorldTile(nextPos, world).equals(Tileset.FLOOR);
+    private boolean isFloor(Position nextPos, TETile[][] world) {
+        return getWorldTile(nextPos, world) == floorType;
     }
 
 

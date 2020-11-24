@@ -22,26 +22,33 @@ public class Hallway  implements java.io.Serializable {
      * @param halls: The list of HallwayObjs that exist in @param world.
      * @param obj: The UnionFind that is used to ensure a connected structure.
      * @param random: The random used for generation.
+     * @param floorType: The TETile to use for the Hallway's floors.
+     * @param wallType: The TETile to use for the Hallway's walls.
      */
     private TETile[][] world;
     private List<Room> rooms;
     private List<HallwayObj> halls;
     private UnionFind obj;
     private Random random;
+    private TETile floorType, wallType;
 
     /**
      * @param w sets the world array of this class.
      * @param rms sets the rooms list of this class.
      * @param uf sets the UnionFind obj of this class.
-     * @param rand sets the Random of this class.
+     * @param r sets the Random of this class.
+     * @param f sets the floorType of this class.
+     * @param w sets the wallType of this class.
      * Also initializes @param halls: There are no Hallways before we start generation.
      */
-    public Hallway(TETile[][] w, List<Room> rms, UnionFind uf, Random rand) {
-        this.world = w;
+    public Hallway(TETile[][] wld, List<Room> rms, UnionFind uf, Random r, TETile f, TETile w) {
+        this.world = wld;
         this.rooms = rms;
         this.obj = uf;
         this.halls = new ArrayList<>();
-        this.random = rand;
+        this.random = r;
+        this.floorType = f;
+        this.wallType = w;
     }
 
     /**
@@ -163,13 +170,13 @@ public class Hallway  implements java.io.Serializable {
         Position lowerRight = new Position(p, 1, -1);
         Position lowerLeft = new Position(p, -1, -1);
         if (getWorldTile(upperRight) == Tileset.NOTHING) {
-            world[upperRight.getX()][upperRight.getY()] = Tileset.WALL;
+            world[upperRight.getX()][upperRight.getY()] = wallType;
         } else if (getWorldTile(upperLeft) == Tileset.NOTHING) {
-            world[upperLeft.getX()][upperLeft.getY()] = Tileset.WALL;
+            world[upperLeft.getX()][upperLeft.getY()] = wallType;
         } else if (getWorldTile(lowerRight) == Tileset.NOTHING) {
-            world[lowerRight.getX()][lowerRight.getY()] = Tileset.WALL;
+            world[lowerRight.getX()][lowerRight.getY()] = wallType;
         } else if (getWorldTile(lowerLeft) == Tileset.NOTHING) {
-            world[lowerLeft.getX()][lowerLeft.getY()] = Tileset.WALL;
+            world[lowerLeft.getX()][lowerLeft.getY()] = wallType;
         }
     }
 
@@ -251,7 +258,7 @@ public class Hallway  implements java.io.Serializable {
             }
         }
         if (Engine.inBounds(nextPos)) {
-            return getWorldTile(nextPos) == Tileset.FLOOR;
+            return getWorldTile(nextPos) == floorType;
         }
         return false;
     }
@@ -335,9 +342,9 @@ public class Hallway  implements java.io.Serializable {
                 nextNextPos = new Position(p, -2, 0);
             }
         }
-        boolean flag = Engine.inBounds(nextPos) && getWorldTile(p) == Tileset.WALL
-                        && getWorldTile(nextPos) == Tileset.WALL;
-        if (flag && Engine.inBounds(nextNextPos) && getWorldTile(nextNextPos) == Tileset.FLOOR) {
+        boolean flag = Engine.inBounds(nextPos) && getWorldTile(p) == wallType
+                        && getWorldTile(nextPos) == wallType;
+        if (flag && Engine.inBounds(nextNextPos) && getWorldTile(nextNextPos) == floorType) {
             return false;
         } else {
             return flag;
@@ -356,10 +363,10 @@ public class Hallway  implements java.io.Serializable {
             List<Position> floorPositions = h.getFloor();
 
             for (Position p: wallPositions) {
-                if (getWorldTile(p) == Tileset.FLOOR) {
-                    wrld[p.getX()][p.getY()] = Tileset.FLOOR;
+                if (getWorldTile(p) == floorType) {
+                    wrld[p.getX()][p.getY()] = floorType;
                 } else {
-                    wrld[p.getX()][p.getY()] = Tileset.WALL;
+                    wrld[p.getX()][p.getY()] = wallType;
                 }
             }
 
@@ -370,7 +377,7 @@ public class Hallway  implements java.io.Serializable {
                     Object temp = whichComponent(p);
                     obj.connect(temp, h);
                 }
-                wrld[p.getX()][p.getY()] = Tileset.FLOOR;
+                wrld[p.getX()][p.getY()] = floorType;
             }
         }
     }

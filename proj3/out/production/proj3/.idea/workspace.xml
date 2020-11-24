@@ -21,36 +21,22 @@
   <component name="ChangeListManager">
     <list default="true" id="b2e36da0-76bf-43df-969d-6b4ae888dd0c" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/byow/Core/Engine.java" beforeDir="false" afterPath="$PROJECT_DIR$/byow/Core/Engine.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/byow/Core/FinalizedVersionOfHallway.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/byow/Core/Hallway.java" beforeDir="false" afterPath="$PROJECT_DIR$/byow/Core/Hallway.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/byow/Core/Hallway2.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/byow/Core/HallwayObj.java" beforeDir="false" afterPath="$PROJECT_DIR$/byow/Core/HallwayObj.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/byow/Core/JonAttemptSolMain.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/byow/Core/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/byow/Core/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/byow/Core/MainAdjRooms.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/byow/Core/Pair.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/byow/Core/Room.java" beforeDir="false" afterPath="$PROJECT_DIR$/byow/Core/Room.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/byow/Core/RoomAdj.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/byow/Core/TestHall.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/byow/Core/TestUnionFind.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/byow/Core/TestingMain.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/byow/Core/UnionFind.java" beforeDir="false" afterPath="$PROJECT_DIR$/byow/Core/UnionFind.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/byow/Core/World.java" beforeDir="false" afterPath="$PROJECT_DIR$/byow/Core/World.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/proj3/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/proj3/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/proj3/byow/Core/Engine.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/proj3/byow/Core/Engine.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/proj3/byow/Core/FinalizedVersionOfHallway.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/proj3/byow/Core/Hallway.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/proj3/byow/Core/Hallway.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/proj3/byow/Core/Hallway2.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/proj3/byow/Core/Hallway2.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/proj3/byow/Core/HallwayObj.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/proj3/byow/Core/HallwayObj.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/proj3/byow/Core/JonAttemptSolMain.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/proj3/byow/Core/JonAttemptSolMain.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj3/byow/Core/Hallway.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj3/byow/Core/HallwayObj.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/proj3/byow/Core/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/proj3/byow/Core/Main.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/proj3/byow/Core/RandomUtils.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/proj3/byow/Core/RandomUtils.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/proj3/byow/Core/Room.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/proj3/byow/Core/Room.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/proj3/byow/Core/TestHall.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/proj3/byow/Core/TestUnionFind.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/proj3/byow/Core/TestingMain.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/proj3/byow/Core/World.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/proj3/byow/Core/World.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj3/byow/Core/Position.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj3/byow/Core/RandomUtils.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj3/byow/Core/Room.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj3/byow/Core/UnionFind.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj3/byow/Core/World.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj3/byow/TileEngine/TERenderer.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/proj3/byow/TileEngine/TERenderer.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj3/byow/TileEngine/TETile.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/proj3/byow/TileEngine/TETile.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj3/byow/TileEngine/Tileset.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/proj3/byow/TileEngine/Tileset.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj3/byow/lab12/HexWorld.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/proj3/byow/lab12/HexWorld.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj3/byow/lab12/Hexagon.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/proj3/byow/lab12/Hexagon.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj3/byow/lab12/Tessellation.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/proj3/byow/lab12/Tessellation.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -145,13 +131,13 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="TestingMain" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="byow.Core.TestingMain" />
+    <configuration name="TestInteractiveKeyboard" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="byow.Core.UserInput.TestInteractiveKeyboard" />
       <module name="proj3" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="byow.Core.*" />
+          <option name="PATTERN" value="byow.Core.UserInput.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -198,10 +184,10 @@
     <recent_temporary>
       <list>
         <item itemvalue="Application.Main" />
+        <item itemvalue="Application.TestInteractiveKeyboard" />
         <item itemvalue="Application.JonAttemptSolMain" />
         <item itemvalue="Application.TestHall" />
         <item itemvalue="Application.MainAdjRooms" />
-        <item itemvalue="Application.TestingMain" />
       </list>
     </recent_temporary>
   </component>
@@ -233,28 +219,28 @@
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state x="458" y="204" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1440.900@0.0.1440.900" timestamp="1605909587483" />
-    <state width="1398" height="230" key="GridCell.Tab.0.bottom" timestamp="1605909486215">
+    <state width="1398" height="210" key="GridCell.Tab.0.bottom" timestamp="1605917358818">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1398" height="230" key="GridCell.Tab.0.bottom/0.0.1440.900@0.0.1440.900" timestamp="1605909486215" />
+    <state width="1398" height="210" key="GridCell.Tab.0.bottom/0.0.1440.900@0.0.1440.900" timestamp="1605917358818" />
     <state width="626" height="245" key="GridCell.Tab.0.bottom/0.23.1440.797@0.23.1440.797" timestamp="1605227156018" />
     <state width="1398" height="230" key="GridCell.Tab.0.bottom/0.23.1440.800@0.23.1440.800" timestamp="1605846945274" />
-    <state width="1398" height="230" key="GridCell.Tab.0.center" timestamp="1605909486213">
+    <state width="1398" height="210" key="GridCell.Tab.0.center" timestamp="1605917358816">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1398" height="230" key="GridCell.Tab.0.center/0.0.1440.900@0.0.1440.900" timestamp="1605909486213" />
+    <state width="1398" height="210" key="GridCell.Tab.0.center/0.0.1440.900@0.0.1440.900" timestamp="1605917358816" />
     <state width="626" height="245" key="GridCell.Tab.0.center/0.23.1440.797@0.23.1440.797" timestamp="1605227156017" />
     <state width="1398" height="230" key="GridCell.Tab.0.center/0.23.1440.800@0.23.1440.800" timestamp="1605846945272" />
-    <state width="1398" height="230" key="GridCell.Tab.0.left" timestamp="1605909486212">
+    <state width="1398" height="210" key="GridCell.Tab.0.left" timestamp="1605917358815">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1398" height="230" key="GridCell.Tab.0.left/0.0.1440.900@0.0.1440.900" timestamp="1605909486212" />
+    <state width="1398" height="210" key="GridCell.Tab.0.left/0.0.1440.900@0.0.1440.900" timestamp="1605917358815" />
     <state width="626" height="245" key="GridCell.Tab.0.left/0.23.1440.797@0.23.1440.797" timestamp="1605227156017" />
     <state width="1398" height="230" key="GridCell.Tab.0.left/0.23.1440.800@0.23.1440.800" timestamp="1605846945272" />
-    <state width="1398" height="230" key="GridCell.Tab.0.right" timestamp="1605909486214">
+    <state width="1398" height="210" key="GridCell.Tab.0.right" timestamp="1605917358817">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1398" height="230" key="GridCell.Tab.0.right/0.0.1440.900@0.0.1440.900" timestamp="1605909486214" />
+    <state width="1398" height="210" key="GridCell.Tab.0.right/0.0.1440.900@0.0.1440.900" timestamp="1605917358817" />
     <state width="626" height="245" key="GridCell.Tab.0.right/0.23.1440.797@0.23.1440.797" timestamp="1605227156018" />
     <state width="1398" height="230" key="GridCell.Tab.0.right/0.23.1440.800@0.23.1440.800" timestamp="1605846945273" />
     <state width="1398" height="524" key="GridCell.Tab.1.bottom" timestamp="1605745437542">

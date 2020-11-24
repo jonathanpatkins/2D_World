@@ -35,5 +35,3 @@ public class Tileset implements java.io.Serializable{
     public static final TETile TREE = new TETile('♠', Color.green, Color.black, "tree");
 
 }
-
-

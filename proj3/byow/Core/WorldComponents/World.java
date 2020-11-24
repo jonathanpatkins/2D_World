@@ -24,29 +24,33 @@ public class World implements java.io.Serializable {
 
     /**
      * @param world: A 2D array representing the TETiles at each part of the world.
-     * @param testTypeWall: The type of TETile the walls of the world will be.
-     * @param testTypeFloor: The type of TETile the floors of the world will be.
+     * @param wallType: The type of TETile the walls of the world will be.
+     * @param floorType: The type of TETile the floors of the world will be.
      * @param rooms: A list of all the rooms in the world.
      * @param seedString: The inputted string used to derive the seed.
      * @param seed: The actual seed used to ensure random generation is repeatable.
      * @param random: The Random object used for random generation.
      */
     private TETile[][] world;
+    private TETile wallType, floorType;
     private List<Room> rooms;
     private String seedString;
     private long seed;
     private Random random;
     private TERenderer ter;
     private Position avatar;
+    private int theme;
 
-    public World(TERenderer ter, TETile[][] world, Random random, Position avatar) {
+    public World(TERenderer ter, TETile[][] world, Random random, Position avatar,
+                 TETile floorType, TETile wallType) {
+        this.floorType = floorType;
+        this.wallType = wallType;
         this.ter = ter;
         this.world = world;
         this.random = random;
         this.avatar = avatar;
         interact(avatar, null);
     }
-
     /**
      * Uses @param seedInput to set up the Random object's seed.
      * Prepares generation of the world based on the dimensions of the Engine.
@@ -55,7 +59,7 @@ public class World implements java.io.Serializable {
     public World(String seedInput, TERenderer ter) {
         /**
          * This is where we will parse things
-         * they could recieve N*S****
+         * they could receive N*S****
          * or N***S
          * or L:Q
          * or L****
@@ -102,6 +106,9 @@ public class World implements java.io.Serializable {
             this.seed = Long.parseLong(numString);
             this.random = new Random(seed);
 
+            this.theme = RandomUtils.uniform(random, 0, 4);
+            setTypes();
+
             this.world = generateWorld();
             this.world = interact(null, seedString);
         }
@@ -131,7 +138,7 @@ public class World implements java.io.Serializable {
             int y = RandomUtils.uniform(random, 0, Engine.HEIGHT);
             Position testPos = new Position(x, y);
 
-            Room testRoom = new Room(testPos, random, Tileset.FLOOR, Tileset.WALL);
+            Room testRoom = new Room(testPos, random, floorType, wallType);
 
             if (inBounds(testRoom) && notIntersecting(testRoom, world)) {
                 addRoom(testRoom, world, u);
@@ -143,7 +150,7 @@ public class World implements java.io.Serializable {
             }
         }
 
-        Hallway h = new Hallway(world, rooms, u, random);
+        Hallway h = new Hallway(world, rooms, u, random, floorType, wallType);
         h.connectAllRooms();
 
 
@@ -153,7 +160,7 @@ public class World implements java.io.Serializable {
 
 
     public TETile[][] interact(Position avatar, String userInput) {
-        Interact interact = new Interact(ter, world, random, avatar, userInput);
+        Interact interact = new Interact(ter, world, random, avatar, userInput, floorType, wallType);
         return world;
     }
 
@@ -207,5 +214,25 @@ public class World implements java.io.Serializable {
 
     public TETile[][] getWorld() {
         return world;
+    }
+
+    /**
+     * Sets @param wallType and @param floorType based on @param theme.
+     * 0 = Mountain Theme, 1 = Forest Theme, 2 = Beach, 3 = House Theme.
+     */
+    private void setTypes() {
+        if (theme == 0) {
+            floorType = Tileset.GRASS;
+            wallType = Tileset.MOUNTAIN;
+        } else if (theme == 1) {
+            floorType = Tileset.FLOWER;
+            wallType = Tileset.TREE;
+        } else if (theme == 2) {
+            floorType = Tileset.WATER;
+            wallType = Tileset.SAND;
+        } else {
+            floorType = Tileset.FLOOR;
+            wallType = Tileset.WALL;
+        }
     }
 }

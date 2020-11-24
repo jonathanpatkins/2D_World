@@ -82,7 +82,7 @@ public class TestInteractiveKeyboard {
         }
 
         // makes a hallway class object and then goes to connect all the rooms
-        Hallway h = new Hallway(world, rooms, u, random);
+        Hallway h = new Hallway(world, rooms, u, random, testTypeFloor, testTypeWall);
         h.connectAllRooms();
 
         // Starting position of the avatar in a valid location

@@ -13,7 +13,7 @@ public class StartWindow {
     /**
      * Generates a start window for game
      */
-    TERenderer ter;
+    private TERenderer ter;
 
     public StartWindow(TERenderer ter) {
         this.ter = ter;
@@ -61,7 +61,6 @@ public class StartWindow {
 
             // add the input to our seed value
             seed += c;
-
             if (c == 'N') {
                 // do something
                 newFlag = true;
@@ -76,34 +75,35 @@ public class StartWindow {
             } else if (c == 'S') {
                 // do something
                 break;
-
             } else if (newFlag){
                 displaySeed += c;
             }
             drawCanvas(seed);
         }
+
         // pass the seed to some other class where it can be processed
         return seed;
 
     }
 
+
     /**
      * Draw the canvas with the @param seedSoFar
      */
-    private static void drawCanvas(String seedSoFar) {
+    private void drawCanvas(String seedSoFar) {
         // start with clear canvas
         StdDraw.clear(Color.BLACK);
+        StdDraw.setPenColor(Color.green);
+        int x = Engine.WIDTH / 2;
 
         // text and initial screen
-        StdDraw.setPenColor(Color.green);
-        StdDraw.text(Engine.WIDTH / 2, 17, "(N)ew game");
-        StdDraw.text(Engine.WIDTH / 2, 16, "(L)oad");
-        StdDraw.text(Engine.WIDTH / 2, 15, "(Q)uit");
-        StdDraw.text(Engine.WIDTH / 2, 13, "Enter seed");
+        StdDraw.text(x, 17, "(N)ew game");
+        StdDraw.text(x, 16, "(L)oad");
+        StdDraw.text(x, 15, "(Q)uit");
+        StdDraw.text(x, 13, "Enter seed");
 
         // draw the seed we have thus far
-        StdDraw.text(Engine.WIDTH / 2, 12, seedSoFar);
+        StdDraw.text(x, 12, seedSoFar);
         StdDraw.show();
-
     }
 }

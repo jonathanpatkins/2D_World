@@ -21,9 +21,9 @@ public class LoadWorld implements Serializable{
     Position avatar;
     Random random;
     TERenderer ter;
+    TETile floorType, wallType;
 
     public LoadWorld() {
-
         String filename = "C:\\Users\\Jonathan\\cs61b\\fa20-proj3-g523\\proj3\\byow\\Core\\World.txt";
 
         try {
@@ -36,6 +36,9 @@ public class LoadWorld implements Serializable{
             this.world = (TETile[][]) in.readObject();
             this.avatar = (Position) in.readObject();
             this.random = (Random) in.readObject();
+            this.floorType = (TETile) in.readObject();
+            this.wallType = (TETile) in.readObject();
+            System.out.println(floorType);
 
             // once done using a file, always close
             file.close();
@@ -54,7 +57,7 @@ public class LoadWorld implements Serializable{
     public void load() {
         // reload the world
         ter.initialize(Engine.WIDTH, Engine.HEIGHT);
-        World loadedWorld = new World(ter, world, random, avatar);
+        World loadedWorld = new World(ter, world, random, avatar, floorType, wallType);
     }
 
     public TETile[][] getWorld() {

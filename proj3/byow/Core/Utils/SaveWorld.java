@@ -12,8 +12,10 @@ public class SaveWorld implements Serializable{
     Position posOfAvatar;
     Random random;
     TERenderer ter;
+    TETile floorType, wallType;
 
-    public SaveWorld(TERenderer ter, TETile[][] world, Position posOfAvatar, Random random) {
+    public SaveWorld(TERenderer ter, TETile[][] world, Position posOfAvatar, Random random,
+                     TETile f, TETile w) {
 
         /**
          * Saves the info of the world to World.txt
@@ -25,7 +27,8 @@ public class SaveWorld implements Serializable{
         this.posOfAvatar = posOfAvatar;
         this.random = random;
         this.ter = ter;
-
+        this.floorType = f;
+        this.wallType = w;
 
 
 
@@ -43,6 +46,8 @@ public class SaveWorld implements Serializable{
             out.writeObject(world);
             out.writeObject(posOfAvatar);
             out.writeObject(random);
+            out.writeObject(floorType);
+            out.writeObject(wallType);
 
 
             // close file when done
