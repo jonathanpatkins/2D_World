@@ -167,7 +167,7 @@ public class Interact {
             Position nextMouse = new Position(x, y);
             if (Engine.inBounds(nextMouse)) {
                 TETile mouseTile;
-                if (nextMouse == i) {
+                if (nextMouse.equals(i)) {
                     mouseTile = Tileset.AVATAR;
                 } else {
                     mouseTile = getWorldTile(nextMouse, world);
