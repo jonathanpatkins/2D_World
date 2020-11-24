@@ -1,7 +1,7 @@
 package byow.lab12;
 
 import byow.Core.Utils.Position;
-import byow.Core.TileEngine.TETile;
+import byow.TileEngine.TETile;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,8 +1,7 @@
 package byow.Core.Utils;
 
-import byow.Core.TileEngine.TERenderer;
-import byow.Core.TileEngine.TETile;
-import byow.Core.Utils.Position;
+import byow.TileEngine.TERenderer;
+import byow.TileEngine.TETile;
 
 import java.io.*;
 import java.util.Random;

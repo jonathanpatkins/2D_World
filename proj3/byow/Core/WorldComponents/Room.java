@@ -1,6 +1,6 @@
 package byow.Core.WorldComponents;
 
-import byow.Core.TileEngine.TETile;
+import byow.TileEngine.TETile;
 import byow.Core.Utils.Position;
 import byow.Core.Utils.RandomUtils;
 

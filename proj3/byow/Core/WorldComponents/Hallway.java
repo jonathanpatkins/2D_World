@@ -1,8 +1,8 @@
 package byow.Core.WorldComponents;
 
 import byow.Core.*;
-import byow.Core.TileEngine.TETile;
-import byow.Core.TileEngine.Tileset;
+import byow.TileEngine.TETile;
+import byow.TileEngine.Tileset;
 import byow.Core.Utils.Position;
 import byow.Core.Utils.RandomUtils;
 import byow.Core.Utils.UnionFind;

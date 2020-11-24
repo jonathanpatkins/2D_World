@@ -1,8 +1,8 @@
 package byow.Core.Utils;
 
 import byow.Core.Engine;
-import byow.Core.TileEngine.TERenderer;
-import byow.Core.TileEngine.TETile;
+import byow.TileEngine.TERenderer;
+import byow.TileEngine.TETile;
 import byow.Core.WorldComponents.World;
 
 import java.io.FileInputStream;

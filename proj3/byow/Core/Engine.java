@@ -1,7 +1,7 @@
 package byow.Core;
 
-import byow.Core.TileEngine.TERenderer;
-import byow.Core.TileEngine.TETile;
+import byow.TileEngine.TERenderer;
+import byow.TileEngine.TETile;
 import byow.Core.UserInput.StartWindow;
 import byow.Core.Utils.LoadWorld;
 import byow.Core.Utils.Position;
