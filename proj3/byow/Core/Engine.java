@@ -84,7 +84,7 @@ public class Engine {
         //
         // See proj3.byow.InputDemo for a demo of how you can make a nice clean interface
         // that works for many different input types.
-        World world = new World(input, ter);
+        World world = new World(input.toUpperCase(), ter);
         finalWorldFrame = world.getWorld();
         // Do not render yet- merely return the finalWorldFrame.
         // ter.initialize(Engine.WIDTH, Engine.HEIGHT);
