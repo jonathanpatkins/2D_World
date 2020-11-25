@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.Random;
+import java.util.ArrayList;
 
 public class LoadWorld implements Serializable{
 
@@ -17,12 +18,14 @@ public class LoadWorld implements Serializable{
      * Loads the world form the World.txt file
      */
 
-    TETile[][] world;
-    Position avatar;
-    Random random;
-    TERenderer ter;
-    TETile floorType, wallType;
-
+    protected TETile[][] world;
+    protected Position avatar, power;
+    protected Random random;
+    protected TERenderer ter;
+    protected TETile floorType, wallType;
+    protected ArrayList<Position> enemies;
+    protected int lives;
+    protected boolean powered;
     public LoadWorld() {
 
         // file
@@ -40,8 +43,10 @@ public class LoadWorld implements Serializable{
             this.random = (Random) in.readObject();
             this.floorType = (TETile) in.readObject();
             this.wallType = (TETile) in.readObject();
-            System.out.println(floorType);
-
+            this.enemies = (ArrayList) in.readObject();
+            this.power = (Position) in.readObject();
+            this.lives = (int) in.readObject();
+            this.powered = (boolean) in.readObject();
             // once done using a file, always close
             file.close();
             in.close();
@@ -59,7 +64,7 @@ public class LoadWorld implements Serializable{
     public void load() {
         // reload the world
         ter.initialize(Engine.WIDTH, Engine.HEIGHT);
-        World loadedWorld = new World(ter, world, random, avatar, floorType, wallType);
+        World loadedWorld = new World(ter, world, random, avatar, floorType, wallType, enemies, power, lives, powered);
     }
 
     public TETile[][] getWorld() {

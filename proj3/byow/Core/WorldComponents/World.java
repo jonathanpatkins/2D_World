@@ -33,22 +33,29 @@ public class World implements java.io.Serializable {
      */
     private TETile[][] world;
     private TETile wallType, floorType;
+    private ArrayList<Position> enemies;
     private List<Room> rooms;
     private String seedString;
     private long seed;
     private Random random;
     private TERenderer ter;
-    private Position avatar;
-    private int theme;
+    private Position avatar, power;
+    private int theme, lives;
+    private boolean powered;
 
     public World(TERenderer ter, TETile[][] world, Random random, Position avatar,
-                 TETile floorType, TETile wallType) {
+                 TETile floorType, TETile wallType, ArrayList<Position> enemies, Position power,
+                 int lives, boolean powered) {
         this.floorType = floorType;
         this.wallType = wallType;
         this.ter = ter;
         this.world = world;
         this.random = random;
         this.avatar = avatar;
+        this.enemies = enemies;
+        this.power = power;
+        this.lives = lives;
+        this.powered = powered;
         interact(avatar, null);
     }
     /**
@@ -87,8 +94,6 @@ public class World implements java.io.Serializable {
             this.rooms = new ArrayList<>();
             this.seedString = seedInput.toUpperCase();
 
-
-
             String substring = seedString.substring(1, seedString.length());
             char[] seedArray = substring.toCharArray();
             String numString = "";
@@ -109,8 +114,12 @@ public class World implements java.io.Serializable {
             this.theme = RandomUtils.uniform(random, 0, 4);
             setTypes();
 
+            this.lives = 3;
+            this.powered = false;
+            this.enemies = new ArrayList<>();
             this.world = generateWorld();
             this.world = interact(null, seedString);
+
         }
     }
 
@@ -153,18 +162,20 @@ public class World implements java.io.Serializable {
         Hallway h = new Hallway(world, rooms, u, random, floorType, wallType);
         h.connectAllRooms();
 
-
+        //Generates 3 enemies and the power tile.
+        generateEnemies(3);
+        this.power = generatePower();
 
         return world;
     }
 
 
     public TETile[][] interact(Position avatar, String userInput) {
-        Interact interact = new Interact(ter, world, random, avatar, userInput, floorType, wallType);
+        TETile[] tiles = new TETile[]{floorType, wallType};
+        Interact interact = new Interact(ter, world, random, avatar, userInput, tiles, enemies, power,
+                                            lives, powered);
         return world;
     }
-
-
 
     /**
      * Adds a Room @param r to our space (@param world) and our UnionFind @param u.
@@ -233,6 +244,40 @@ public class World implements java.io.Serializable {
         } else {
             floorType = Tileset.FLOOR;
             wallType = Tileset.WALL;
+        }
+    }
+
+    /**
+     * Generate @param num enemies to random floor tiles.
+     */
+    private void generateEnemies(int num) {
+        for (int i = 0; i < num; i += 1) {
+            boolean valid = false;
+            while (!valid) {
+                int x = RandomUtils.uniform(random, 0, Engine.WIDTH);
+                int y = RandomUtils.uniform(random, 0, Engine.HEIGHT);
+                Position enemyPos = new Position(x, y);
+                if (Engine.inBounds(enemyPos) && world[x][y] == floorType) {
+                    world[x][y] = Tileset.ENEMY;
+                    enemies.add(enemyPos);
+                    valid = true;
+                }
+            }
+        }
+    }
+
+    /**
+     * Randomly place and @return the Position of the Power up.
+     */
+    private Position generatePower() {
+        while (true) {
+            int x = RandomUtils.uniform(random, 0, Engine.WIDTH);
+            int y = RandomUtils.uniform(random, 0, Engine.HEIGHT);
+            Position powerPos = new Position(x, y);
+            if (Engine.inBounds(powerPos) && world[x][y] == floorType) {
+                world[x][y] = Tileset.POWER;
+                return powerPos;
+            }
         }
     }
 }

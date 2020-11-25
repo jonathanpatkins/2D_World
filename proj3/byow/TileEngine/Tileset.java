@@ -33,5 +33,7 @@ public class Tileset implements java.io.Serializable{
     public static final TETile SAND = new TETile('▒', Color.yellow, Color.black, "sand");
     public static final TETile MOUNTAIN = new TETile('▲', Color.gray, Color.black, "mountain");
     public static final TETile TREE = new TETile('♠', Color.green, Color.black, "tree");
-
+    public static final TETile ENEMY = new TETile('X', Color.red, Color.black, "enemy");
+    public static final TETile SCARED_ENEMY = new TETile('X', new Color(102, 255, 255), Color.black, "scaredenemey");
+    public static final TETile POWER = new TETile('♕', Color.orange, Color.black, "power");
 }
