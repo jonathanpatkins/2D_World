@@ -97,6 +97,9 @@ public class Interact {
                     SaveWorld saveWorld = new SaveWorld(this.ter, this.world, this.avatar, this.random,
                             this.floorType, this.wallType, this.enemies, this.power, this.lives, this.powered);
                     break;
+                } else if (c == '0') {
+                    //had to comment out due to merge issues - you can try again
+                    //makeMove(nextPos, c);
                 }
             }
         }
