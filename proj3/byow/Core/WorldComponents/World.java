@@ -31,7 +31,7 @@ public class World implements java.io.Serializable {
      * @param seed: The actual seed used to ensure random generation is repeatable.
      * @param random: The Random object used for random generation.
      */
-    private TETile[][] world;
+    protected TETile[][] world;
     private TETile wallType, floorType;
     private ArrayList<Position> enemies;
     private List<Room> rooms;
@@ -42,20 +42,21 @@ public class World implements java.io.Serializable {
     private Position avatar, power;
     private int theme, lives;
     private boolean powered;
+    private ArrayList<Object> objects;
 
-    public World(TERenderer ter, TETile[][] world, Random random, Position avatar,
-                 TETile floorType, TETile wallType, ArrayList<Position> enemies, Position power,
-                 int lives, boolean powered) {
-        this.floorType = floorType;
-        this.wallType = wallType;
-        this.ter = ter;
-        this.world = world;
-        this.random = random;
-        this.avatar = avatar;
-        this.enemies = enemies;
-        this.power = power;
-        this.lives = lives;
-        this.powered = powered;
+    public World(ArrayList<Object> loadedObjects) {
+        this.ter = (TERenderer) loadedObjects.get(0);
+        this.world = (TETile[][]) loadedObjects.get(1);
+        this.avatar = (Position) loadedObjects.get(2);
+        this.random = (Random) loadedObjects.get(3);
+        this.floorType = (TETile) loadedObjects.get(4);
+        this.wallType = (TETile) loadedObjects.get(5);
+        this.enemies = (ArrayList<Position>) loadedObjects.get(6);
+        this.power = (Position) loadedObjects.get(7);
+        this.lives = (int) loadedObjects.get(8);
+        this.powered = (boolean) loadedObjects.get(9);
+
+        objects = loadedObjects;
         interact(avatar, null);
     }
     /**
@@ -74,12 +75,14 @@ public class World implements java.io.Serializable {
          * or L
          */
         char first = seedInput.charAt(0);
+
         if (first == 'L') {
             LoadWorld l = new LoadWorld();
             this.ter = l.getTer();
             this.random = l.getRandom();
             this.world = l.getWorld();
             this.avatar = l.getAvatar();
+            System.out.println(avatar);
             interact(avatar, seedInput);
         } else {
             this.world = new TETile[Engine.WIDTH][Engine.HEIGHT];
@@ -110,7 +113,6 @@ public class World implements java.io.Serializable {
 
             this.seed = Long.parseLong(numString);
             this.random = new Random(seed);
-
             this.theme = RandomUtils.uniform(random, 0, 4);
             setTypes();
 
@@ -118,6 +120,18 @@ public class World implements java.io.Serializable {
             this.powered = false;
             this.enemies = new ArrayList<>();
             this.world = generateWorld();
+            this.objects =  new ArrayList<>();
+            objects.add(this.ter);
+            objects.add(this.world);
+            objects.add(this.avatar);
+            objects.add(this.random);
+            objects.add(this.floorType);
+            objects.add(this.wallType);
+            objects.add(this.enemies);
+            objects.add(this.power);
+            objects.add(this.lives);
+            objects.add(this.powered);
+
             this.world = interact(null, seedString);
 
         }
@@ -171,9 +185,7 @@ public class World implements java.io.Serializable {
 
 
     public TETile[][] interact(Position avatar, String userInput) {
-        TETile[] tiles = new TETile[]{floorType, wallType};
-        Interact interact = new Interact(ter, world, random, avatar, userInput, tiles, enemies, power,
-                                            lives, powered);
+        Interact interact = new Interact(objects);
         return world;
     }
 

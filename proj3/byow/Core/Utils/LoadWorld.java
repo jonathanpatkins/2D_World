@@ -9,6 +9,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
+import java.util.List;
 import java.util.Random;
 import java.util.ArrayList;
 
@@ -26,13 +27,13 @@ public class LoadWorld implements Serializable{
     protected ArrayList<Position> enemies;
     protected int lives;
     protected boolean powered;
+    protected ArrayList<Object> objects;
     public LoadWorld() {
 
         // file
         String filename = "World.txt";
 
         try {
-            // No idea what this is for, just patterned matched stuff
             FileInputStream file = new FileInputStream(filename);
             ObjectInputStream in = new ObjectInputStream(file);
 
@@ -47,6 +48,18 @@ public class LoadWorld implements Serializable{
             this.power = (Position) in.readObject();
             this.lives = (int) in.readObject();
             this.powered = (boolean) in.readObject();
+
+            this.objects =  new ArrayList<>();
+            objects.add(ter);
+            objects.add(world);
+            objects.add(avatar);
+            objects.add(random);
+            objects.add(floorType);
+            objects.add(wallType);
+            objects.add(enemies);
+            objects.add(power);
+            objects.add(lives);
+            objects.add(powered);
             // once done using a file, always close
             file.close();
             in.close();
@@ -64,7 +77,7 @@ public class LoadWorld implements Serializable{
     public void load() {
         // reload the world
         ter.initialize(Engine.WIDTH, Engine.HEIGHT);
-        World loadedWorld = new World(ter, world, random, avatar, floorType, wallType, enemies, power, lives, powered);
+        World loadedWorld = new World(objects);
     }
 
     public TETile[][] getWorld() {

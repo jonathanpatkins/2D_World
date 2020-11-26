@@ -18,28 +18,22 @@ public class SaveWorld implements Serializable{
     int lives;
     boolean powered;
 
-    //TODO: We need to change the constructor/call of this class. Too many inputs for the style guide.
-    public SaveWorld(TERenderer ter, TETile[][] world, Position posOfAvatar, Random random,
-                     TETile f, TETile w, ArrayList<Position> enemies, Position power, int lives, boolean powered) {
+    public SaveWorld(ArrayList<Object> loadedObjects) {
+        this.ter = (TERenderer) loadedObjects.get(0);
+        this.world = (TETile[][]) loadedObjects.get(1);
+        this.posOfAvatar = (Position) loadedObjects.get(2);
+        this.random = (Random) loadedObjects.get(3);
+        this.floorType = (TETile) loadedObjects.get(4);
+        this.wallType = (TETile) loadedObjects.get(5);
+        this.enemies = (ArrayList<Position>) loadedObjects.get(6);
+        this.power = (Position) loadedObjects.get(7);
+        this.lives = (int) loadedObjects.get(8);
+        this.powered = (boolean) loadedObjects.get(9);
 
-        /**
-         * Saves the info of the world to World.txt
-         */
+        writeInfo();
+    }
 
-
-        // all the info I want to save
-        this.world = world;
-        this.posOfAvatar = posOfAvatar;
-        this.random = random;
-        this.ter = ter;
-        this.floorType = f;
-        this.wallType = w;
-        this.enemies = enemies;
-        this.power = power;
-        this.lives = lives;
-        this.powered = powered;
-
-        // create file
+    public void writeInfo() {
         String filename = "World.txt";
         File myObj = new File(filename);
 
@@ -63,12 +57,10 @@ public class SaveWorld implements Serializable{
             out.close();
             file.close();
 
-
         }
         catch(IOException ex) {
             System.out.println("IOException is caught");
         }
-
     }
 
 }

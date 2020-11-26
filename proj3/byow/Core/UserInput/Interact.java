@@ -1,14 +1,11 @@
 package byow.Core.UserInput;
 
 import byow.Core.Engine;
-import byow.Core.Utils.Position;
-import byow.Core.Utils.RandomUtils;
-import byow.Core.Utils.SaveWorld;
-import byow.TileEngine.TERenderer;
-import byow.TileEngine.TETile;
-import byow.TileEngine.Tileset;
-import edu.princeton.cs.introcs.StdDraw;
 
+import byow.Core.Utils.*;
+import byow.TileEngine.*;
+import byow.Core.WorldComponents.*;
+import edu.princeton.cs.introcs.StdDraw;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Random;
@@ -24,29 +21,27 @@ public class Interact {
     private ArrayList<Position> enemies;
     private int lives;
     private boolean powered, play;
+    private ArrayList<Object> objects;
 
     // now you can take input from keyboard to interact with world
-    public Interact(TERenderer ter, TETile[][] world, Random random, Position p, String userInput,
-                    TETile[] tiles, ArrayList<Position> enemies, Position power, int lives, boolean powered) {
-        // Starting position of the avatar in a valid location
-
-        this.ter = ter;
-        this.world = world;
-        this.random = random;
-        this.avatar = p;
-        this.userInput = userInput;
-        this.floorType = tiles[0];
-        this.wallType = tiles[1];
-        if (p == null) {
+    public Interact(ArrayList<Object> loadedObjects) {
+        this.ter = (TERenderer) loadedObjects.get(0);
+        this.world = (TETile[][]) loadedObjects.get(1);
+        this.avatar = (Position) loadedObjects.get(2);
+        this.random = (Random) loadedObjects.get(3);
+        this.floorType = (TETile) loadedObjects.get(4);
+        this.wallType = (TETile) loadedObjects.get(5);
+        if (loadedObjects.get(2) == null) {
             avatar = generateStartingPos(world, random);
         }
-        this.enemies = enemies;
-        // Stores all the original enemy positions so they can be loaded back in.
-        this.power = power;
-        this.lives = lives;
-        this.startingPos = avatar;
-        this.powered = powered;
+        this.enemies = (ArrayList<Position>) loadedObjects.get(6);
+        this.power = (Position) loadedObjects.get(7);
+        this.lives = (int) loadedObjects.get(8);
+        this.powered = (boolean) loadedObjects.get(9);
+        objects = loadedObjects;
+        objects.set(2, avatar);
         this.play = true;
+        this.startingPos = avatar;
         // returns if the program should quit or not
         if (!doUserInput(userInput)) {
             ter.initialize(Engine.WIDTH, Engine.HEIGHT);
@@ -94,8 +89,7 @@ public class Interact {
                 if (c == ':') {
                     getReadyForQuit = true;
                 } else if (c == 'Q' && getReadyForQuit) {
-                    SaveWorld saveWorld = new SaveWorld(this.ter, this.world, this.avatar, this.random,
-                            this.floorType, this.wallType, this.enemies, this.power, this.lives, this.powered);
+                    SaveWorld saveWorld = new SaveWorld(objects);
                     break;
                 } else if (c == '0') {
                     //had to comment out due to merge issues - you can try again
@@ -104,7 +98,6 @@ public class Interact {
             }
         }
     }
-
     /**
      * Moves the avatar to Position @param next if possible- Valid position/character @param c.
      * Also calculates if the avatar may be about to collide with an enemy or the power up.
@@ -117,12 +110,14 @@ public class Interact {
             } else {
                 lives -= 1;
                 avatar = startingPos;
+                objects.set(8, lives);
                 drawFrame(ter, world, avatar);
                 return;
             }
         } else if (checkPowerCollision(next)) {
             world[next.getX()][next.getY()] = floorType;
             powered = true;
+            objects.set(9, powered);
             for (int i = 0; i < enemies.size(); i += 1) {
                 Position pos = enemies.get(i);
                 world[pos.getX()][pos.getY()] = Tileset.SCARED_ENEMY;
@@ -131,6 +126,7 @@ public class Interact {
         if ((next != null && Engine.inBounds(next) && isFloor(next, world)) || c == '0') {
             if (c != '0') {
                 avatar = next;
+                objects.set(2, avatar);
             }
             drawFrame(ter, world, avatar);
         }
@@ -162,8 +158,7 @@ public class Interact {
                 } else if (c == ':') {
                     getReadyForQuit = true;
                 } else if (c == 'Q' && getReadyForQuit) {
-                    new SaveWorld(ter, world, avatar, random, floorType, wallType,
-                                    enemies, power, lives, powered);
+                    new SaveWorld(objects);
                     quit = true;
                 }
                 if (nextPos != null && Engine.inBounds(nextPos) && isFloor(nextPos, world)) {
