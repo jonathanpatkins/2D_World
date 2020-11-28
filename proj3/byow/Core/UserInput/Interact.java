@@ -199,7 +199,6 @@ public class Interact {
                     lives -= 1;
                     avatar = startingPos;
                     objects.set(8, lives);
-                    drawFrame(ter, world, avatar);
                     return;
                 }
             } else if (checkPowerCollision(next)) {
