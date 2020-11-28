@@ -20,14 +20,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b2e36da0-76bf-43df-969d-6b4ae888dd0c" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/World.txt" beforeDir="false" afterPath="$PROJECT_DIR$/World.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/byow/Core/UserInput/Interact.java" beforeDir="false" afterPath="$PROJECT_DIR$/byow/Core/UserInput/Interact.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/byow/Core/Utils/LoadWorld.java" beforeDir="false" afterPath="$PROJECT_DIR$/byow/Core/Utils/LoadWorld.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/byow/Core/Utils/SaveWorld.java" beforeDir="false" afterPath="$PROJECT_DIR$/byow/Core/Utils/SaveWorld.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/byow/Core/WorldComponents/World.java" beforeDir="false" afterPath="$PROJECT_DIR$/byow/Core/WorldComponents/World.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/proj3/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/proj3/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/proj3/World.txt" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/proj3/World.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/proj3/byow/Core/UserInput/Interact.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/proj3/byow/Core/UserInput/Interact.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/proj3/byow/Core/Utils/LoadWorld.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/proj3/byow/Core/Utils/LoadWorld.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/proj3/byow/Core/Utils/SaveWorld.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/proj3/byow/Core/Utils/SaveWorld.class" afterDir="false" />
@@ -214,28 +208,28 @@
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state x="458" y="204" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1440.900@0.0.1440.900" timestamp="1605909587483" />
-    <state width="1398" height="342" key="GridCell.Tab.0.bottom" timestamp="1606371261983">
+    <state width="1398" height="342" key="GridCell.Tab.0.bottom" timestamp="1606414167651">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1398" height="342" key="GridCell.Tab.0.bottom/0.0.1440.900@0.0.1440.900" timestamp="1606371261983" />
+    <state width="1398" height="342" key="GridCell.Tab.0.bottom/0.0.1440.900@0.0.1440.900" timestamp="1606414167651" />
     <state width="626" height="245" key="GridCell.Tab.0.bottom/0.23.1440.797@0.23.1440.797" timestamp="1605227156018" />
     <state width="1398" height="342" key="GridCell.Tab.0.bottom/0.23.1440.800@0.23.1440.800" timestamp="1606370368003" />
-    <state width="1398" height="342" key="GridCell.Tab.0.center" timestamp="1606371261981">
+    <state width="1398" height="342" key="GridCell.Tab.0.center" timestamp="1606414167649">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1398" height="342" key="GridCell.Tab.0.center/0.0.1440.900@0.0.1440.900" timestamp="1606371261981" />
+    <state width="1398" height="342" key="GridCell.Tab.0.center/0.0.1440.900@0.0.1440.900" timestamp="1606414167649" />
     <state width="626" height="245" key="GridCell.Tab.0.center/0.23.1440.797@0.23.1440.797" timestamp="1605227156017" />
     <state width="1398" height="342" key="GridCell.Tab.0.center/0.23.1440.800@0.23.1440.800" timestamp="1606370368000" />
-    <state width="1398" height="342" key="GridCell.Tab.0.left" timestamp="1606371261981">
+    <state width="1398" height="342" key="GridCell.Tab.0.left" timestamp="1606414167648">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1398" height="342" key="GridCell.Tab.0.left/0.0.1440.900@0.0.1440.900" timestamp="1606371261981" />
+    <state width="1398" height="342" key="GridCell.Tab.0.left/0.0.1440.900@0.0.1440.900" timestamp="1606414167648" />
     <state width="626" height="245" key="GridCell.Tab.0.left/0.23.1440.797@0.23.1440.797" timestamp="1605227156017" />
     <state width="1398" height="342" key="GridCell.Tab.0.left/0.23.1440.800@0.23.1440.800" timestamp="1606370367999" />
-    <state width="1398" height="342" key="GridCell.Tab.0.right" timestamp="1606371261982">
+    <state width="1398" height="342" key="GridCell.Tab.0.right" timestamp="1606414167650">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1398" height="342" key="GridCell.Tab.0.right/0.0.1440.900@0.0.1440.900" timestamp="1606371261982" />
+    <state width="1398" height="342" key="GridCell.Tab.0.right/0.0.1440.900@0.0.1440.900" timestamp="1606414167650" />
     <state width="626" height="245" key="GridCell.Tab.0.right/0.23.1440.797@0.23.1440.797" timestamp="1605227156018" />
     <state width="1398" height="342" key="GridCell.Tab.0.right/0.23.1440.800@0.23.1440.800" timestamp="1606370368001" />
     <state width="1398" height="524" key="GridCell.Tab.1.bottom" timestamp="1606196395748">

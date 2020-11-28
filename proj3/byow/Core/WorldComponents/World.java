@@ -40,7 +40,8 @@ public class World implements java.io.Serializable {
     private Random random;
     private TERenderer ter;
     private Position avatar, power;
-    private int theme, lives;
+    private double theme;
+    private int lives;
     private boolean powered;
     private ArrayList<Object> objects;
 
@@ -113,7 +114,7 @@ public class World implements java.io.Serializable {
 
             this.seed = Long.parseLong(numString);
             this.random = new Random(seed);
-            this.theme = RandomUtils.uniform(random, 0, 4);
+            this.theme = random.nextDouble();
             setTypes();
 
             this.lives = 3;
@@ -241,16 +242,16 @@ public class World implements java.io.Serializable {
 
     /**
      * Sets @param wallType and @param floorType based on @param theme.
-     * 0 = Mountain Theme, 1 = Forest Theme, 2 = Beach, 3 = House Theme.
+     * 0-0.25 = Mountain Theme, 0.25-0.5 = Forest Theme, 0.5-0.75 = Beach, 0.75-1 = House Theme.
      */
     private void setTypes() {
-        if (theme == 0) {
+        if (theme <= 0.25) {
             floorType = Tileset.GRASS;
             wallType = Tileset.MOUNTAIN;
-        } else if (theme == 1) {
+        } else if (theme <= 0.5) {
             floorType = Tileset.FLOWER;
             wallType = Tileset.TREE;
-        } else if (theme == 2) {
+        } else if (theme <= 0.75) {
             floorType = Tileset.WATER;
             wallType = Tileset.SAND;
         } else {
