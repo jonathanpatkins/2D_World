@@ -186,7 +186,7 @@ public class Interact {
                 }
             }
         }
-        return quit;
+        return true;
     }
 
     private void makeMoveFromInput(Position next, char c) {

@@ -76,7 +76,7 @@ public class LoadWorld implements Serializable{
 
     public void load() {
         // reload the world
-        ter.initialize(Engine.WIDTH, Engine.HEIGHT);
+        // ter.initialize(Engine.WIDTH, Engine.HEIGHT);
         World loadedWorld = new World(objects);
     }
 
