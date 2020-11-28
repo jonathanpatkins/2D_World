@@ -91,9 +91,11 @@ public class Interact {
                 } else if (c == 'Q' && getReadyForQuit) {
                     SaveWorld saveWorld = new SaveWorld(objects);
                     break;
-                } else if (c == '0') {
-                    //had to comment out due to merge issues - you can try again
-                    //makeMove(nextPos, c);
+                }
+                // this is triggered if you are not taking in new keyboard input
+                // in this case you want to display the new mouse position if it has changed, but do nothing else
+                else if (c == '0') {
+                    makeMove(null, c);
                 }
             }
         }
@@ -101,37 +103,52 @@ public class Interact {
     /**
      * Moves the avatar to Position @param next if possible- Valid position/character @param c.
      * Also calculates if the avatar may be about to collide with an enemy or the power up.
+     * However, if the @param next is null, then it tries to display the new mouse position on the hud
+     * without doing anything else
      */
     private void makeMove(Position next, char c) {
-        if (checkEnemyCollision(next)) {
-            if (powered) {
+        if (next != null) {
+            if (checkEnemyCollision(next)) {
+                if (powered) {
+                    world[next.getX()][next.getY()] = floorType;
+                    enemies.remove(next);
+                } else {
+                    lives -= 1;
+                    avatar = startingPos;
+                    objects.set(8, lives);
+                    drawFrame(ter, world, avatar);
+                    return;
+                }
+            } else if (checkPowerCollision(next)) {
                 world[next.getX()][next.getY()] = floorType;
-                enemies.remove(next);
-            } else {
-                lives -= 1;
-                avatar = startingPos;
-                objects.set(8, lives);
-                drawFrame(ter, world, avatar);
-                return;
+                powered = true;
+                objects.set(9, powered);
+                for (int i = 0; i < enemies.size(); i += 1) {
+                    Position pos = enemies.get(i);
+                    world[pos.getX()][pos.getY()] = Tileset.SCARED_ENEMY;
+                }
             }
-        } else if (checkPowerCollision(next)) {
-            world[next.getX()][next.getY()] = floorType;
-            powered = true;
-            objects.set(9, powered);
-            for (int i = 0; i < enemies.size(); i += 1) {
-                Position pos = enemies.get(i);
-                world[pos.getX()][pos.getY()] = Tileset.SCARED_ENEMY;
-            }
-        }
-        if ((next != null && Engine.inBounds(next) && isFloor(next, world)) || c == '0') {
-            if (c != '0') {
+            if (Engine.inBounds(next) && isFloor(next, world)) {
                 avatar = next;
                 objects.set(2, avatar);
+                drawFrame(ter, world, avatar);
             }
+        } else {
             drawFrame(ter, world, avatar);
         }
     }
-    // for now lets go off the assumption that you are passed an unparsed string
+
+    /**
+     * This method is for the autograder when it tests the code using "Program argements"
+     * Essentially, this means that if given a seed N***SWWSSD or LDDD:Q it will be able to compile
+     * For N***SWWSSD, if will use the seed *** and then it will use the moves WWSSD before displaying
+     * the rendered world.
+     * Fro LDDD:Q, this means it will load the world, move the avatar to the right three times and then save
+     * and quit.
+     * @param userInput this is the string put into program arguments - this is found and tested through
+     *                  Run >> Edit Configurations >> Program arguments
+     * @return boolean value for true if the program should quit and false to keep it going
+     */
     private boolean doUserInput(String userInput) {
         boolean quit = false;
         if (userInput != null) {
