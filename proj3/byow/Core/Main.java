@@ -13,7 +13,7 @@ public class Main {
         } else if (args.length == 1) {
             Engine engine = new Engine();
             engine.interactWithInputString(args[0]);
-            System.out.println(engine.toString());
+            //System.out.println(engine.toString());
 
             // once done with all of that quit the program
             System.exit(0);

@@ -108,17 +108,17 @@ public class Engine {
         return true;
     }
 
-    /**
-     * @Return a String representation of the generated world.
-     */
-    public String toString() {
-        String s = "";
-        for (int i = 0; i < Engine.WIDTH; i += 1) {
-            for (int j = 0; j < Engine.HEIGHT; j += 1) {
-                s += finalWorldFrame[i][j] + " ";
-            }
-            s += "\n";
-        }
-        return s;
-    }
+//    /**
+//     * @Return a String representation of the generated world.
+//     */
+//    public String toString() {
+//        String s = "";
+//        for (int i = 0; i < Engine.WIDTH; i += 1) {
+//            for (int j = 0; j < Engine.HEIGHT; j += 1) {
+//                s += finalWorldFrame[i][j] + " ";
+//            }
+//            s += "\n";
+//        }
+//        return s;
+//    }
 }
