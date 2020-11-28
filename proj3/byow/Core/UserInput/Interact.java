@@ -152,7 +152,7 @@ public class Interact {
      * @return boolean value for true if the program should quit and false to keep it going
      */
     private boolean doUserInput(String userInput) {
-        boolean quit = false;
+        boolean quit = true;
         if (userInput != null) {
             char[] charArray = userInput.toCharArray();
             Position nextPos = avatar;
