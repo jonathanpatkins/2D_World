@@ -95,4 +95,8 @@ public class LoadWorld implements Serializable{
     public TERenderer getTer() {
         return ter;
     }
+
+    public ArrayList<Object> getObjects() {
+        return objects;
+    }
 }

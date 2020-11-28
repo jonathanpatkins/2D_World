@@ -78,11 +78,7 @@ public class World implements java.io.Serializable {
 
         if (first == 'L') {
             LoadWorld l = new LoadWorld();
-            this.ter = l.getTer();
-            this.random = l.getRandom();
-            this.world = l.getWorld();
-            this.avatar = l.getAvatar();
-            System.out.println(avatar);
+            this.objects = l.getObjects();
             interact(avatar, seedInput);
         } else {
             this.world = new TETile[Engine.WIDTH][Engine.HEIGHT];
@@ -185,7 +181,8 @@ public class World implements java.io.Serializable {
 
 
     public TETile[][] interact(Position avatar, String userInput) {
-        Interact interact = new Interact(objects);
+        Interact interact = new Interact(objects, userInput);
+        this.world = interact.getWorld();
         return world;
     }
 

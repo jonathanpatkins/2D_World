@@ -24,7 +24,7 @@ public class Interact {
     private ArrayList<Object> objects;
 
     // now you can take input from keyboard to interact with world
-    public Interact(ArrayList<Object> loadedObjects) {
+    public Interact(ArrayList<Object> loadedObjects, String userInput) {
         this.ter = (TERenderer) loadedObjects.get(0);
         this.world = (TETile[][]) loadedObjects.get(1);
         this.avatar = (Position) loadedObjects.get(2);
@@ -42,6 +42,8 @@ public class Interact {
         objects.set(2, avatar);
         this.play = true;
         this.startingPos = avatar;
+
+
         // returns if the program should quit or not
         if (!doUserInput(userInput)) {
             ter.initialize(Engine.WIDTH, Engine.HEIGHT);
@@ -164,26 +166,57 @@ public class Interact {
             for (char c : charArray) {
                 if (c == 'W') {
                     nextPos = new Position(avatar, 0, 1);
+                    makeMoveFromInput(nextPos, c);
                 } else if (c == 'A') {
                     nextPos = new Position(avatar, -1, 0);
+                    makeMoveFromInput(nextPos, c);
                 } else if (c == 'S' && sCounter > 0) {
                     nextPos = new Position(avatar, 0, -1);
+                    makeMoveFromInput(nextPos, c);
                 } else if (c == 'S') {
                     sCounter += 1;
                 } else if (c == 'D') {
                     nextPos = new Position(avatar, 1, 0);
+                    makeMoveFromInput(nextPos, c);
                 } else if (c == ':') {
                     getReadyForQuit = true;
                 } else if (c == 'Q' && getReadyForQuit) {
                     new SaveWorld(objects);
                     quit = true;
                 }
-                if (nextPos != null && Engine.inBounds(nextPos) && isFloor(nextPos, world)) {
-                    avatar = nextPos;
-                }
             }
         }
         return quit;
+    }
+
+    private void makeMoveFromInput(Position next, char c) {
+        if (next != null) {
+            if (checkEnemyCollision(next)) {
+                if (powered) {
+                    world[next.getX()][next.getY()] = floorType;
+                    enemies.remove(next);
+                } else {
+                    lives -= 1;
+                    avatar = startingPos;
+                    objects.set(8, lives);
+                    drawFrame(ter, world, avatar);
+                    return;
+                }
+            } else if (checkPowerCollision(next)) {
+                world[next.getX()][next.getY()] = floorType;
+                powered = true;
+                objects.set(9, powered);
+                for (int i = 0; i < enemies.size(); i += 1) {
+                    Position pos = enemies.get(i);
+                    world[pos.getX()][pos.getY()] = Tileset.SCARED_ENEMY;
+                }
+            }
+            if (Engine.inBounds(next) && isFloor(next, world)) {
+                avatar = next;
+                objects.set(2, avatar);
+
+            }
+        }
     }
 
     /**
@@ -330,5 +363,9 @@ public class Interact {
                 drawFrame(ter, world, avatar);
             }
         }
+    }
+
+    public TETile[][] getWorld() {
+        return world;
     }
 }
