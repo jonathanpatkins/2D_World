@@ -32,7 +32,6 @@ public class Engine {
          *  - the window state
          *  - the position of the avatar
          */
-
         for (char c : seedArray) {
             if (c == 'N') {
                 interactWithInputString(seed);
@@ -42,6 +41,7 @@ public class Engine {
                 // fetch save
                 LoadWorld loadWorld = new LoadWorld();
                 loadWorld.load();
+                this.finalWorldFrame = loadWorld.getWorld();
                 break;
             } else if (c == ':') {
                 // do something - nothing?
@@ -112,13 +112,17 @@ public class Engine {
      * @Return a String representation of the generated world.
      */
     public String toString() {
-        String s = "";
-        for (int i = 0; i < Engine.WIDTH; i += 1) {
-            for (int j = 0; j < Engine.HEIGHT; j += 1) {
-                s += finalWorldFrame[i][j] + " ";
+        if (finalWorldFrame == null) {
+            return null;
+        } else {
+            String s = "";
+            for (int i = 0; i < Engine.WIDTH; i += 1) {
+                for (int j = 0; j < Engine.HEIGHT; j += 1) {
+                    s += finalWorldFrame[i][j] + " ";
+                }
+                s += "\n";
             }
-            s += "\n";
+            return s;
         }
-        return s;
     }
 }

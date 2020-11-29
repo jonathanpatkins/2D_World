@@ -17,16 +17,15 @@ import byow.Core.Utils.RandomUtils;
  * provided cannot be found, draw will fallback to using the provided character and color
  * representation, so you are free to use image tiles on your own computer.
  *
- * The provided TETile is immutable, i.e. none of its instance variables can change. You are welcome
- * to make your TETile class mutable, if you prefer.
+ * TETile is now mutable - change made for a special easter egg.
  */
 
 public class TETile implements java.io.Serializable{
-    private final char character; // Do not rename character or the autograder will break.
-    private final Color textColor;
-    private final Color backgroundColor;
-    private final String description;
-    private final String filepath;
+    private char character; // Do not rename character or the autograder will break.
+    private Color textColor;
+    private Color backgroundColor;
+    private String description;
+    private String filepath;
 
     /**
      * Full constructor for TETile objects.
@@ -43,6 +42,14 @@ public class TETile implements java.io.Serializable{
         this.backgroundColor = backgroundColor;
         this.description = description;
         this.filepath = filepath;
+    }
+
+    public void changeTextColor(Color c) {
+        this.textColor = c;
+    }
+
+    public void changeBackgroundColor(Color c) {
+        this.backgroundColor = c;
     }
 
     /**
@@ -71,6 +78,12 @@ public class TETile implements java.io.Serializable{
     }
 
 
+    /**
+     * @Return the color of the text
+     */
+    public Color getTextColor() {
+        return this.textColor;
+    }
     /**
      * Draws the tile to the screen at location x, y. If a valid filepath is provided,
      * we draw the image located at that filepath to the screen. Otherwise, we fall

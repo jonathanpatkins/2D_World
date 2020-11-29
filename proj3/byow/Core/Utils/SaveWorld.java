@@ -10,13 +10,13 @@ import java.util.ArrayList;
 public class SaveWorld implements Serializable{
 
     TETile[][] world;
-    Position posOfAvatar, power;
+    Position posOfAvatar, power, heart;
     Random random;
     TERenderer ter;
     TETile floorType, wallType;
     ArrayList<Position> enemies;
     int lives;
-    boolean powered;
+    boolean powered, boosted, togglePaths;
 
     public SaveWorld(ArrayList<Object> loadedObjects) {
         this.ter = (TERenderer) loadedObjects.get(0);
@@ -27,8 +27,11 @@ public class SaveWorld implements Serializable{
         this.wallType = (TETile) loadedObjects.get(5);
         this.enemies = (ArrayList<Position>) loadedObjects.get(6);
         this.power = (Position) loadedObjects.get(7);
-        this.lives = (int) loadedObjects.get(8);
-        this.powered = (boolean) loadedObjects.get(9);
+        this.heart = (Position) loadedObjects.get(8);
+        this.lives = (int) loadedObjects.get(9);
+        this.powered = (boolean) loadedObjects.get(10);
+        this.boosted = (boolean) loadedObjects.get(11);
+        this.togglePaths = (boolean) loadedObjects.get(12);
 
         writeInfo();
     }
@@ -50,8 +53,11 @@ public class SaveWorld implements Serializable{
             out.writeObject(this.wallType);
             out.writeObject(this.enemies);
             out.writeObject(this.power);
+            out.writeObject(this.heart);
             out.writeObject(this.lives);
             out.writeObject(this.powered);
+            out.writeObject(this.boosted);
+            out.writeObject(this.togglePaths);
 
             // close file when done
             out.close();

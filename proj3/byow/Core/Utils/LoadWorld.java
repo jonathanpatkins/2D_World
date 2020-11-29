@@ -20,13 +20,13 @@ public class LoadWorld implements Serializable{
      */
 
     protected TETile[][] world;
-    protected Position avatar, power;
+    protected Position avatar, power, heart;
     protected Random random;
     protected TERenderer ter;
     protected TETile floorType, wallType;
     protected ArrayList<Position> enemies;
     protected int lives;
-    protected boolean powered;
+    protected boolean powered, boosted, togglePaths;
     protected ArrayList<Object> objects;
     public LoadWorld() {
 
@@ -46,8 +46,11 @@ public class LoadWorld implements Serializable{
             this.wallType = (TETile) in.readObject();
             this.enemies = (ArrayList) in.readObject();
             this.power = (Position) in.readObject();
+            this.heart = (Position) in.readObject();
             this.lives = (int) in.readObject();
             this.powered = (boolean) in.readObject();
+            this.boosted = (boolean) in.readObject();
+            this.togglePaths = (boolean) in.readObject();
 
             this.objects =  new ArrayList<>();
             objects.add(ter);
@@ -58,8 +61,11 @@ public class LoadWorld implements Serializable{
             objects.add(wallType);
             objects.add(enemies);
             objects.add(power);
+            objects.add(heart);
             objects.add(lives);
             objects.add(powered);
+            objects.add(boosted);
+            objects.add(togglePaths);
             // once done using a file, always close
             file.close();
             in.close();
@@ -76,7 +82,7 @@ public class LoadWorld implements Serializable{
 
     public void load() {
         // reload the world
-        ter.initialize(Engine.WIDTH, Engine.HEIGHT);
+        // ter.initialize(Engine.WIDTH, Engine.HEIGHT);
         World loadedWorld = new World(objects);
     }
 
@@ -94,5 +100,9 @@ public class LoadWorld implements Serializable{
 
     public TERenderer getTer() {
         return ter;
+    }
+
+    public ArrayList<Object> getObjects() {
+        return objects;
     }
 }

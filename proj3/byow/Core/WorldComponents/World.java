@@ -1,14 +1,11 @@
 package byow.Core.WorldComponents;
 
 import byow.Core.Engine;
+import byow.Core.Utils.*;
 import byow.TileEngine.TERenderer;
 import byow.TileEngine.TETile;
 import byow.TileEngine.Tileset;
 import byow.Core.UserInput.Interact;
-import byow.Core.Utils.LoadWorld;
-import byow.Core.Utils.Position;
-import byow.Core.Utils.RandomUtils;
-import byow.Core.Utils.UnionFind;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,10 +36,10 @@ public class World implements java.io.Serializable {
     private long seed;
     private Random random;
     private TERenderer ter;
-    private Position avatar, power;
+    private Position avatar, power, heart;
     private double theme;
     private int lives;
-    private boolean powered;
+    private boolean powered, boosted, togglePaths;
     private ArrayList<Object> objects;
 
     public World(ArrayList<Object> loadedObjects) {
@@ -54,11 +51,13 @@ public class World implements java.io.Serializable {
         this.wallType = (TETile) loadedObjects.get(5);
         this.enemies = (ArrayList<Position>) loadedObjects.get(6);
         this.power = (Position) loadedObjects.get(7);
-        this.lives = (int) loadedObjects.get(8);
-        this.powered = (boolean) loadedObjects.get(9);
-
+        this.heart = (Position) loadedObjects.get(8);
+        this.lives = (int) loadedObjects.get(9);
+        this.powered = (boolean) loadedObjects.get(10);
+        this.boosted = (boolean) loadedObjects.get(11);
+        this.togglePaths = (boolean) loadedObjects.get(12);
         objects = loadedObjects;
-        interact(avatar, null);
+        interact(avatar, "L");
     }
     /**
      * Uses @param seedInput to set up the Random object's seed.
@@ -76,14 +75,9 @@ public class World implements java.io.Serializable {
          * or L
          */
         char first = seedInput.charAt(0);
-
         if (first == 'L') {
             LoadWorld l = new LoadWorld();
-            this.ter = l.getTer();
-            this.random = l.getRandom();
-            this.world = l.getWorld();
-            this.avatar = l.getAvatar();
-            System.out.println(avatar);
+            this.objects = l.getObjects();
             interact(avatar, seedInput);
         } else {
             this.world = new TETile[Engine.WIDTH][Engine.HEIGHT];
@@ -119,6 +113,8 @@ public class World implements java.io.Serializable {
 
             this.lives = 3;
             this.powered = false;
+            this.boosted = false;
+            this.togglePaths = false;
             this.enemies = new ArrayList<>();
             this.world = generateWorld();
             this.objects =  new ArrayList<>();
@@ -130,8 +126,11 @@ public class World implements java.io.Serializable {
             objects.add(this.wallType);
             objects.add(this.enemies);
             objects.add(this.power);
+            objects.add(this.heart);
             objects.add(this.lives);
             objects.add(this.powered);
+            objects.add(this.boosted);
+            objects.add(this.togglePaths);
 
             this.world = interact(null, seedString);
 
@@ -179,14 +178,16 @@ public class World implements java.io.Serializable {
 
         //Generates 3 enemies and the power tile.
         generateEnemies(3);
-        this.power = generatePower();
+        this.power = generatePowers(Tileset.POWER);
+        this.heart = generatePowers(Tileset.HEART);
 
         return world;
     }
 
 
     public TETile[][] interact(Position avatar, String userInput) {
-        Interact interact = new Interact(objects);
+        Interact interact = new Interact(objects, userInput);
+        this.world = interact.getWorld();
         return world;
     }
 
@@ -282,13 +283,13 @@ public class World implements java.io.Serializable {
     /**
      * Randomly place and @return the Position of the Power up.
      */
-    private Position generatePower() {
+    private Position generatePowers(TETile type) {
         while (true) {
             int x = RandomUtils.uniform(random, 0, Engine.WIDTH);
             int y = RandomUtils.uniform(random, 0, Engine.HEIGHT);
             Position powerPos = new Position(x, y);
             if (Engine.inBounds(powerPos) && world[x][y] == floorType) {
-                world[x][y] = Tileset.POWER;
+                world[x][y] = type;
                 return powerPos;
             }
         }

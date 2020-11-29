@@ -8,6 +8,7 @@ import byow.Core.WorldComponents.*;
 import edu.princeton.cs.introcs.StdDraw;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class Interact {
@@ -15,16 +16,19 @@ public class Interact {
     TERenderer ter;
     TETile[][] world;
     Random random;
-    Position avatar, power, startingPos;
+    Position avatar, power, startingPos, heart;
     String userInput;
     private TETile floorType, wallType;
     private ArrayList<Position> enemies;
     private int lives;
-    private boolean powered, play;
+    private boolean powered, play, boosted, togglePaths;
     private ArrayList<Object> objects;
+    private WorldGraph myGraph;
+    private ArrayList<AStarSolver> solver;
+    private ArrayList<List<Position>> enemyPaths;
 
     // now you can take input from keyboard to interact with world
-    public Interact(ArrayList<Object> loadedObjects) {
+    public Interact(ArrayList<Object> loadedObjects, String userIn) {
         this.ter = (TERenderer) loadedObjects.get(0);
         this.world = (TETile[][]) loadedObjects.get(1);
         this.avatar = (Position) loadedObjects.get(2);
@@ -36,31 +40,33 @@ public class Interact {
         }
         this.enemies = (ArrayList<Position>) loadedObjects.get(6);
         this.power = (Position) loadedObjects.get(7);
-        this.lives = (int) loadedObjects.get(8);
-        this.powered = (boolean) loadedObjects.get(9);
+        this.heart = (Position) loadedObjects.get(8);
+        this.lives = (int) loadedObjects.get(9);
+        this.powered = (boolean) loadedObjects.get(10);
+        this.boosted = (boolean) loadedObjects.get(11);
+        this.togglePaths = (boolean) loadedObjects.get(12);
         objects = loadedObjects;
         objects.set(2, avatar);
         this.play = true;
         this.startingPos = avatar;
+        this.userInput = userIn;
+        generatePaths();
         // returns if the program should quit or not
         if (!doUserInput(userInput)) {
             ter.initialize(Engine.WIDTH, Engine.HEIGHT);
-
             // create input source and draw first frame - before the avatar has moved
             InputSource inputSource = new KeyboardInputSource();
             drawFrame(ter, world, avatar);
             boolean getReadyForQuit = false;
-
             // change frame due to keyboard input
+
             while (inputSource.possibleNextInput()) {
                 Position nextPos;
                 char c = inputSource.getNextKey();
                 if (gameState() != 0) {
                     play = false;
                 }
-                //TODO: Make motion less glitchy/more intelligent
                 if (play) {
-                    //move();
                     if (c == 'W') {
                         nextPos = new Position(avatar, 0, 1);
                         makeMove(nextPos, c);
@@ -73,11 +79,14 @@ public class Interact {
                     } else if (c == 'D') {
                         nextPos = new Position(avatar, 1, 0);
                         makeMove(nextPos, c);
+                    } else if (c == 'T') {
+                        togglePaths = !togglePaths;
+                        objects.set(12, togglePaths);
                     }
                 } else {
                     StdDraw.setPenColor(Color.WHITE);
-                    Font result = new Font("Monaco", Font.BOLD, 48);
-                    StdDraw.setFont(result);
+                    //Font result = new Font("Monaco", Font.BOLD, 48);
+                    //StdDraw.setFont(result);
                     if (gameState() == -1) {
                         StdDraw.text(Engine.WIDTH / 2, Engine.HEIGHT / 2, "You Lose!");
                     } else {
@@ -91,9 +100,11 @@ public class Interact {
                 } else if (c == 'Q' && getReadyForQuit) {
                     SaveWorld saveWorld = new SaveWorld(objects);
                     break;
-                } else if (c == '0') {
-                    //had to comment out due to merge issues - you can try again
-                    //makeMove(nextPos, c);
+                }
+                // this is triggered if you are not taking in new keyboard input
+                // in this case you want to display the new mouse position if it has changed, but do nothing else
+                else if (c == '0') {
+                    makeMove(null, c);
                 }
             }
         }
@@ -101,40 +112,66 @@ public class Interact {
     /**
      * Moves the avatar to Position @param next if possible- Valid position/character @param c.
      * Also calculates if the avatar may be about to collide with an enemy or the power up.
+     * However, if the @param next is null, then it tries to display the new mouse position on the hud
+     * without doing anything else
      */
     private void makeMove(Position next, char c) {
-        if (checkEnemyCollision(next)) {
-            if (powered) {
+        if (next != null) {
+            if (checkEnemyCollision(next)) {
+                if (powered) {
+                    world[next.getX()][next.getY()] = floorType;
+                    enemies.remove(next);
+                } else {
+                    lives -= 1;
+                    avatar = startingPos;
+                    objects.set(9, lives);
+                    generatePaths();
+                    drawFrame(ter, world, avatar);
+                    return;
+                }
+            } else if (checkPowerCollision(next)) {
                 world[next.getX()][next.getY()] = floorType;
-                enemies.remove(next);
-            } else {
-                lives -= 1;
-                avatar = startingPos;
-                objects.set(8, lives);
-                drawFrame(ter, world, avatar);
-                return;
+                powered = true;
+                objects.set(10, powered);
+                for (int i = 0; i < enemies.size(); i += 1) {
+                    Position pos = enemies.get(i);
+                    world[pos.getX()][pos.getY()] = Tileset.SCARED_ENEMY;
+                }
+            } else if (checkHeartCollision(next)) {
+                world[next.getX()][next.getY()] = floorType;
+                lives += 1;
+                boosted = true;
+                objects.set(11, boosted);
+                objects.set(9, lives);
             }
-        } else if (checkPowerCollision(next)) {
-            world[next.getX()][next.getY()] = floorType;
-            powered = true;
-            objects.set(9, powered);
-            for (int i = 0; i < enemies.size(); i += 1) {
-                Position pos = enemies.get(i);
-                world[pos.getX()][pos.getY()] = Tileset.SCARED_ENEMY;
-            }
-        }
-        if ((next != null && Engine.inBounds(next) && isFloor(next, world)) || c == '0') {
-            if (c != '0') {
+            if (Engine.inBounds(next) && checkValid(next)) {
                 avatar = next;
                 objects.set(2, avatar);
+                generatePaths();
+                //TODO: Make movement less clunky and glitchy
+                //move();
+                drawFrame(ter, world, avatar);
             }
+        } else {
             drawFrame(ter, world, avatar);
         }
     }
-    // for now lets go off the assumption that you are passed an unparsed string
+
+    /**
+     * This method is for the autograder when it tests the code using "Program arguments"
+     * Essentially, this means that if given a seed N***SWWSSD or LDDD:Q it will be able to compile
+     * For N***SWWSSD, if will use the seed *** and then it will use the moves WWSSD before displaying
+     * the rendered world.
+     * Fro LDDD:Q, this means it will load the world, move the avatar to the right three times and then save
+     * and quit.
+     * @param userInput this is the string put into program arguments - this is found and tested through
+     *                  Run >> Edit Configurations >> Program arguments
+     * @return boolean value for true if the program should quit and false to keep it going
+     */
     private boolean doUserInput(String userInput) {
-        boolean quit = false;
+        boolean quit = true;
         if (userInput != null) {
+            quit = false;
             char[] charArray = userInput.toCharArray();
             Position nextPos = avatar;
             boolean getReadyForQuit = false;
@@ -147,26 +184,82 @@ public class Interact {
             for (char c : charArray) {
                 if (c == 'W') {
                     nextPos = new Position(avatar, 0, 1);
+                    makeMoveFromInput(nextPos);
                 } else if (c == 'A') {
                     nextPos = new Position(avatar, -1, 0);
+                    makeMoveFromInput(nextPos);
                 } else if (c == 'S' && sCounter > 0) {
                     nextPos = new Position(avatar, 0, -1);
+                    makeMoveFromInput(nextPos);
                 } else if (c == 'S') {
                     sCounter += 1;
                 } else if (c == 'D') {
                     nextPos = new Position(avatar, 1, 0);
+                    makeMoveFromInput(nextPos);
                 } else if (c == ':') {
                     getReadyForQuit = true;
                 } else if (c == 'Q' && getReadyForQuit) {
                     new SaveWorld(objects);
                     quit = true;
                 }
-                if (nextPos != null && Engine.inBounds(nextPos) && isFloor(nextPos, world)) {
-                    avatar = nextPos;
-                }
             }
         }
         return quit;
+    }
+
+    private void makeMoveFromInput(Position next) {
+        if (next != null) {
+            if (checkEnemyCollision(next)) {
+                if (powered) {
+                    world[next.getX()][next.getY()] = floorType;
+                    enemies.remove(next);
+                } else {
+                    lives -= 1;
+                    avatar = startingPos;
+                    objects.set(9, lives);
+                    return;
+                }
+            } else if (checkPowerCollision(next)) {
+                world[next.getX()][next.getY()] = floorType;
+                powered = true;
+                objects.set(10, powered);
+                for (int i = 0; i < enemies.size(); i += 1) {
+                    Position pos = enemies.get(i);
+                    world[pos.getX()][pos.getY()] = Tileset.SCARED_ENEMY;
+                }
+            } else if (checkHeartCollision(next)) {
+                world[next.getX()][next.getY()] = floorType;
+                lives += 1;
+                boosted = true;
+                objects.set(11, boosted);
+                objects.set(9, lives);
+            }
+            if (Engine.inBounds(next) && checkValid(next)) {
+                avatar = next;
+                objects.set(2, avatar);
+            }
+        }
+    }
+
+    /**
+     * @Return whether the player could hypothetically move onto the Position @param p.
+     */
+    private boolean checkValid(Position p) {
+        TETile tile = world[p.getX()][p.getY()];
+        return tile != wallType && tile != Tileset.NOTHING;
+    }
+
+    /**
+     * Uses the A* Algorithm to find the closest path between the enemies and the avatar.
+     */
+    private void generatePaths() {
+        this.myGraph = new WorldGraph(world, wallType);
+        this.solver = new ArrayList<>();
+        this.enemyPaths = new ArrayList<>();
+        for (int i = 0; i < enemies.size(); i += 1) {
+            this.solver.add(new AStarSolver(myGraph, enemies.get(i), avatar, 5.0));
+            this.enemyPaths.add(solver.get(i).solution());
+        }
     }
 
     /**
@@ -233,7 +326,45 @@ public class Interact {
                 StdDraw.text(4, 1, temp.toString());
             }
             StdDraw.text(2, Engine.HEIGHT - 1, "Lives: " + lives);
+            StdDraw.text(Engine.WIDTH - 5, Engine.HEIGHT - 1, "Paths (T) " + togglePaths);
             StdDraw.show();
+        }
+        if (togglePaths) {
+            for (int j = 0; j < world.length; j += 1) {
+                for (int k = 0; k < world[j].length; k += 1) {
+                    boolean pathway = false;
+                    for (int l = 0; l < enemyPaths.size(); l += 1) {
+                        Position p = new Position(j, k);
+                        if (enemyPaths.get(l).contains(p) && !enemies.contains(p)) {
+                            world[j][k] = Tileset.PATH_TILE;
+                            pathway = true;
+                        } else if (!pathway && world[j][k] == Tileset.PATH_TILE) {
+                            if (!powered && p.equals(power)) {
+                                world[j][k] = Tileset.POWER;
+                            } else if (!boosted && p.equals(heart)) {
+                                world[j][k] = Tileset.HEART;
+                            } else {
+                                world[j][k] = floorType;
+                            }
+                        }
+                    }
+                }
+            }
+        } else {
+            for (int j = 0; j < world.length; j += 1) {
+                for (int k = 0; k < world[j].length; k += 1) {
+                    if (world[j][k] == Tileset.PATH_TILE) {
+                        Position p = new Position(j, k);
+                        if (!powered && p.equals(power)) {
+                            world[j][k] = Tileset.POWER;
+                        } else if (!boosted && p.equals(heart)) {
+                            world[j][k] = Tileset.HEART;
+                        } else {
+                            world[j][k] = floorType;
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -260,10 +391,17 @@ public class Interact {
     }
 
     /**
-     * @Return whether the Avatar at Position @param pos is colliding with any enemies.
+     * @Return whether the Avatar at Position @param pos is colliding with the power up.
      */
     private boolean checkPowerCollision(Position pos) {
         return !powered && pos.equals(power);
+    }
+
+    /**
+     * @Return whether the Avatar at Position @param pos is colliding with the heart.
+     */
+    private boolean checkHeartCollision(Position pos) {
+        return !boosted && pos.equals(heart);
     }
 
     /**
@@ -282,36 +420,27 @@ public class Interact {
     }
 
     /**
-     * Moves the enemies randomly.
-     * 1 = Move left
-     * 2 = Move right
-     * 3 = Move up
-     * 4 = Move down
-     * TODO: Make the movement somewhat intelligent, though not perfect!
+     * Moves the enemies in the most optimal way towards the avatar.
      */
     private void move() {
+        this.myGraph = new WorldGraph(world, wallType);
+        this.solver = new ArrayList<>();
         for (int i = 0; i < enemies.size(); i += 1) {
-            int direction = RandomUtils.uniform(random, 1, 5);
             Position p = enemies.get(i);
-            Position nextP = null;
-            if (direction == 1) {
-                nextP = new Position(p, -1, 0);
-            } else if (direction == 2) {
-                nextP = new Position(p, 1, 0);
-            } else if (direction == 3) {
-                nextP = new Position(p, 0, 1);
+            this.solver.add(new AStarSolver(myGraph, p, avatar, 5.0));
+            List<Position> sol = solver.get(i).solution();
+            Position nextP = sol.get(1);
+            world[p.getX()][p.getY()] = floorType;
+            if (powered) {
+                world[nextP.getX()][nextP.getY()] = Tileset.SCARED_ENEMY;
             } else {
-                nextP = new Position(p, 0, -1);
+                world[nextP.getX()][nextP.getY()] = Tileset.ENEMY;
             }
-            if (Engine.inBounds(nextP) && (isFloor(nextP, world) || nextP.equals(avatar))) {
-                world[p.getX()][p.getY()] = floorType;
-                if (powered) {
-                    world[nextP.getX()][nextP.getY()] = Tileset.SCARED_ENEMY;
-                } else {
-                    world[nextP.getX()][nextP.getY()] = Tileset.ENEMY;
-                }
-                drawFrame(ter, world, avatar);
-            }
+            drawFrame(ter, world, avatar);
         }
+    }
+
+    public TETile[][] getWorld() {
+        return world;
     }
 }
