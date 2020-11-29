@@ -125,6 +125,9 @@ public class Interact {
                     lives -= 1;
                     avatar = startingPos;
                     objects.set(9, lives);
+                    int s = enemies.size();
+                    generateEnemies(s);
+                    objects.set(6, enemies);
                     generatePaths();
                     drawFrame(ter, world, avatar);
                     return;
@@ -148,8 +151,8 @@ public class Interact {
                 avatar = next;
                 objects.set(2, avatar);
                 generatePaths();
-                //TODO: Make movement less clunky and glitchy
-                //move();
+                // Whenever the avatar moves, the enemies move.
+                move();
                 drawFrame(ter, world, avatar);
             }
         } else {
@@ -217,6 +220,10 @@ public class Interact {
                     lives -= 1;
                     avatar = startingPos;
                     objects.set(9, lives);
+                    int s = enemies.size();
+                    generateEnemies(s);
+                    objects.set(6, enemies);
+                    generatePaths();
                     return;
                 }
             } else if (checkPowerCollision(next)) {
@@ -237,6 +244,8 @@ public class Interact {
             if (Engine.inBounds(next) && checkValid(next)) {
                 avatar = next;
                 objects.set(2, avatar);
+                generatePaths();
+                move();
             }
         }
     }
@@ -250,7 +259,7 @@ public class Interact {
     }
 
     /**
-     * Uses the A* Algorithm to find the closest path between the enemies and the avatar.
+     * Uses the A* Algorithm to find the closest path between each enemy and the avatar.
      */
     private void generatePaths() {
         this.myGraph = new WorldGraph(world, wallType);
@@ -382,8 +391,8 @@ public class Interact {
      * @Return whether the Avatar at Position @param pos is colliding with any enemies.
      */
     private boolean checkEnemyCollision(Position pos) {
-        for (int i = 0; i < enemies.size(); i += 1) {
-            if (pos.equals(enemies.get(i))) {
+        for (Position enemy : enemies) {
+            if (pos.equals(enemy)) {
                 return true;
             }
         }
@@ -423,24 +432,69 @@ public class Interact {
      * Moves the enemies in the most optimal way towards the avatar.
      */
     private void move() {
-        this.myGraph = new WorldGraph(world, wallType);
-        this.solver = new ArrayList<>();
+        if (powered) {
+            return;
+        }
         for (int i = 0; i < enemies.size(); i += 1) {
             Position p = enemies.get(i);
-            this.solver.add(new AStarSolver(myGraph, p, avatar, 5.0));
             List<Position> sol = solver.get(i).solution();
             Position nextP = sol.get(1);
-            world[p.getX()][p.getY()] = floorType;
-            if (powered) {
-                world[nextP.getX()][nextP.getY()] = Tileset.SCARED_ENEMY;
-            } else {
-                world[nextP.getX()][nextP.getY()] = Tileset.ENEMY;
+            if (!enemies.contains(nextP)) {
+                int x = p.getX();
+                int y = p.getY();
+                if (!powered && p.equals(power)) {
+                    world[x][y] = Tileset.POWER;
+                } else if (!boosted && p.equals(heart)) {
+                    world[x][y] = Tileset.HEART;
+                } else {
+                    world[x][y] = floorType;
+                }
+                enemies.set(i, nextP);
+                if (nextP.equals(avatar)) {
+                    lives -= 1;
+                    avatar = startingPos;
+                    objects.set(2, avatar);
+                    objects.set(9, lives);
+                    int s = enemies.size();
+                    generateEnemies(s);
+                    objects.set(6, enemies);
+                    generatePaths();
+                } else {
+                    world[nextP.getX()][nextP.getY()] = Tileset.ENEMY;
+                    enemyPaths.get(i).remove(p);
+                }
             }
-            drawFrame(ter, world, avatar);
         }
     }
 
     public TETile[][] getWorld() {
         return world;
+    }
+
+    /**
+     * Generate @param num enemies to random floor tiles.
+     * Also clears the world of enemies in previous locations, if they existed.
+     */
+    private void generateEnemies(int num) {
+        for (int i = 0; i < enemies.size(); i += 1) {
+            Position p = enemies.get(i);
+            world[p.getX()][p.getY()] = floorType;
+        }
+        enemies = new ArrayList<>();
+        for (int i = 0; i < num; i += 1) {
+            boolean valid = false;
+            while (!valid) {
+                int x = RandomUtils.uniform(random, 0, Engine.WIDTH);
+                int y = RandomUtils.uniform(random, 0, Engine.HEIGHT);
+                Position enemyPos = new Position(x, y);
+                if (Engine.inBounds(enemyPos) && (world[x][y] == floorType
+                        || world[x][y] == Tileset.PATH_TILE)) {
+                    world[x][y] = Tileset.ENEMY;
+                    enemies.add(enemyPos);
+                    valid = true;
+                }
+            }
+        }
+        drawFrame(ter, world, avatar);
     }
 }
