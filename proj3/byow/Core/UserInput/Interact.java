@@ -124,7 +124,7 @@ public class Interact {
                     avatar = startingPos;
                     objects.set(9, lives);
                     int s = enemies.size();
-                    generateEnemies(s);
+                    generateEnemies(s, true);
                     objects.set(6, enemies);
                     generatePaths();
                     drawFrame(avatar);
@@ -150,7 +150,7 @@ public class Interact {
                 objects.set(2, avatar);
                 generatePaths();
                 // Whenever the avatar moves, the enemies move.
-                move();
+                move(true);
                 drawFrame(avatar);
             }
         } else {
@@ -171,6 +171,7 @@ public class Interact {
      *                  - this is found and tested through
      *                  Run >> Edit Configurations >> Program arguments
      */
+    // mark
     private void doUserInput() {
         if (userInput != null) {
             char[] charArray = userInput.toCharArray();
@@ -209,6 +210,7 @@ public class Interact {
         }
     }
 
+    // mark
     private void makeMoveFromInput(Position next) {
         if (next != null) {
             if (checkEnemyCollision(next)) {
@@ -220,7 +222,7 @@ public class Interact {
                     avatar = startingPos;
                     objects.set(9, lives);
                     int s = enemies.size();
-                    generateEnemies(s);
+                    generateEnemies(s, false);
                     objects.set(6, enemies);
                     generatePaths();
                     return;
@@ -245,7 +247,7 @@ public class Interact {
                 objects.set(2, avatar);
                 generatePaths();
                 // Whenever the avatar moves, the enemies move.
-                move();
+                move(false);
             }
         }
 
@@ -428,7 +430,7 @@ public class Interact {
     /**
      * Moves the enemies in the most optimal way towards the avatar.
      */
-    private void move() {
+    private void move(boolean show) {
         if (powered) {
             return;
         }
@@ -453,7 +455,7 @@ public class Interact {
                     objects.set(2, avatar);
                     objects.set(9, lives);
                     int s = enemies.size();
-                    generateEnemies(s);
+                    generateEnemies(s, show);
                     objects.set(6, enemies);
                     generatePaths();
                 } else {
@@ -472,7 +474,7 @@ public class Interact {
      * Generate @param num enemies to random floor tiles.
      * Also clears the world of enemies in previous locations, if they existed.
      */
-    private void generateEnemies(int num) {
+    private void generateEnemies(int num, boolean show) {
         for (int i = 0; i < enemies.size(); i += 1) {
             Position p = enemies.get(i);
             world[p.getX()][p.getY()] = floorType;
@@ -492,6 +494,8 @@ public class Interact {
                 }
             }
         }
-        drawFrame(avatar);
+        if (show) {
+            drawFrame(avatar);
+        }
     }
 }
