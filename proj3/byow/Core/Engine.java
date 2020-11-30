@@ -18,14 +18,9 @@ public class Engine {
     public static final int WIDTH = 80;
     public static final int HEIGHT = 30;
 
-    public Engine(boolean fromArgs) {
+    public Engine() {
         ter = new TERenderer();
         finalWorldFrame = null;
-        if (fromArgs) {
-            ter.setFromProgramArguments(true);
-        } else {
-            ter.setFromProgramArguments(false);
-        }
     }
 
 
@@ -46,7 +41,7 @@ public class Engine {
          */
         for (char c : seedArray) {
             if (c == 'N') {
-                interactWithInputString(seed);
+                interactWithInputString(seed, true);
                 break;
             } else if (c == 'L') {
                 // do something
@@ -84,13 +79,18 @@ public class Engine {
      * @param input the input string to feed to your program
      * @return the 2D TETile[][] representing the state of the world
      */
-    public TETile[][] interactWithInputString(String input) {
+    public TETile[][] interactWithInputString(String input, boolean show) {
         // passed in as an argument, and return a 2D tile representation of the
         // world that would have been drawn if the same inputs had been given
         // to interactWithKeyboard().
         //
         // See proj3.byow.InputDemo for a demo of how you can make a nice clean interface
         // that works for many different input types.
+        if (!show) {
+            ter.setFromProgramArguments(true);
+        } else {
+            ter.setFromProgramArguments(false);
+        }
         World world = new World(input.toUpperCase(), ter);
         finalWorldFrame = world.getWorld();
         // Do not render yet- merely return the finalWorldFrame.
