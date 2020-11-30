@@ -432,23 +432,28 @@ public class Interact {
      * Moves the enemies in the most optimal way towards the avatar.
      */
     private void move() {
-        if (powered) {
-            return;
-        }
         for (int i = 0; i < enemies.size(); i += 1) {
             Position p = enemies.get(i);
             List<Position> sol = solver.get(i).solution();
             Position nextP = sol.get(1);
-            if (!enemies.contains(nextP)) {
-                int x = p.getX();
-                int y = p.getY();
-                if (!powered && p.equals(power)) {
-                    world[x][y] = Tileset.POWER;
-                } else if (!boosted && p.equals(heart)) {
-                    world[x][y] = Tileset.HEART;
-                } else {
-                    world[x][y] = floorType;
+            if (powered) {
+                List<WeightedEdge> neighbors = myGraph.neighbors(p);
+                for (WeightedEdge e: neighbors) {
+                    Position move = e.to();
+                    // You don't want to move onto an enemy or closer to the player.
+                    // Stops moving once you get a tile away because otherwise the game drags out.
+                    if (!nextP.equals(move) && myGraph.estimatedDistanceToGoal(move, avatar) > 2
+                        && !enemies.contains(move)) {
+                        fixTile(p, p.getX(), p.getY());
+                        enemies.set(i, move);
+                        world[move.getX()][move.getY()] = Tileset.SCARED_ENEMY;
+                        enemyPaths.get(i).remove(p);
+                        generatePaths();
+                        break;
+                    }
                 }
+            } else if (!enemies.contains(nextP)) {
+                fixTile(p, p.getX(), p.getY());
                 enemies.set(i, nextP);
                 if (nextP.equals(avatar)) {
                     lives -= 1;
@@ -464,6 +469,16 @@ public class Interact {
                     enemyPaths.get(i).remove(p);
                 }
             }
+        }
+    }
+
+    private void fixTile(Position p, int x, int y) {
+        if (!powered && p.equals(power)) {
+            world[x][y] = Tileset.POWER;
+        } else if (!boosted && p.equals(heart)) {
+            world[x][y] = Tileset.HEART;
+        } else {
+            world[x][y] = floorType;
         }
     }
 
