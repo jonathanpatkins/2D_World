@@ -17,9 +17,15 @@ public class Engine {
     /* Feel free to change the width and height. */
     public static final int WIDTH = 80;
     public static final int HEIGHT = 30;
-    public static boolean FROM_PROGRAM_ARGUMENTS = false;
+    private static boolean FROM_PROGRAM_ARGUMENTS = false;
 
-    public Engine() {}
+    public static boolean isFromProgramArguments() {
+        return FROM_PROGRAM_ARGUMENTS;
+    }
+
+    public static void setFromProgramArguments(boolean fromProgramArguments) {
+        FROM_PROGRAM_ARGUMENTS = fromProgramArguments;
+    }
 
     /**
      * Method used for exploring a fresh world. This method should handle all inputs,
@@ -47,14 +53,9 @@ public class Engine {
                 loadWorld.load();
                 this.finalWorldFrame = loadWorld.getWorld();
                 break;
-            } else if (c == ':') {
-                // do something - nothing?
             } else if (c == 'Q') {
                 // save before quiting
-
                 System.exit(0);
-            } else if (c == 'S') {
-                // do something
             }
         }
 
