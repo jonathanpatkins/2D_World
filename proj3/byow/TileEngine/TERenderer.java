@@ -17,15 +17,6 @@ public class TERenderer implements java.io.Serializable {
     private int height;
     private int xOffset;
     private int yOffset;
-    private boolean FROM_PROGRAM_ARGUMENTS;
-
-    public boolean isFromProgramArguments() {
-        return FROM_PROGRAM_ARGUMENTS;
-    }
-
-    public void setFromProgramArguments(boolean fromProgramArguments) {
-        FROM_PROGRAM_ARGUMENTS = fromProgramArguments;
-    }
 
     /**
      * Same functionality as the other initialization method. The only difference is that the xOff

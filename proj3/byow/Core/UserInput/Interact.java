@@ -52,7 +52,7 @@ public class Interact {
         generatePaths();
 
         // if we started the game from Program arguments, run that and then quit out
-        if (ter.isFromProgramArguments()) { // true
+        if (Engine.isFromProgramArguments()) { // true
             doUserInput();
             return;
         } else {

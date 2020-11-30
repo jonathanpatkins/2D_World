@@ -12,16 +12,21 @@ import byow.Core.WorldComponents.World;
  * @author Jonathan Atkins Jake Webster 11/20/20.
  */
 public class Engine {
-    private TERenderer ter;
+    private TERenderer ter = new TERenderer();;
     private TETile[][] finalWorldFrame;
     /* Feel free to change the width and height. */
     public static final int WIDTH = 80;
     public static final int HEIGHT = 30;
+    private static boolean FROM_PROGRAM_ARGUMENTS = true;
 
-    public Engine() {
-        ter = new TERenderer();
-        finalWorldFrame = null;
+    public static boolean isFromProgramArguments() {
+        return FROM_PROGRAM_ARGUMENTS;
     }
+
+    public static void setFromProgramArguments(boolean fromProgramArguments) {
+        FROM_PROGRAM_ARGUMENTS = fromProgramArguments;
+    }
+
 
 
     /**
@@ -32,7 +37,7 @@ public class Engine {
         StartWindow startWindow = new StartWindow(ter);
         String seed = startWindow.start().toUpperCase();
         char[] seedArray = seed.toCharArray();
-
+        Engine.setFromProgramArguments(false);
 
         /**
          * When we save the game what elements should we keep track of
@@ -86,12 +91,6 @@ public class Engine {
         //
         // See proj3.byow.InputDemo for a demo of how you can make a nice clean interface
         // that works for many different input types.
-        if (input.charAt(input.length() - 1) == '!') {
-            ter.setFromProgramArguments(true);
-            input = input.substring(0, input.length() - 1);
-        } else {
-            ter.setFromProgramArguments(false);
-        }
         World world = new World(input.toUpperCase(), ter);
         finalWorldFrame = world.getWorld();
         // Do not render yet- merely return the finalWorldFrame.

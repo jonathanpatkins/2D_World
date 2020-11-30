@@ -12,8 +12,7 @@ public class Main {
             System.exit(0);
         } else if (args.length == 1) {
             Engine engine = new Engine();
-            String temp = args[0] + "!";
-            engine.interactWithInputString(temp);
+            engine.interactWithInputString(args[0]);
             System.out.println(engine.toString());
 
             // once done with all of that quit the program
