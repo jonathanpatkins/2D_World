@@ -17,6 +17,9 @@ public class Engine {
     /* Feel free to change the width and height. */
     public static final int WIDTH = 80;
     public static final int HEIGHT = 30;
+    public static boolean FROM_PROGRAM_ARGUMENTS = false;
+
+    public Engine() {}
 
     /**
      * Method used for exploring a fresh world. This method should handle all inputs,
@@ -26,6 +29,7 @@ public class Engine {
         StartWindow startWindow = new StartWindow(ter);
         String seed = startWindow.start().toUpperCase();
         char[] seedArray = seed.toCharArray();
+
 
         /**
          * When we save the game what elements should we keep track of

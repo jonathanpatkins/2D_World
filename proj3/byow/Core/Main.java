@@ -12,6 +12,7 @@ public class Main {
             System.exit(0);
         } else if (args.length == 1) {
             Engine engine = new Engine();
+            Engine.FROM_PROGRAM_ARGUMENTS = true;
             engine.interactWithInputString(args[0]);
             System.out.println(engine.toString());
 

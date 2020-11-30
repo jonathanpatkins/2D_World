@@ -51,8 +51,13 @@ public class Interact {
         this.startingPos = avatar;
         this.userInput = userIn;
         generatePaths();
-        // returns if the program should quit or not
-        if (!doUserInput(userInput)) {
+
+        // if we started the game from Program arguments, run that and then quit out
+        if (Engine.getFromProgramArguments()) {
+            doUserInput(userInput);
+        }
+        // if the string came solely from the keyboard then we want to continue interacting with the keyboard
+        else {
             ter.initialize(Engine.WIDTH, Engine.HEIGHT);
             // create input source and draw first frame - before the avatar has moved
             InputSource inputSource = new KeyboardInputSource();
@@ -171,15 +176,15 @@ public class Interact {
      *                  Run >> Edit Configurations >> Program arguments
      * @return boolean value for true if the program should quit and false to keep it going
      */
-    private boolean doUserInput(String userInput) {
-        boolean quit = true;
+    private void doUserInput(String userInput) {
         if (userInput != null) {
-            quit = false;
             char[] charArray = userInput.toCharArray();
             Position nextPos = avatar;
             boolean getReadyForQuit = false;
             int sCounter = 1;
 
+            // this is so if the first thing is n, then we know the seed ends at s so we want to record
+            // everything after that
             if (userInput.charAt(0) == 'N') {
                 sCounter = 0;
             }
@@ -203,11 +208,9 @@ public class Interact {
                     getReadyForQuit = true;
                 } else if (c == 'Q' && getReadyForQuit) {
                     new SaveWorld(objects);
-                    quit = true;
                 }
             }
         }
-        return quit;
     }
 
     private void makeMoveFromInput(Position next) {
