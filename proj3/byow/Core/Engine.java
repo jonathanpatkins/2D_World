@@ -58,6 +58,10 @@ public class Engine {
             } else if (c == 'Q') {
                 // save before quiting
                 System.exit(0);
+            } else if (c == 'B') {
+                // do something
+                interactWithInputString(seed);
+                break;
             }
         }
 

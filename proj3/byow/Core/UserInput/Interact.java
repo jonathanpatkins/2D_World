@@ -259,7 +259,7 @@ public class Interact {
      */
     private boolean checkValid(Position p) {
         TETile tile = world[p.getX()][p.getY()];
-        return tile != wallType && tile != Tileset.NOTHING;
+        return !tile.equals(wallType) && !tile.equals(Tileset.NOTHING);
     }
 
     /**
@@ -384,7 +384,7 @@ public class Interact {
      * @return
      */
     private boolean isFloor(Position nextPos) {
-        return getWorldTile(nextPos, world) == floorType;
+        return getWorldTile(nextPos, world).equals(floorType);
     }
 
     /**
@@ -435,7 +435,24 @@ public class Interact {
         for (int i = 0; i < enemies.size(); i += 1) {
             Position p = enemies.get(i);
             List<Position> sol = solver.get(i).solution();
-            Position nextP = sol.get(1);
+            Position nextP;
+            if (sol.size() < 2) {
+                int direction = RandomUtils.uniform(random, 1, 5);
+                if (direction == 1) {
+                    nextP = new Position(p, -1, 0);
+                } else if (direction == 2) {
+                    nextP = new Position(p, 1, 0);
+                } else if (direction == 3) {
+                    nextP = new Position(p, 0, 1);
+                } else {
+                    nextP = new Position(p, 0, -1);
+                }
+                if (getWorldTile(nextP, world) != floorType) {
+                    nextP = p;
+                }
+            } else {
+                nextP = sol.get(1);
+            }
             if (powered) {
                 List<WeightedEdge> neighbors = myGraph.neighbors(p);
                 for (WeightedEdge e: neighbors) {
@@ -502,7 +519,7 @@ public class Interact {
                 int x = RandomUtils.uniform(random, 0, Engine.WIDTH);
                 int y = RandomUtils.uniform(random, 0, Engine.HEIGHT);
                 Position enemyPos = new Position(x, y);
-                if (Engine.inBounds(enemyPos) && (world[x][y] == floorType
+                if (Engine.inBounds(enemyPos) && (world[x][y].equals(floorType)
                         || world[x][y] == Tileset.PATH_TILE)) {
                     world[x][y] = Tileset.ENEMY;
                     enemies.add(enemyPos);

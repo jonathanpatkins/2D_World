@@ -71,6 +71,26 @@ public class Room  implements java.io.Serializable {
         this.getPositions();
     }
 
+    public Room(Position a, Position b) {
+
+        // Generate the positions of the walls and floor.
+        this.wallLocation = new ArrayList<>();
+        this.floorLocation = new ArrayList<>();
+        this.adjLocation = new ArrayList<>();
+        this.cornerLocation = new ArrayList<>();
+
+        this.width = Math.abs(a.getX() - b.getX()) + 1;
+        this.height = Math.abs(a.getY() - b.getY()) + 1;
+        Position origin = new Position(0, 0);
+
+        int x = Math.min(a.getX(), b.getX());
+        int y = Math.min(a.getY(), b.getY());
+
+        this.lowerLeft = new Position(x, y);
+
+        getPositions();
+    }
+
 
     /**
      * For a given room, records the positions of the outside edges, walls, and floor.

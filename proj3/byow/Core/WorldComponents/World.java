@@ -67,12 +67,8 @@ public class World implements java.io.Serializable {
     public World(String seedInput, TERenderer ter) {
         /**
          * This is where we will parse things
-         * they could receive N*S****
-         * or N***S
-         * or L:Q
-         * or L****
-         * or L****:Q
-         * or L
+         * they could receive N*S**** or N***S or L:Q
+         * or L**** or L****:Q or L
          */
         char first = seedInput.charAt(0);
         if (first == 'L') {
@@ -80,14 +76,8 @@ public class World implements java.io.Serializable {
             this.objects = l.getObjects();
             interact(seedInput);
         } else {
-            this.world = new TETile[Engine.WIDTH][Engine.HEIGHT];
-            this.ter = ter;
 
-            for (int x = 0; x < Engine.WIDTH; x += 1) {
-                for (int y = 0; y < Engine.HEIGHT; y += 1) {
-                    world[x][y] = Tileset.NOTHING;
-                }
-            }
+            this.ter = ter;
 
             this.rooms = new ArrayList<>();
             this.seedString = seedInput.toUpperCase();
@@ -113,7 +103,25 @@ public class World implements java.io.Serializable {
             this.boosted = false;
             this.togglePaths = false;
             this.enemies = new ArrayList<>();
-            this.world = generateWorld();
+
+            if (first == 'B') {
+                Builder builder = new Builder(ter, floorType, wallType);
+                this.world = builder.getWorld();
+
+                //Generates 3 enemies and the power tile.
+                generateEnemies(3);
+                this.power = generatePowers(Tileset.POWER);
+                this.heart = generatePowers(Tileset.HEART);
+            } else if (first != 'B') {
+                this.world = new TETile[Engine.WIDTH][Engine.HEIGHT];
+                for (int x = 0; x < Engine.WIDTH; x += 1) {
+                    for (int y = 0; y < Engine.HEIGHT; y += 1) {
+                        world[x][y] = Tileset.NOTHING;
+                    }
+                }
+                this.world = generateWorld();
+            }
+
             this.objects =  new ArrayList<>();
             objects.add(this.ter);
             objects.add(this.world);
@@ -268,7 +276,7 @@ public class World implements java.io.Serializable {
                 int x = RandomUtils.uniform(random, 0, Engine.WIDTH);
                 int y = RandomUtils.uniform(random, 0, Engine.HEIGHT);
                 Position enemyPos = new Position(x, y);
-                if (Engine.inBounds(enemyPos) && world[x][y] == floorType) {
+                if (Engine.inBounds(enemyPos) && world[x][y].equals(floorType)) {
                     world[x][y] = Tileset.ENEMY;
                     enemies.add(enemyPos);
                     valid = true;
@@ -285,7 +293,7 @@ public class World implements java.io.Serializable {
             int x = RandomUtils.uniform(random, 0, Engine.WIDTH);
             int y = RandomUtils.uniform(random, 0, Engine.HEIGHT);
             Position powerPos = new Position(x, y);
-            if (Engine.inBounds(powerPos) && world[x][y] == floorType) {
+            if (Engine.inBounds(powerPos) && world[x][y].equals(floorType)) {
                 world[x][y] = type;
                 return powerPos;
             }

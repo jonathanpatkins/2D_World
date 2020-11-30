@@ -97,11 +97,12 @@ public class StartWindow {
         // text and initial screen
         StdDraw.text(x, 17, "(N)ew game");
         StdDraw.text(x, 16, "(L)oad");
-        StdDraw.text(x, 15, "(Q)uit");
-        StdDraw.text(x, 13, "Enter seed");
+        StdDraw.text(x, 15, "(B)uild");
+        StdDraw.text(x, 14, "(Q)uit");
+        StdDraw.text(x, 12, "Enter seed");
 
         // draw the seed we have thus far
-        StdDraw.text(x, 12, seedSoFar);
+        StdDraw.text(x, 11, seedSoFar);
         StdDraw.show();
     }
 }

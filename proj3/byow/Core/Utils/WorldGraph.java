@@ -43,6 +43,6 @@ public class WorldGraph implements AStarGraph {
 
     private boolean checkValid(Position p) {
         TETile tile = world[p.getX()][p.getY()];
-        return tile != wallType && tile != Tileset.NOTHING; // && tile != Tileset.ENEMY;
+        return !tile.equals(wallType) && !tile.equals(Tileset.NOTHING); // && tile != Tileset.ENEMY;
     }
 }
