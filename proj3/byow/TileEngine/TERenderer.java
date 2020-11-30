@@ -11,12 +11,21 @@ import java.awt.Font;
  * messing with this renderer, unless you're trying to do something fancy like
  * allowing scrolling of the screen or tracking the avatar or something similar.
  */
-public class TERenderer implements java.io.Serializable{
+public class TERenderer implements java.io.Serializable {
     private static final int TILE_SIZE = 16;
     private int width;
     private int height;
     private int xOffset;
     private int yOffset;
+    private boolean FROM_PROGRAM_ARGUMENTS;
+
+    public boolean isFromProgramArguments() {
+        return FROM_PROGRAM_ARGUMENTS;
+    }
+
+    public void setFromProgramArguments(boolean fromProgramArguments) {
+        FROM_PROGRAM_ARGUMENTS = fromProgramArguments;
+    }
 
     /**
      * Same functionality as the other initialization method. The only difference is that the xOff

@@ -1,6 +1,5 @@
 package byow.Core.Utils;
 
-import byow.Core.Engine;
 import byow.TileEngine.TERenderer;
 import byow.TileEngine.TETile;
 import byow.Core.WorldComponents.World;
@@ -9,11 +8,11 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
-import java.util.List;
+
 import java.util.Random;
 import java.util.ArrayList;
 
-public class LoadWorld implements Serializable{
+public class LoadWorld implements Serializable {
 
     /**
      * Loads the world form the World.txt file
@@ -74,8 +73,7 @@ public class LoadWorld implements Serializable{
 
         } catch (IOException ex) {
             System.out.println("IOException is caught");
-        }
-        catch (ClassNotFoundException ex) {
+        } catch (ClassNotFoundException ex) {
             System.out.println("ClassNotFoundException is caught");
         }
     }

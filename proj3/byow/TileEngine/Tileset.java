@@ -16,7 +16,7 @@ import java.awt.Color;
  * characters. This is OK.
  */
 
-public class Tileset implements java.io.Serializable{
+public class Tileset implements java.io.Serializable {
     public static final TETile AVATAR = new TETile('@', Color.white, Color.black, "you");
     public static final TETile WALL = new TETile('#', new Color(216, 128, 128), Color.darkGray,
             "wall");
@@ -34,7 +34,8 @@ public class Tileset implements java.io.Serializable{
     public static final TETile MOUNTAIN = new TETile('▲', Color.gray, Color.black, "mountain");
     public static final TETile TREE = new TETile('♠', Color.green, Color.black, "tree");
     public static final TETile ENEMY = new TETile('X', Color.red, Color.black, "enemy");
-    public static final TETile SCARED_ENEMY = new TETile('X', new Color(102, 255, 255), Color.black, "scaredenemey");
+    public static final TETile SCARED_ENEMY = new TETile('X', new Color(102, 255, 255),
+            Color.black, "scaredenemey");
     public static final TETile POWER = new TETile('♕', Color.orange, Color.black, "power");
     public static final TETile HEART = new TETile('♥', Color.red, Color.black, "heart");
     public static final TETile PATH_TILE = new TETile('*', Color.yellow, Color.black, "path");

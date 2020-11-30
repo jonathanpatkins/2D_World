@@ -57,7 +57,7 @@ public class World implements java.io.Serializable {
         this.boosted = (boolean) loadedObjects.get(11);
         this.togglePaths = (boolean) loadedObjects.get(12);
         objects = loadedObjects;
-        interact(avatar, "L");
+        interact("L");
     }
     /**
      * Uses @param seedInput to set up the Random object's seed.
@@ -78,7 +78,7 @@ public class World implements java.io.Serializable {
         if (first == 'L') {
             LoadWorld l = new LoadWorld();
             this.objects = l.getObjects();
-            interact(avatar, seedInput);
+            interact(seedInput);
         } else {
             this.world = new TETile[Engine.WIDTH][Engine.HEIGHT];
             this.ter = ter;
@@ -102,9 +102,6 @@ public class World implements java.io.Serializable {
                     numString += c;
                 }
             }
-            // n7313251667695476404sasdw
-
-
 
             this.seed = Long.parseLong(numString);
             this.random = new Random(seed);
@@ -132,7 +129,7 @@ public class World implements java.io.Serializable {
             objects.add(this.boosted);
             objects.add(this.togglePaths);
 
-            this.world = interact(null, seedString);
+            this.world = interact(seedString);
 
         }
     }
@@ -185,7 +182,7 @@ public class World implements java.io.Serializable {
     }
 
 
-    public TETile[][] interact(Position avatar, String userInput) {
+    public TETile[][] interact(String userInput) {
         Interact interact = new Interact(objects, userInput);
         this.world = interact.getWorld();
         return world;

@@ -4,7 +4,6 @@ import byow.Core.Engine;
 
 import byow.Core.Utils.*;
 import byow.TileEngine.*;
-import byow.Core.WorldComponents.*;
 import edu.princeton.cs.introcs.StdDraw;
 import java.awt.*;
 import java.util.ArrayList;
@@ -28,37 +27,41 @@ public class Interact {
     private ArrayList<List<Position>> enemyPaths;
 
     // now you can take input from keyboard to interact with world
-    public Interact(ArrayList<Object> loadedObjects, String userIn) {
-        this.ter = (TERenderer) loadedObjects.get(0);
-        this.world = (TETile[][]) loadedObjects.get(1);
-        this.avatar = (Position) loadedObjects.get(2);
-        this.random = (Random) loadedObjects.get(3);
-        this.floorType = (TETile) loadedObjects.get(4);
-        this.wallType = (TETile) loadedObjects.get(5);
-        if (loadedObjects.get(2) == null) {
-            avatar = generateStartingPos(world, random);
+    public Interact(ArrayList<Object> lObj, String ui) {
+        this.ter = (TERenderer) lObj.get(0);
+        this.world = (TETile[][]) lObj.get(1);
+        this.avatar = (Position) lObj.get(2);
+        this.random = (Random) lObj.get(3);
+        this.floorType = (TETile) lObj.get(4);
+        this.wallType = (TETile) lObj.get(5);
+        if (lObj.get(2) == null) {
+            avatar = generateStartingPos(random);
         }
-        this.enemies = (ArrayList<Position>) loadedObjects.get(6);
-        this.power = (Position) loadedObjects.get(7);
-        this.heart = (Position) loadedObjects.get(8);
-        this.lives = (int) loadedObjects.get(9);
-        this.powered = (boolean) loadedObjects.get(10);
-        this.boosted = (boolean) loadedObjects.get(11);
-        this.togglePaths = (boolean) loadedObjects.get(12);
-        objects = loadedObjects;
+        this.enemies = (ArrayList<Position>) lObj.get(6);
+        this.power = (Position) lObj.get(7);
+        this.heart = (Position) lObj.get(8);
+        this.lives = (int) lObj.get(9);
+        this.powered = (boolean) lObj.get(10);
+        this.boosted = (boolean) lObj.get(11);
+        this.togglePaths = (boolean) lObj.get(12);
+        objects = lObj;
         objects.set(2, avatar);
         this.play = true;
         this.startingPos = avatar;
-        this.userInput = userIn;
+        this.userInput = ui;
         generatePaths();
-        // returns if the program should quit or not
-        if (!doUserInput(userInput)) {
+
+        // if we started the game from Program arguments, run that and then quit out
+        if (ter.isFromProgramArguments()) { // true
+            doUserInput();
+            return;
+        } else {
+            // if the string came solely from the keyboard
             ter.initialize(Engine.WIDTH, Engine.HEIGHT);
             // create input source and draw first frame - before the avatar has moved
             InputSource inputSource = new KeyboardInputSource();
-            drawFrame(ter, world, avatar);
+            drawFrame(avatar);
             boolean getReadyForQuit = false;
-            // change frame due to keyboard input
 
             while (inputSource.possibleNextInput()) {
                 Position nextPos;
@@ -85,8 +88,6 @@ public class Interact {
                     }
                 } else {
                     StdDraw.setPenColor(Color.WHITE);
-                    //Font result = new Font("Monaco", Font.BOLD, 48);
-                    //StdDraw.setFont(result);
                     if (gameState() == -1) {
                         StdDraw.text(Engine.WIDTH / 2, Engine.HEIGHT / 2, "You Lose!");
                     } else {
@@ -98,22 +99,20 @@ public class Interact {
                 if (c == ':') {
                     getReadyForQuit = true;
                 } else if (c == 'Q' && getReadyForQuit) {
-                    SaveWorld saveWorld = new SaveWorld(objects);
+                    new SaveWorld(objects);
                     break;
-                }
-                // this is triggered if you are not taking in new keyboard input
-                // in this case you want to display the new mouse position if it has changed, but do nothing else
-                else if (c == '0') {
+                } else if (c == '0') {
                     makeMove(null, c);
                 }
             }
         }
     }
     /**
-     * Moves the avatar to Position @param next if possible- Valid position/character @param c.
-     * Also calculates if the avatar may be about to collide with an enemy or the power up.
-     * However, if the @param next is null, then it tries to display the new mouse position on the hud
-     * without doing anything else
+     * Moves avatar to Position @param next if possible.
+     * Also calculates if the avatar may be about to collide
+     * with an enemy or the power up. However, if the @param
+     * next is null, then it tries to display the new mouse
+     * position on the hud without doing anything else
      */
     private void makeMove(Position next, char c) {
         if (next != null) {
@@ -126,10 +125,10 @@ public class Interact {
                     avatar = startingPos;
                     objects.set(9, lives);
                     int s = enemies.size();
-                    generateEnemies(s);
+                    generateEnemies(s, true);
                     objects.set(6, enemies);
                     generatePaths();
-                    drawFrame(ter, world, avatar);
+                    drawFrame(avatar);
                     return;
                 }
             } else if (checkPowerCollision(next)) {
@@ -152,34 +151,38 @@ public class Interact {
                 objects.set(2, avatar);
                 generatePaths();
                 // Whenever the avatar moves, the enemies move.
-                move();
-                drawFrame(ter, world, avatar);
+                move(true);
+                drawFrame(avatar);
             }
         } else {
-            drawFrame(ter, world, avatar);
+            drawFrame(avatar);
         }
     }
 
     /**
-     * This method is for the autograder when it tests the code using "Program arguments"
-     * Essentially, this means that if given a seed N***SWWSSD or LDDD:Q it will be able to compile
-     * For N***SWWSSD, if will use the seed *** and then it will use the moves WWSSD before displaying
-     * the rendered world.
-     * Fro LDDD:Q, this means it will load the world, move the avatar to the right three times and then save
-     * and quit.
-     * @param userInput this is the string put into program arguments - this is found and tested through
+     * For the AG when it tests the code using "Program arguments."
+     * Essentially, this means that if given a seed N***SWWSSD
+     * or LDDD:Q it will be able to compile.
+     * For N***SWWSSD, if will use the seed *** and then
+     * it will use the moves WWSSD before displaying the rendered
+     * world.
+     * For LDDD:Q, this means it will load the world, move the
+     * avatar to the right three times and then save and quit.
+     * userInput - this is the string put into program arguments
+     *                  - this is found and tested through
      *                  Run >> Edit Configurations >> Program arguments
-     * @return boolean value for true if the program should quit and false to keep it going
      */
-    private boolean doUserInput(String userInput) {
-        boolean quit = true;
+    // mark
+    private void doUserInput() {
         if (userInput != null) {
-            quit = false;
             char[] charArray = userInput.toCharArray();
             Position nextPos = avatar;
             boolean getReadyForQuit = false;
             int sCounter = 1;
 
+            // this is so if the first thing is n, then we know the seed
+            // ends at s so we want to record
+            // everything after that
             if (userInput.charAt(0) == 'N') {
                 sCounter = 0;
             }
@@ -203,13 +206,12 @@ public class Interact {
                     getReadyForQuit = true;
                 } else if (c == 'Q' && getReadyForQuit) {
                     new SaveWorld(objects);
-                    quit = true;
                 }
             }
         }
-        return quit;
     }
 
+    // mark
     private void makeMoveFromInput(Position next) {
         if (next != null) {
             if (checkEnemyCollision(next)) {
@@ -221,7 +223,7 @@ public class Interact {
                     avatar = startingPos;
                     objects.set(9, lives);
                     int s = enemies.size();
-                    generateEnemies(s);
+                    generateEnemies(s, false);
                     objects.set(6, enemies);
                     generatePaths();
                     return;
@@ -245,9 +247,11 @@ public class Interact {
                 avatar = next;
                 objects.set(2, avatar);
                 generatePaths();
-                move();
+                // Whenever the avatar moves, the enemies move.
+                move(false);
             }
         }
+
     }
 
     /**
@@ -272,17 +276,16 @@ public class Interact {
     }
 
     /**
-     * If no starting pos of the avatar is given, generate one
-     * @param world
+     * If no starting pos of the avatar is given, generate one.
      * @param r
      * @return
      */
-    private Position generateStartingPos(TETile[][] world, Random r) {
+    private Position generateStartingPos(Random r) {
         while (true) {
             int x = RandomUtils.uniform(r, 0, Engine.WIDTH);
             int y = RandomUtils.uniform(r, 0, Engine.HEIGHT);
             Position temp = new Position(x, y);
-            if (isFloor(temp, world)) {
+            if (isFloor(temp)) {
                 return temp;
             }
         }
@@ -296,12 +299,10 @@ public class Interact {
     }
 
     /**
-     * Draws the world state given a new position of the avatar @param i
-     * @param ter
-     * @param world
+     * Draws the world state given a new position of the avatar @param i.
      * @param i
      */
-    public void drawFrame(TERenderer ter, TETile[][] world, Position i) {
+    public void drawFrame(Position i) {
 
         // edu.princeton.cs.introcs.StdDraw
         if (Engine.inBounds(i)) {
@@ -380,10 +381,9 @@ public class Interact {
     /**
      * Returns if the @param nextPos is a floor tile
      * @param nextPos
-     * @param world
      * @return
      */
-    private boolean isFloor(Position nextPos, TETile[][] world) {
+    private boolean isFloor(Position nextPos) {
         return getWorldTile(nextPos, world) == floorType;
     }
 
@@ -431,7 +431,7 @@ public class Interact {
     /**
      * Moves the enemies in the most optimal way towards the avatar.
      */
-    private void move() {
+    private void move(boolean show) {
         for (int i = 0; i < enemies.size(); i += 1) {
             Position p = enemies.get(i);
             List<Position> sol = solver.get(i).solution();
@@ -461,7 +461,7 @@ public class Interact {
                     objects.set(2, avatar);
                     objects.set(9, lives);
                     int s = enemies.size();
-                    generateEnemies(s);
+                    generateEnemies(s, show);
                     objects.set(6, enemies);
                     generatePaths();
                 } else {
@@ -490,7 +490,7 @@ public class Interact {
      * Generate @param num enemies to random floor tiles.
      * Also clears the world of enemies in previous locations, if they existed.
      */
-    private void generateEnemies(int num) {
+    private void generateEnemies(int num, boolean show) {
         for (int i = 0; i < enemies.size(); i += 1) {
             Position p = enemies.get(i);
             world[p.getX()][p.getY()] = floorType;
@@ -510,6 +510,8 @@ public class Interact {
                 }
             }
         }
-        drawFrame(ter, world, avatar);
+        if (show) {
+            drawFrame(avatar);
+        }
     }
 }

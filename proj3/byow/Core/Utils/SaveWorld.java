@@ -7,7 +7,7 @@ import java.io.*;
 import java.util.Random;
 import java.util.ArrayList;
 
-public class SaveWorld implements Serializable{
+public class SaveWorld implements Serializable {
 
     TETile[][] world;
     Position posOfAvatar, power, heart;
@@ -63,8 +63,7 @@ public class SaveWorld implements Serializable{
             out.close();
             file.close();
 
-        }
-        catch(IOException ex) {
+        } catch (IOException ex) {
             System.out.println("IOException is caught");
         }
     }

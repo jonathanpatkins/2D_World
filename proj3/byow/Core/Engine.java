@@ -12,11 +12,17 @@ import byow.Core.WorldComponents.World;
  * @author Jonathan Atkins Jake Webster 11/20/20.
  */
 public class Engine {
-    private TERenderer ter = new TERenderer();
+    private TERenderer ter;
     private TETile[][] finalWorldFrame;
     /* Feel free to change the width and height. */
     public static final int WIDTH = 80;
     public static final int HEIGHT = 30;
+
+    public Engine() {
+        ter = new TERenderer();
+        finalWorldFrame = null;
+    }
+
 
     /**
      * Method used for exploring a fresh world. This method should handle all inputs,
@@ -26,6 +32,7 @@ public class Engine {
         StartWindow startWindow = new StartWindow(ter);
         String seed = startWindow.start().toUpperCase();
         char[] seedArray = seed.toCharArray();
+
 
         /**
          * When we save the game what elements should we keep track of
@@ -43,14 +50,9 @@ public class Engine {
                 loadWorld.load();
                 this.finalWorldFrame = loadWorld.getWorld();
                 break;
-            } else if (c == ':') {
-                // do something - nothing?
             } else if (c == 'Q') {
                 // save before quiting
-
                 System.exit(0);
-            } else if (c == 'S') {
-                // do something
             }
         }
 
@@ -84,6 +86,12 @@ public class Engine {
         //
         // See proj3.byow.InputDemo for a demo of how you can make a nice clean interface
         // that works for many different input types.
+        if (input.charAt(input.length() - 1) == '!') {
+            ter.setFromProgramArguments(true);
+            input = input.substring(0, input.length() - 1);
+        } else {
+            ter.setFromProgramArguments(false);
+        }
         World world = new World(input.toUpperCase(), ter);
         finalWorldFrame = world.getWorld();
         // Do not render yet- merely return the finalWorldFrame.

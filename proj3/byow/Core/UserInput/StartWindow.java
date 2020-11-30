@@ -67,15 +67,13 @@ public class StartWindow {
             } else if (c == 'L') {
                 // do something
                 break;
-            } else if (c == ':') {
-                // do something - nothing?
             } else if (c == 'Q') {
                 // do something - System.exit(0)
                 break;
             } else if (c == 'S') {
                 // do something
                 break;
-            } else if (newFlag){
+            } else if (newFlag) {
                 displaySeed += c;
             }
             drawCanvas(seed);

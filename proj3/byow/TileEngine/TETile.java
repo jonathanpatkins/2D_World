@@ -20,7 +20,7 @@ import byow.Core.Utils.RandomUtils;
  * TETile is now mutable - change made for a special easter egg.
  */
 
-public class TETile implements java.io.Serializable{
+public class TETile implements java.io.Serializable {
     private char character; // Do not rename character or the autograder will break.
     private Color textColor;
     private Color backgroundColor;
@@ -211,5 +211,13 @@ public class TETile implements java.io.Serializable{
     public boolean equals(Object o) {
         TETile other = (TETile) o;
         return this.description().equals(other.description());
+    }
+
+    /**
+     * @Return a simple hashCode for the TETile.
+     */
+    @Override
+    public int hashCode() {
+        return super.hashCode();
     }
 }
