@@ -41,7 +41,7 @@ public class Engine {
          */
         for (char c : seedArray) {
             if (c == 'N') {
-                interactWithInputString(seed, true);
+                interactWithInputString(seed);
                 break;
             } else if (c == 'L') {
                 // do something
@@ -79,15 +79,16 @@ public class Engine {
      * @param input the input string to feed to your program
      * @return the 2D TETile[][] representing the state of the world
      */
-    public TETile[][] interactWithInputString(String input, boolean show) {
+    public TETile[][] interactWithInputString(String input) {
         // passed in as an argument, and return a 2D tile representation of the
         // world that would have been drawn if the same inputs had been given
         // to interactWithKeyboard().
         //
         // See proj3.byow.InputDemo for a demo of how you can make a nice clean interface
         // that works for many different input types.
-        if (!show) {
+        if (input.charAt(input.length() - 1) == '!') {
             ter.setFromProgramArguments(true);
+            input = input.substring(0, input.length() - 1);
         } else {
             ter.setFromProgramArguments(false);
         }
