@@ -57,7 +57,7 @@ public class Interact {
             return;
         } else {
             // if the string came solely from the keyboard
-            ter.initialize(Engine.WIDTH, Engine.HEIGHT);
+            ter.initialize(Engine.WIDTH, Engine.HEIGHT + 8);
             // create input source and draw first frame - before the avatar has moved
             InputSource inputSource = new KeyboardInputSource();
             drawFrame(avatar);
@@ -87,13 +87,7 @@ public class Interact {
                         objects.set(12, togglePaths);
                     }
                 } else {
-                    StdDraw.setPenColor(Color.WHITE);
-                    if (gameState() == -1) {
-                        StdDraw.text(Engine.WIDTH / 2, Engine.HEIGHT / 2, "You Lose!");
-                    } else {
-                        StdDraw.text(Engine.WIDTH / 2, Engine.HEIGHT / 2, "You Win!");
-                    }
-                    StdDraw.show();
+                    showEnd();
                 }
 
                 if (c == ':') {
@@ -107,6 +101,24 @@ public class Interact {
             }
         }
     }
+
+    private void showEnd() {
+        StdDraw.setPenColor(Color.WHITE);
+        StdDraw.filledRectangle(Engine.WIDTH / 2, Engine.HEIGHT / 2, 15, 5);
+        Font font = new Font("Monaco", Font.BOLD, 40);
+        StdDraw.setFont(font);
+        StdDraw.setPenColor(Color.black);
+        if (gameState() == -1) {
+            StdDraw.text(Engine.WIDTH / 2, Engine.HEIGHT / 2, "You Lose!");
+        } else {
+            StdDraw.text(Engine.WIDTH / 2, Engine.HEIGHT / 2, "You Win!");
+        }
+        StdDraw.show();
+        font = new Font("Monaco", Font.BOLD, 15);
+        StdDraw.setFont(font);
+        StdDraw.pause((int) Double.POSITIVE_INFINITY);
+    }
+
     /**
      * Moves avatar to Position @param next if possible.
      * Also calculates if the avatar may be about to collide
@@ -333,10 +345,10 @@ public class Interact {
                 temp.append(y);
                 temp.append(")");
                 StdDraw.setPenColor(Color.GREEN);
-                StdDraw.text(4, 1, temp.toString());
+                StdDraw.text(10, Engine.HEIGHT + 2, temp.toString());
             }
-            StdDraw.text(2, Engine.HEIGHT - 1, "Lives: " + lives);
-            StdDraw.text(Engine.WIDTH - 5, Engine.HEIGHT - 1, "Paths (T) " + togglePaths);
+            StdDraw.text(10, Engine.HEIGHT + 6, "Lives: " + lives);
+            StdDraw.text(10, Engine.HEIGHT + 4, "Paths (T) " + togglePaths);
             StdDraw.show();
         }
         if (togglePaths) {

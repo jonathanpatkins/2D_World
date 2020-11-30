@@ -186,8 +186,7 @@ public class Builder implements Serializable {
 //        StdDraw.filledPolygon(x, y);
         double width = Math.abs(startingPos.getX() - endingPos.getX()) + 1;
         double height = Math.abs(startingPos.getY() - endingPos.getY()) + 1;
-        StdDraw.filledRectangle(width / 2 + x0, height / 2 + y0
-                , width / 2, height / 2);
+        StdDraw.filledRectangle(width / 2 + x0, height / 2 + y0, width / 2, height / 2);
 
 
 

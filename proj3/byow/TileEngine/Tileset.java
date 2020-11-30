@@ -35,7 +35,7 @@ public class Tileset implements java.io.Serializable {
     public static final TETile TREE = new TETile('♠', Color.green, Color.black, "tree");
     public static final TETile ENEMY = new TETile('X', Color.red, Color.black, "enemy");
     public static final TETile SCARED_ENEMY = new TETile('X', new Color(102, 255, 255),
-            Color.black, "scaredenemey");
+            Color.black, "scared enemey");
     public static final TETile POWER = new TETile('♕', Color.orange, Color.black, "power");
     public static final TETile HEART = new TETile('♥', Color.red, Color.black, "heart");
     public static final TETile PATH_TILE = new TETile('*', Color.yellow, Color.black, "path");
