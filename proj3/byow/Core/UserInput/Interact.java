@@ -52,8 +52,9 @@ public class Interact {
         generatePaths();
 
         // if we started the game from Program arguments, run that and then quit out
-        if (Engine.isFromProgramArguments()) {
+        if (ter.isFromProgramArguments()) { // true
             doUserInput();
+            return;
         } else {
             // if the string came solely from the keyboard
             ter.initialize(Engine.WIDTH, Engine.HEIGHT);

@@ -12,20 +12,22 @@ import byow.Core.WorldComponents.World;
  * @author Jonathan Atkins Jake Webster 11/20/20.
  */
 public class Engine {
-    private TERenderer ter = new TERenderer();
+    private TERenderer ter;
     private TETile[][] finalWorldFrame;
     /* Feel free to change the width and height. */
     public static final int WIDTH = 80;
     public static final int HEIGHT = 30;
-    private static boolean FROM_PROGRAM_ARGUMENTS = false;
 
-    public static boolean isFromProgramArguments() {
-        return FROM_PROGRAM_ARGUMENTS;
+    public Engine(boolean fromArgs) {
+        ter = new TERenderer();
+        finalWorldFrame = null;
+        if (fromArgs) {
+            ter.setFromProgramArguments(true);
+        } else {
+            ter.setFromProgramArguments(false);
+        }
     }
 
-    public static void setFromProgramArguments(boolean fromProgramArguments) {
-        FROM_PROGRAM_ARGUMENTS = fromProgramArguments;
-    }
 
     /**
      * Method used for exploring a fresh world. This method should handle all inputs,
