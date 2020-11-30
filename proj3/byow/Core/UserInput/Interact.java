@@ -52,7 +52,7 @@ public class Interact {
         generatePaths();
 
         // if we started the game from Program arguments, run that and then quit out
-        if (Engine.isFromProgramArguments()) {
+        if (true) {
             doUserInput();
         } else {
             // if the string came solely from the keyboard
