@@ -2,10 +2,8 @@ package byow.Core.UserInput;
 
 import byow.Core.Engine;
 
-import byow.Core.Main;
 import byow.Core.Utils.*;
 import byow.TileEngine.*;
-import byow.Core.WorldComponents.*;
 import edu.princeton.cs.introcs.StdDraw;
 import java.awt.*;
 import java.util.ArrayList;
@@ -246,9 +244,11 @@ public class Interact {
                 avatar = next;
                 objects.set(2, avatar);
                 generatePaths();
+                // Whenever the avatar moves, the enemies move.
                 move();
             }
         }
+
     }
 
     /**
