@@ -84,6 +84,7 @@ public class StartWindow {
                 }
             } else {
                 if (c >= 48 && c <= 57) {
+                    // Only numbers added to the seed - bad inputs ie 6m5 become 65.
                     seed += c;
                     displaySeed += c;
                 } else if (c == 'S' && seed.length() > 2) {
@@ -107,10 +108,13 @@ public class StartWindow {
     private void drawCanvas(String seedSoFar) {
         // Start with clear canvas.
         StdDraw.clear(Color.BLACK);
-        StdDraw.setPenColor(Color.green);
         int x = Engine.WIDTH / 2;
 
         // Text and initial screen.
+        StdDraw.setPenColor(Color.white);
+        StdDraw.text(x, 25, "BYOW:");
+        StdDraw.text(x, 23, "A short game by Jonathan Atkins and Jake Webster");
+        StdDraw.setPenColor(Color.green);
         StdDraw.text(x, 17, "(N)ew game");
         StdDraw.text(x, 16, "(L)oad");
         StdDraw.text(x, 15, "(B)uild");

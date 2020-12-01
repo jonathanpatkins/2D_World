@@ -320,6 +320,9 @@ public class Interact {
         }
     }
 
+    /**
+     * If the custom-built world cannot generate the game, inform the user it is non-valid.
+     */
     private void showNonValidWorld() {
         int x = Engine.WIDTH / 2;
         int y = Engine.HEIGHT / 2;
@@ -383,6 +386,7 @@ public class Interact {
             }
             StdDraw.text(10, Engine.HEIGHT + 6, "Lives: " + lives);
             StdDraw.text(10, Engine.HEIGHT + 4, "Paths (T) " + togglePaths);
+            StdDraw.line(0, Engine.HEIGHT, Engine.WIDTH, Engine.HEIGHT);
             StdDraw.show();
         }
         if (togglePaths) {
