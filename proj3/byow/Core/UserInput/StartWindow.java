@@ -68,6 +68,7 @@ public class StartWindow {
                 if (c == 'N') {
                     // do something
                     newFlag = true;
+                    ready = true;
                     seed += c;
                 } else if (c == 'L') {
                     // do something
@@ -75,6 +76,7 @@ public class StartWindow {
                     break;
                 } else if (c == 'B') {
                     // do something
+                    ready = true;
                     seed += c;
                 } else if (c == 'Q') {
                     // do something - System.exit(0)

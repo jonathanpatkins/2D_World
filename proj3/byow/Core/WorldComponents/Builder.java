@@ -108,7 +108,6 @@ public class Builder implements Serializable {
         StdDraw.setPenColor(Color.white);
         StdDraw.line(0, Engine.HEIGHT + 1, Engine.WIDTH, Engine.HEIGHT + 1);
         StdDraw.show();
-
     }
 
     /**
