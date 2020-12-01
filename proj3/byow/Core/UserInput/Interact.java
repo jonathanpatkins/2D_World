@@ -355,6 +355,9 @@ public class Interact {
                 temp.append(")");
                 StdDraw.setPenColor(Color.GREEN);
                 StdDraw.text(10, Engine.HEIGHT + 2, temp.toString());
+            } else {
+                StdDraw.setPenColor(Color.GREEN);
+                StdDraw.text(10, Engine.HEIGHT + 2, "hud display");
             }
             StdDraw.text(10, Engine.HEIGHT + 6, "Lives: " + lives);
             StdDraw.text(10, Engine.HEIGHT + 4, "Paths (T) " + togglePaths);

@@ -57,29 +57,41 @@ public class StartWindow {
         /**
          * Preferably in the future stuff is only displayed when you are entering the number part
          * of the seed for a new game, but for now lets just display the entire seed input
-         * TODO: Analyze if this is necessary.
          * No parsing of the seed is done in here, do it all in the engine class
          */
         while (inputSource.possibleNextInput()) {
-            // Get key stroke from keyboard.
+            // get key stroke from keyboard
             char c = inputSource.getNextKey();
 
-            // Add the input to our seed value.
-            seed += c;
-            if (c == 'N') {
-                newFlag = true;
-                ready = true;
-            } else if (c == 'L') {
-                break;
-            } else if (c == 'Q') {
-                break;
-            } else if (c == 'S') {
-                break;
-            } else if (c == 'B') {
-                newFlag = true;
-                ready = true;
-            } else if (newFlag) {
-                displaySeed += c;
+            // add the input to our seed value
+            if (seed.length() == 0) {
+                if (c == 'N') {
+                    // do something
+                    newFlag = true;
+                    seed += c;
+                } else if (c == 'L') {
+                    // do something
+                    seed += c;
+                    break;
+                } else if (c == 'B') {
+                    // do something
+                    seed += c;
+                } else if (c == 'Q') {
+                    // do something - System.exit(0)
+                    System.exit(0);
+                }
+            } else {
+                if (c >= 48 && c <= 57) {
+                    seed += c;
+                    displaySeed += c;
+                } else if (c == 'S' && seed.length() > 2) {
+                    // do something
+                    seed += c;
+                    break;
+                } else if (c == 'Q') {
+                    // do something - System.exit(0)
+                    System.exit(0);
+                }
             }
             drawCanvas(displaySeed);
         }

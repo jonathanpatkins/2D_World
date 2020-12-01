@@ -48,34 +48,37 @@ public class Builder implements Serializable {
         }
         boolean flag = true;
         StdDraw.enableDoubleBuffering();
+
+        // draw the initial frame
         drawFrame();
 
 
         while (flag) {
             double x = StdDraw.mouseX();
             double y = StdDraw.mouseY();
+
+            // if mouse is pressed then do some action
             boolean pressed = StdDraw.isMousePressed();
             if (pressed && x > 3 && x < 25 && y < Engine.HEIGHT + 6 && y > Engine.HEIGHT + 2) {
-                System.out.println("1st");
                 initiateMakeRoom();
             }
             if (pressed && x > 29 && x < 40 && y < Engine.HEIGHT + 6 && y > Engine.HEIGHT + 2) {
-                System.out.println("3rd");
                 initiateDoorWay();
             }
             if (pressed && x > 46 && x < 52 && y < Engine.HEIGHT + 6 && y > Engine.HEIGHT + 2) {
-                System.out.println("4th");
                 initiateUndo();
                 StdDraw.pause(200);
                 pressed = false;
             }
             if (pressed && x > 58 && x < 65 && y < Engine.HEIGHT + 6 && y > Engine.HEIGHT + 2) {
-                System.out.println("5th");
                 flag = false;
             }
         }
     }
 
+    /**
+     * Reverts world back to last state.
+     */
     private void initiateUndo() {
         if (pastStates.size() > 0) {
             TETile[][] lastWorld = pastStates.remove(pastStates.size() - 1);
@@ -87,6 +90,9 @@ public class Builder implements Serializable {
     }
 
 
+    /**
+     * Draws the frame.
+     */
     public void drawFrame() {
         StdDraw.clear();
         Font font = new Font("Monaco", Font.BOLD, 15);
@@ -105,6 +111,9 @@ public class Builder implements Serializable {
 
     }
 
+    /**
+     * The player has made the intention of making a doorway.
+     */
     private void initiateDoorWay() {
         boolean flag = true;
         Position startingPos;
@@ -115,8 +124,6 @@ public class Builder implements Serializable {
             int y = (int) StdDraw.mouseY();
             startingPos = new Position(x, y);
             if (pressed && Engine.inBounds(startingPos) && world[x][y].equals(wallType)) {
-//                TETile[][] temp = world.clone();
-//                pastStates.add(temp);
                 saveState();
                 world[x][y] = floorType;
                 flag = false;
@@ -125,6 +132,9 @@ public class Builder implements Serializable {
         drawFrame();
     }
 
+    /**
+     * The player has made the intention of making a room.
+     */
     public void initiateMakeRoom() {
         boolean flag = true;
         Position startingPos = null;
@@ -155,6 +165,9 @@ public class Builder implements Serializable {
         drawFrame();
     }
 
+    /**
+     * As the player makes a room, this shows the dimensions.
+     */
     private void drawState(Position startingPos, Position endingPos) {
         StdDraw.clear();
         Font font = new Font("Monaco", Font.BOLD, 15);
@@ -175,38 +188,22 @@ public class Builder implements Serializable {
         int x1 = Math.max(startingPos.getX(), endingPos.getX());
         int y1 = Math.max(startingPos.getY(), endingPos.getY());
 
-
-//        double[] lowerLeft = {x0, y0};
-//        double[] lowerRight = {x1, y0};
-//        double[] upperLeft = {x0, y1};
-//        double[] upperRight = {x1, y1};
-//        double[] x = {x0, x0+5, x1, x1+.01};
-//        double[] y = {y0, y0+7, y1, y1+.01};
-
-
         StdDraw.setPenColor(Color.GREEN);
-//        StdDraw.filledPolygon(x, y);
         double width = Math.abs(startingPos.getX() - endingPos.getX()) + 1;
         double height = Math.abs(startingPos.getY() - endingPos.getY()) + 1;
         StdDraw.filledRectangle(width / 2 + x0, height / 2 + y0, width / 2, height / 2);
 
-
-
-
-
-
-
         StdDraw.show();
     }
 
+    /**
+     * Places a new room on screen with corners at
+     * @param startingPos and @param endingPos
+     */
     public void makeRoom(Position startingPos, Position endingPos) {
         Room tiles = new Room(startingPos, endingPos);
 
-//        TETile[][] temp = world.clone();
-//        pastStates.add(temp);
         saveState();
-
-
 
         if (tiles.getWallLocation() != null) {
             for (Position p : tiles.getWallLocation()) {
@@ -222,9 +219,11 @@ public class Builder implements Serializable {
                 }
             }
         }
-        System.out.println("h");
     }
 
+    /**
+     * Saves the current state of world.
+     */
     public void saveState() {
         File myObj = new File(FILE_NAME);
 
@@ -254,8 +253,6 @@ public class Builder implements Serializable {
             file.close();
             in.close();
 
-
-
         } catch (IOException ex) {
             System.out.println("IOException is caught");
         } catch (ClassNotFoundException ex) {
@@ -263,6 +260,10 @@ public class Builder implements Serializable {
         }
     }
 
+    /**
+     * Gets the world state.
+     * @return
+     */
     public TETile[][] getWorld() {
         return world;
     }
