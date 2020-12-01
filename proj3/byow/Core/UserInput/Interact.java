@@ -305,6 +305,7 @@ public class Interact {
      * @Return this position once an appropriate one is calculated.
      */
     private Position generateStartingPos(Random r) {
+        int counter = 0;
         while (true) {
             int x = RandomUtils.uniform(r, 0, Engine.WIDTH);
             int y = RandomUtils.uniform(r, 0, Engine.HEIGHT);
@@ -312,7 +313,28 @@ public class Interact {
             if (isFloor(temp)) {
                 return temp;
             }
+            if (counter == 400) {
+                showNonValidWorld();
+            }
+            counter += 1;
         }
+    }
+
+    private void showNonValidWorld() {
+        int x = Engine.WIDTH / 2;
+        int y = Engine.HEIGHT / 2;
+        StdDraw.setPenColor(Color.WHITE);
+        StdDraw.filledRectangle(x, y, 15, 5);
+        Font font = new Font("Monaco", Font.BOLD, 40);
+        StdDraw.setFont(font);
+        StdDraw.setPenColor(Color.black);
+
+        StdDraw.text(x, y, "Non-valid World");
+
+        StdDraw.show();
+        font = new Font("Monaco", Font.BOLD, 15);
+        StdDraw.setFont(font);
+        StdDraw.pause((int) Double.POSITIVE_INFINITY);
     }
 
     /**

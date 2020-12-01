@@ -214,7 +214,12 @@ public class Builder implements Serializable {
         if (tiles.getFloorLocation() != null) {
             for (Position p : tiles.getFloorLocation()) {
                 if (Engine.inBounds(p)) {
-                    world[p.getX()][p.getY()] = this.floorType;
+                    if (p.getX() == 0 || p.getY() == 0 || p.getX() == Engine.WIDTH - 1
+                            || p.getY() == Engine.HEIGHT - 1) {
+                        world[p.getX()][p.getY()] = this.wallType;
+                    } else {
+                        world[p.getX()][p.getY()] = this.floorType;
+                    }
                 }
             }
         }

@@ -4,7 +4,9 @@ import byow.Core.Engine;
 import byow.Core.Utils.*;
 import byow.TileEngine.*;
 import byow.Core.UserInput.Interact;
+import edu.princeton.cs.introcs.StdDraw;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -285,6 +287,7 @@ public class World implements java.io.Serializable {
     private void generateEnemies(int num) {
         for (int i = 0; i < num; i += 1) {
             boolean valid = false;
+            int counter = 0;
             while (!valid) {
                 int x = RandomUtils.uniform(random, 0, Engine.WIDTH);
                 int y = RandomUtils.uniform(random, 0, Engine.HEIGHT);
@@ -294,6 +297,11 @@ public class World implements java.io.Serializable {
                     enemies.add(enemyPos);
                     valid = true;
                 }
+                if (counter == 400) {
+                    // do something
+                    showNonValidWorld();
+                }
+                counter += 1;
             }
         }
     }
@@ -302,6 +310,7 @@ public class World implements java.io.Serializable {
      * Randomly place and @return the Position of the Power up.
      */
     private Position generatePowers(TETile type) {
+        int counter = 0;
         while (true) {
             int x = RandomUtils.uniform(random, 0, Engine.WIDTH);
             int y = RandomUtils.uniform(random, 0, Engine.HEIGHT);
@@ -310,6 +319,28 @@ public class World implements java.io.Serializable {
                 world[x][y] = type;
                 return powerPos;
             }
+            if (counter == 400) {
+                // do something
+                showNonValidWorld();
+            }
+            counter += 1;
         }
+    }
+
+    private void showNonValidWorld() {
+        int x = Engine.WIDTH / 2;
+        int y = Engine.HEIGHT / 2;
+        StdDraw.setPenColor(Color.WHITE);
+        StdDraw.filledRectangle(x, y, 15, 5);
+        Font font = new Font("Monaco", Font.BOLD, 40);
+        StdDraw.setFont(font);
+        StdDraw.setPenColor(Color.black);
+
+        StdDraw.text(x, y, "Non-valid World");
+
+        StdDraw.show();
+        font = new Font("Monaco", Font.BOLD, 15);
+        StdDraw.setFont(font);
+        StdDraw.pause((int) Double.POSITIVE_INFINITY);
     }
 }
