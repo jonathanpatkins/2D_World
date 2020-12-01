@@ -193,6 +193,9 @@ public class World implements java.io.Serializable {
      * @Return the eventual state of the world when all is said and done.
      */
     public TETile[][] interact(String userInput) {
+        if (objects == null) {
+            System.exit(0);
+        }
         Interact interact = new Interact(objects, userInput);
         this.world = interact.getWorld();
         return world;

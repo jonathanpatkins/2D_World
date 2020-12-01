@@ -71,7 +71,7 @@ public class LoadWorld implements Serializable {
             in.close();
 
         } catch (IOException ex) {
-            System.out.println("IOException is caught");
+            System.out.println();
         } catch (ClassNotFoundException ex) {
             System.out.println("ClassNotFoundException is caught");
         }
@@ -81,6 +81,9 @@ public class LoadWorld implements Serializable {
      * Reload the world by creating a World instance with the generated objects.
      */
     public void load() {
+        if (objects == null) {
+            System.exit(0);
+        }
         World loadedWorld = new World(objects);
     }
 
