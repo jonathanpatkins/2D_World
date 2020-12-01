@@ -1,18 +1,16 @@
 package byow.Core;
 
-import byow.TileEngine.TERenderer;
-import byow.TileEngine.TETile;
+import byow.TileEngine.*;
+import byow.Core.Utils.*;
 import byow.Core.UserInput.StartWindow;
-import byow.Core.Utils.LoadWorld;
-import byow.Core.Utils.Position;
 import byow.Core.WorldComponents.World;
 
 /**
  * A class that generates a world using either Keyboard or String inputs.
- * @author Jonathan Atkins Jake Webster 11/20/20.
+ * @author Jonathan Atkins Jake Webster 11/23/20.
  */
 public class Engine {
-    private TERenderer ter = new TERenderer();;
+    private TERenderer ter = new TERenderer();
     private TETile[][] finalWorldFrame;
     /* Feel free to change the width and height. */
     public static final int WIDTH = 80;
@@ -26,8 +24,6 @@ public class Engine {
     public static void setFromProgramArguments(boolean fromProgramArguments) {
         FROM_PROGRAM_ARGUMENTS = fromProgramArguments;
     }
-
-
 
     /**
      * Method used for exploring a fresh world. This method should handle all inputs,
@@ -46,20 +42,20 @@ public class Engine {
          */
         for (char c : seedArray) {
             if (c == 'N') {
+                // Random world generation.
                 interactWithInputString(seed);
                 break;
             } else if (c == 'L') {
-                // do something
-                // fetch save
+                // Fetch save.
                 LoadWorld loadWorld = new LoadWorld();
                 loadWorld.load();
                 this.finalWorldFrame = loadWorld.getWorld();
                 break;
             } else if (c == 'Q') {
-                // save before quiting
+                // Save before quiting.
                 System.exit(0);
             } else if (c == 'B') {
-                // do something
+                // Use Builder.
                 interactWithInputString(seed);
                 break;
             }
@@ -97,9 +93,6 @@ public class Engine {
         // that works for many different input types.
         World world = new World(input.toUpperCase(), ter);
         finalWorldFrame = world.getWorld();
-        // Do not render yet- merely return the finalWorldFrame.
-        // ter.initialize(Engine.WIDTH, Engine.HEIGHT);
-        // ter.renderFrame(finalWorldFrame);
         return finalWorldFrame;
     }
 
@@ -122,6 +115,7 @@ public class Engine {
     /**
      * @Return a String representation of the generated world.
      */
+    @Override
     public String toString() {
         if (finalWorldFrame == null) {
             return null;

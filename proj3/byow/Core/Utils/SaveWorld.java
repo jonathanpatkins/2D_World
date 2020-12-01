@@ -2,22 +2,27 @@ package byow.Core.Utils;
 
 import byow.TileEngine.TERenderer;
 import byow.TileEngine.TETile;
-
 import java.io.*;
 import java.util.Random;
 import java.util.ArrayList;
 
+/**
+ * A class that allows one to save the current state of the world for future use.
+ * @author Jonathan Atkins, Jake Webster 11/21/20.
+ */
 public class SaveWorld implements Serializable {
+    private TETile[][] world;
+    private Position posOfAvatar, power, heart;
+    private Random random;
+    private TERenderer ter;
+    private TETile floorType, wallType;
+    private ArrayList<Position> enemies;
+    private int lives;
+    private boolean powered, boosted, togglePaths;
 
-    TETile[][] world;
-    Position posOfAvatar, power, heart;
-    Random random;
-    TERenderer ter;
-    TETile floorType, wallType;
-    ArrayList<Position> enemies;
-    int lives;
-    boolean powered, boosted, togglePaths;
-
+    /**
+     * Generate the instance variables using their corresponding values in @param loadedObjects.
+     */
     public SaveWorld(ArrayList<Object> loadedObjects) {
         this.ter = (TERenderer) loadedObjects.get(0);
         this.world = (TETile[][]) loadedObjects.get(1);
@@ -36,6 +41,10 @@ public class SaveWorld implements Serializable {
         writeInfo();
     }
 
+    /**
+     * Creates a .txt file "World.txt" and writes essential info so that the game can
+     * later be resumed from the current state.
+     */
     public void writeInfo() {
         String filename = "World.txt";
         File myObj = new File(filename);
@@ -44,7 +53,7 @@ public class SaveWorld implements Serializable {
             FileOutputStream file = new FileOutputStream(filename);
             ObjectOutputStream out = new ObjectOutputStream(file);
 
-            // write the objects to the file
+            // Write the objects to the file.
             out.writeObject(this.ter);
             out.writeObject(this.world);
             out.writeObject(this.posOfAvatar);
@@ -59,7 +68,7 @@ public class SaveWorld implements Serializable {
             out.writeObject(this.boosted);
             out.writeObject(this.togglePaths);
 
-            // close file when done
+            // Close file when done.
             out.close();
             file.close();
 
@@ -67,5 +76,4 @@ public class SaveWorld implements Serializable {
             System.out.println("IOException is caught");
         }
     }
-
 }

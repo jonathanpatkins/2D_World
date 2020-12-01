@@ -2,7 +2,7 @@ package byow.Core.Utils;
 
 /**
  * Utility class that represents a weighted edge.
- * @author Hug
+ * @author Hug.
  * @source project 2c.
  */
 public class WeightedEdge {

@@ -2,9 +2,7 @@ package byow.Core.WorldComponents;
 
 import byow.Core.Engine;
 import byow.Core.Utils.*;
-import byow.TileEngine.TERenderer;
-import byow.TileEngine.TETile;
-import byow.TileEngine.Tileset;
+import byow.TileEngine.*;
 import byow.Core.UserInput.Interact;
 
 import java.util.ArrayList;
@@ -28,7 +26,7 @@ public class World implements java.io.Serializable {
      * @param seed: The actual seed used to ensure random generation is repeatable.
      * @param random: The Random object used for random generation.
      */
-    protected TETile[][] world;
+    private TETile[][] world;
     private TETile wallType, floorType;
     private ArrayList<Position> enemies;
     private List<Room> rooms;
@@ -59,6 +57,7 @@ public class World implements java.io.Serializable {
         objects = loadedObjects;
         interact("L");
     }
+
     /**
      * Uses @param seedInput to set up the Random object's seed.
      * Prepares generation of the world based on the dimensions of the Engine.
@@ -82,7 +81,7 @@ public class World implements java.io.Serializable {
             this.rooms = new ArrayList<>();
             this.seedString = seedInput.toUpperCase();
 
-            String substring = seedString.substring(1, seedString.length());
+            String substring = seedString.substring(1);
             char[] seedArray = substring.toCharArray();
             String numString = "";
             for (char c : seedArray) {
@@ -108,11 +107,11 @@ public class World implements java.io.Serializable {
                 Builder builder = new Builder(ter, floorType, wallType);
                 this.world = builder.getWorld();
 
-                //Generates 3 enemies and the power tile.
+                // Generates 3 enemies and the power/heart tiles.
                 generateEnemies(3);
                 this.power = generatePowers(Tileset.POWER);
                 this.heart = generatePowers(Tileset.HEART);
-            } else if (first != 'B') {
+            } else {
                 this.world = new TETile[Engine.WIDTH][Engine.HEIGHT];
                 for (int x = 0; x < Engine.WIDTH; x += 1) {
                     for (int y = 0; y < Engine.HEIGHT; y += 1) {
@@ -154,7 +153,7 @@ public class World implements java.io.Serializable {
      */
     public TETile[][] generateWorld() {
 
-        // Generates numOfRoomsDesired into the space
+        // Generates numOfRoomsDesired into the space.
         int numOfRoomsDesired = RandomUtils.uniform(random, 20, 40);
         int counter = 0;
         int fails = 0;
@@ -181,7 +180,7 @@ public class World implements java.io.Serializable {
         Hallway h = new Hallway(world, rooms, u, random, floorType, wallType);
         h.connectAllRooms();
 
-        //Generates 3 enemies and the power tile.
+        // Generates 3 enemies and the power/heart tiles.
         generateEnemies(3);
         this.power = generatePowers(Tileset.POWER);
         this.heart = generatePowers(Tileset.HEART);
@@ -189,7 +188,10 @@ public class World implements java.io.Serializable {
         return world;
     }
 
-
+    /**
+     * Creates the Interact object using the generated objects and @param userInput.
+     * @Return the eventual state of the world when all is said and done.
+     */
     public TETile[][] interact(String userInput) {
         Interact interact = new Interact(objects, userInput);
         this.world = interact.getWorld();
@@ -242,6 +244,9 @@ public class World implements java.io.Serializable {
         return true;
     }
 
+    /**
+     * @Return the world array.
+     */
     public TETile[][] getWorld() {
         return world;
     }
@@ -249,6 +254,11 @@ public class World implements java.io.Serializable {
     /**
      * Sets @param wallType and @param floorType based on @param theme.
      * 0-0.25 = Mountain Theme, 0.25-0.5 = Forest Theme, 0.5-0.75 = Beach, 0.75-1 = House Theme.
+     *      Seeds which display the themes:
+     *       1. Mountain: 387654
+     *       2. Forest: 39034
+     *       3. Beach: 654
+     *       4. House: 9203
      */
     private void setTypes() {
         if (theme <= 0.25) {

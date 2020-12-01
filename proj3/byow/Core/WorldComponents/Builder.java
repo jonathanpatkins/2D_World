@@ -2,37 +2,42 @@ package byow.Core.WorldComponents;
 
 import byow.Core.Engine;
 import byow.Core.Utils.Position;
-import byow.TileEngine.TERenderer;
-import byow.TileEngine.TETile;
-import byow.TileEngine.Tileset;
+import byow.TileEngine.*;
 import edu.princeton.cs.introcs.StdDraw;
-
 import java.awt.*;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * A creative mechanic allowing players to customize the world.
+ * @author Jonathan Atkins, Jake Webster 11/29/20.
+ */
 public class Builder implements Serializable {
+    private static final String FILE_NAME = "Worlds.txt";
+    private TERenderer ter;
+    private TETile[][] world;
+    private TETile floorType, wallType;
+    private List<TETile[][]> pastStates;
 
-    TERenderer ter;
-    TETile[][] world;
-    TETile floorType;
-    TETile wallType;
-    List<TETile[][]> pastStates;
-    String filename;
-
+    /**
+     * Initializes the TERenderer to @param ter.
+     * Initializes the TETile for the floor to @param floorType.
+     * Initializes the TETile for the wallType to @param wallType.
+     */
     public Builder(TERenderer ter, TETile floorType, TETile wallType)  {
         this.ter = ter;
         this.floorType = floorType;
         this.wallType = wallType;
         this.world = new TETile[Engine.WIDTH][Engine.HEIGHT];
         this.pastStates = new ArrayList<>();
-        filename = "Worlds.txt";
 
         initiateBuild();
     }
 
+    /**
+     * Used to start building the world depending on the choices of the player.
+     */
     private void initiateBuild() {
         ter.initialize(Engine.WIDTH, Engine.HEIGHT + 7);
 
@@ -42,10 +47,7 @@ public class Builder implements Serializable {
             }
         }
         boolean flag = true;
-
         StdDraw.enableDoubleBuffering();
-
-
         drawFrame();
 
 
@@ -224,10 +226,10 @@ public class Builder implements Serializable {
     }
 
     public void saveState() {
-        File myObj = new File(filename);
+        File myObj = new File(FILE_NAME);
 
         try {
-            FileOutputStream file = new FileOutputStream(filename);
+            FileOutputStream file = new FileOutputStream(FILE_NAME);
             ObjectOutputStream out = new ObjectOutputStream(file);
 
             // write the objects to the file
@@ -242,7 +244,7 @@ public class Builder implements Serializable {
         }
 
         try {
-            FileInputStream file = new FileInputStream(filename);
+            FileInputStream file = new FileInputStream(FILE_NAME);
             ObjectInputStream in = new ObjectInputStream(file);
 
             TETile[][] temp = (TETile[][]) in.readObject();

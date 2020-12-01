@@ -1,4 +1,3 @@
-//KEEP
 package byow.Core.Utils;
 
 import java.util.Random;

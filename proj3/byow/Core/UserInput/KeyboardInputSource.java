@@ -1,7 +1,7 @@
 package byow.Core.UserInput;
 
 /**
- * Created by hug.
+ * @author hug.
  */
 import edu.princeton.cs.introcs.StdDraw;
 

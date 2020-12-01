@@ -9,7 +9,7 @@ import edu.princeton.cs.algs4.Stopwatch;
  * @author Jake Webster 11/3/20.
  *
  * NOTE: According to Ed, it is okay to use data structures from previous projects here
- * so long as we have both not resubmitting it, which I have confirmed with Jonathan.
+ * so long as we are both not resubmitting it, which I have confirmed with Jonathan.
  * @source https://us.edstem.org/courses/979/discussion/174505?comment=433526.
  */
 public class AStarSolver {

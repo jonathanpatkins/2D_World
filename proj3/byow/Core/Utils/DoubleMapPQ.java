@@ -2,11 +2,12 @@ package byow.Core.Utils;
 
 import java.util.*;
 
-
-/** This is a PQ implementation you can use if you don't want to use
+/**
+ * This is a PQ implementation you can use if you don't want to use
  *  your ArrayHeapMinPQ from proj2a.
- * @source project2D
- **/
+ * @author 61b course staff / hug.
+ * @source project2D skeleton code.
+ */
 public class DoubleMapPQ<T> {
     TreeMap<Double, Set<T>> priorityToItem = new TreeMap<>();
     HashMap<T, Double> itemToPriority = new HashMap<>();

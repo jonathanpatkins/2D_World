@@ -1,6 +1,7 @@
 package byow.Core;
 
-/** This is the main entry point for the program. This class simply parses
+/**
+ * This is the main entry point for the program. This class simply parses
  *  the command line inputs, and lets the byow.Core.Engine class take over
  *  in either keyboard or input string mode.
  * @author Jonathan Atkins Jake Webster CS61B Staff 11/12/20.
@@ -15,12 +16,12 @@ public class Main {
             engine.interactWithInputString(args[0]);
             System.out.println(engine.toString());
 
-            // once done with all of that quit the program
+            // Once done with all of that quit the program.
             System.exit(0);
         } else {
             Engine engine = new Engine();
             engine.interactWithKeyboard();
-            // once done with all of that quit the program
+            // Once done with all of that quit the program.
             System.exit(0);
         }
     }

@@ -1,7 +1,7 @@
 package byow.Core.UserInput;
 
 /**
- * Created by hug.
+ * @author hug.
  */
 public interface InputSource {
     char getNextKey();
