@@ -1,5 +1,6 @@
 package byow.Core.Utils;
 
+import byow.Core.Engine;
 import byow.TileEngine.*;
 import java.util.List;
 import java.util.ArrayList;
@@ -67,6 +68,9 @@ public class WorldGraph implements AStarGraph {
      * Walls and NOTHING cannot be moved onto, the rest is generally fair game.
      */
     private boolean checkValid(Position p) {
+        if (!Engine.inBounds(p)) {
+            return false;
+        }
         TETile tile = world[p.getX()][p.getY()];
         return !tile.equals(wallType) && !tile.equals(Tileset.NOTHING);
     }
