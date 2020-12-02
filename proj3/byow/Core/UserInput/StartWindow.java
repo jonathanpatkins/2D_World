@@ -87,7 +87,7 @@ public class StartWindow {
                     // Only numbers added to the seed - bad inputs ie 6m5 become 65.
                     seed += c;
                     displaySeed += c;
-                } else if (c == 'S' && seed.length() > 2) {
+                } else if (c == 'S' && seed.length() > 1) {
                     // do something
                     seed += c;
                     break;
