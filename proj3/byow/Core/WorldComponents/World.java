@@ -93,8 +93,11 @@ public class World implements java.io.Serializable {
                     numString += c;
                 }
             }
-
-            this.seed = Long.parseLong(numString);
+            try {
+                this.seed = Long.parseLong(numString);
+            } catch (NumberFormatException ex) {
+                System.exit(0);
+            }
             this.random = new Random(seed);
             this.theme = random.nextDouble();
             setTypes();
