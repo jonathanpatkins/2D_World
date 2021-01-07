@@ -28,6 +28,8 @@ public class Interact {
     private WorldGraph myGraph;
     private ArrayList<AStarSolver> solver;
     private ArrayList<List<Position>> enemyPaths;
+    private final boolean SHOW = true;
+    private final boolean HIDE = false;
 
     /**
      * Initializes the instance variables with their corresponding component in @param lObj.
@@ -78,16 +80,16 @@ public class Interact {
                 if (play) {
                     if (c == 'W') {
                         nextPos = new Position(avatar, 0, 1);
-                        makeMove(nextPos);
+                        makeMove(nextPos, SHOW);
                     } else if (c == 'A') {
                         nextPos = new Position(avatar, -1, 0);
-                        makeMove(nextPos);
+                        makeMove(nextPos, SHOW);
                     } else if (c == 'S') {
                         nextPos = new Position(avatar, 0, -1);
-                        makeMove(nextPos);
+                        makeMove(nextPos, SHOW);
                     } else if (c == 'D') {
                         nextPos = new Position(avatar, 1, 0);
-                        makeMove(nextPos);
+                        makeMove(nextPos, SHOW);
                     } else if (c == 'T') {
                         togglePaths = !togglePaths;
                         objects.set(12, togglePaths);
@@ -102,7 +104,7 @@ public class Interact {
                     new SaveWorld(objects);
                     break;
                 } else if (c == '0') {
-                    makeMove(null);
+                    makeMove(null, SHOW);
                 }
             }
         }
@@ -135,9 +137,10 @@ public class Interact {
      * Also calculates if the avatar may be about to collide
      * with an enemy or the power up. However, if the @param
      * next is null, then it tries to display the new mouse
-     * position on the hud without doing anything else
+     * position on the hud without doing anything else. If
+     * @param show is false then nothing is displayed
      */
-    private void makeMove(Position next) {
+    private void makeMove(Position next, boolean show) {
         if (next != null) {
             if (checkEnemyCollision(next)) {
                 if (powered) {
@@ -151,7 +154,9 @@ public class Interact {
                     generateEnemies(s, true);
                     objects.set(6, enemies);
                     generatePaths();
-                    drawFrame(avatar);
+                    if (show) {
+                        drawFrame(avatar);
+                    }
                     return;
                 }
             } else if (checkPowerCollision(next)) {
@@ -174,11 +179,15 @@ public class Interact {
                 objects.set(2, avatar);
                 generatePaths();
                 // Whenever the avatar moves, the enemies move.
-                move(true);
-                drawFrame(avatar);
+                move(show);
+                if (show) {
+                    drawFrame(avatar);
+                }
             }
         } else {
-            drawFrame(avatar);
+            if (show) {
+                drawFrame(avatar);
+            }
         }
     }
 
@@ -195,7 +204,6 @@ public class Interact {
      *                  - this is found and tested through
      *                  Run >> Edit Configurations >> Program arguments.
      */
-    // mark
     private void doUserInput() {
         if (userInput != null) {
             char[] charArray = userInput.toCharArray();
@@ -213,18 +221,18 @@ public class Interact {
             for (char c : charArray) {
                 if (c == 'W') {
                     nextPos = new Position(avatar, 0, 1);
-                    makeMoveFromInput(nextPos);
+                    makeMove(nextPos, HIDE);
                 } else if (c == 'A') {
                     nextPos = new Position(avatar, -1, 0);
-                    makeMoveFromInput(nextPos);
+                    makeMove(nextPos, HIDE);
                 } else if (c == 'S' && sCounter > 0) {
                     nextPos = new Position(avatar, 0, -1);
-                    makeMoveFromInput(nextPos);
+                    makeMove(nextPos, HIDE);
                 } else if (c == 'S') {
                     sCounter += 1;
                 } else if (c == 'D') {
                     nextPos = new Position(avatar, 1, 0);
-                    makeMoveFromInput(nextPos);
+                    makeMove(nextPos, HIDE);
                 } else if (c == ':') {
                     getReadyForQuit = true;
                 } else if (c == 'Q' && getReadyForQuit) {
@@ -234,50 +242,50 @@ public class Interact {
         }
     }
 
-    /**
-     * Makes a move to @param next from input. Used for the autograder.
-     */
-    // mark
-    private void makeMoveFromInput(Position next) {
-        if (next != null) {
-            if (checkEnemyCollision(next)) {
-                if (powered) {
-                    world[next.getX()][next.getY()] = floorType;
-                    enemies.remove(next);
-                } else {
-                    lives -= 1;
-                    avatar = startingPos;
-                    objects.set(9, lives);
-                    int s = enemies.size();
-                    generateEnemies(s, false);
-                    objects.set(6, enemies);
-                    generatePaths();
-                    return;
-                }
-            } else if (checkPowerCollision(next)) {
-                world[next.getX()][next.getY()] = floorType;
-                powered = true;
-                objects.set(10, powered);
-                for (int i = 0; i < enemies.size(); i += 1) {
-                    Position pos = enemies.get(i);
-                    world[pos.getX()][pos.getY()] = Tileset.SCARED_ENEMY;
-                }
-            } else if (checkHeartCollision(next)) {
-                world[next.getX()][next.getY()] = floorType;
-                lives += 1;
-                boosted = true;
-                objects.set(11, boosted);
-                objects.set(9, lives);
-            }
-            if (Engine.inBounds(next) && checkValid(next)) {
-                avatar = next;
-                objects.set(2, avatar);
-                generatePaths();
-                // Whenever the avatar moves, the enemies move.
-                move(false);
-            }
-        }
-    }
+//    /**
+//     * Makes a move to @param next from input. Used for the autograder.
+//     */
+//    // mark
+//    private void makeMoveFroffmInput(Position next) {
+//        if (next != null) {
+//            if (checkEnemyCollision(next)) {
+//                if (powered) {
+//                    world[next.getX()][next.getY()] = floorType;
+//                    enemies.remove(next);
+//                } else {
+//                    lives -= 1;
+//                    avatar = startingPos;
+//                    objects.set(9, lives);
+//                    int s = enemies.size();
+//                    generateEnemies(s, false);
+//                    objects.set(6, enemies);
+//                    generatePaths();
+//                    return;
+//                }
+//            } else if (checkPowerCollision(next)) {
+//                world[next.getX()][next.getY()] = floorType;
+//                powered = true;
+//                objects.set(10, powered);
+//                for (int i = 0; i < enemies.size(); i += 1) {
+//                    Position pos = enemies.get(i);
+//                    world[pos.getX()][pos.getY()] = Tileset.SCARED_ENEMY;
+//                }
+//            } else if (checkHeartCollision(next)) {
+//                world[next.getX()][next.getY()] = floorType;
+//                lives += 1;
+//                boosted = true;
+//                objects.set(11, boosted);
+//                objects.set(9, lives);
+//            }
+//            if (Engine.inBounds(next) && checkValid(next)) {
+//                avatar = next;
+//                objects.set(2, avatar);
+//                generatePaths();
+//                // Whenever the avatar moves, the enemies move.
+//                move(false);
+//            }
+//        }
+//    }
 
     /**
      * @Return whether the player could hypothetically move onto the Position @param p.
