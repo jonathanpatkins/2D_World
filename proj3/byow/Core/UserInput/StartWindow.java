@@ -50,36 +50,21 @@ public class StartWindow {
         String seed = "";
         String displaySeed = "";
 
-        // This flag will turn true when 'N' or 'B' is inputted. This is for a new game.
-        // Thus we will now begin to collect the input in the @param displaySeed so we can view.
-        boolean newFlag = false;
-
-        /**
-         * Preferably in the future stuff is only displayed when you are entering the number part
-         * of the seed for a new game, but for now lets just display the entire seed input
-         * No parsing of the seed is done in here, do it all in the engine class
-         */
         while (inputSource.possibleNextInput()) {
-            // get key stroke from keyboard
+
             char c = inputSource.getNextKey();
 
-            // add the input to our seed value
             if (seed.length() == 0) {
                 if (c == 'N') {
-                    // do something
-                    newFlag = true;
                     ready = true;
                     seed += c;
                 } else if (c == 'L') {
-                    // do something
                     seed += c;
                     break;
                 } else if (c == 'B') {
-                    // do something
                     ready = true;
                     seed += c;
                 } else if (c == 'Q') {
-                    // do something - System.exit(0)
                     System.exit(0);
                 }
             } else {
@@ -88,17 +73,14 @@ public class StartWindow {
                     seed += c;
                     displaySeed += c;
                 } else if (c == 'S' && seed.length() > 1) {
-                    // do something
                     seed += c;
                     break;
                 } else if (c == 'Q') {
-                    // do something - System.exit(0)
                     System.exit(0);
                 }
             }
             drawCanvas(displaySeed);
         }
-        // Pass the seed to some other class where it can be processed.
         return seed;
     }
 
