@@ -19,6 +19,9 @@ public class Builder implements Serializable {
     private TETile[][] world;
     private TETile floorType, wallType;
     private List<TETile[][]> pastStates;
+    private boolean pressed;
+    private int xMouse;
+    private int yMouse;
 
     /**
      * Initializes the TERenderer to @param ter.
@@ -33,6 +36,12 @@ public class Builder implements Serializable {
         this.pastStates = new ArrayList<>();
 
         initiateBuild();
+    }
+
+    private void mouseUpdate() {
+        this.xMouse = (int) StdDraw.mouseX();
+        this.yMouse = (int) StdDraw.mouseY();
+        this.pressed = StdDraw.isMousePressed();
     }
 
     /**
@@ -54,23 +63,19 @@ public class Builder implements Serializable {
 
 
         while (flag) {
-            double x = StdDraw.mouseX();
-            double y = StdDraw.mouseY();
-
-            // if mouse is pressed then do some action
-            boolean pressed = StdDraw.isMousePressed();
-            if (pressed && x > 3 && x < 25 && y < Engine.HEIGHT + 6 && y > Engine.HEIGHT + 2) {
+            mouseUpdate();
+            if (pressed && xMouse > 3 && xMouse < 25 && yMouse < Engine.HEIGHT + 6 && yMouse > Engine.HEIGHT + 2) {
                 initiateMakeRoom();
             }
-            if (pressed && x > 29 && x < 40 && y < Engine.HEIGHT + 6 && y > Engine.HEIGHT + 2) {
+            if (pressed && xMouse > 29 && xMouse < 40 && yMouse < Engine.HEIGHT + 6 && yMouse > Engine.HEIGHT + 2) {
                 initiateDoorWay();
             }
-            if (pressed && x > 46 && x < 52 && y < Engine.HEIGHT + 6 && y > Engine.HEIGHT + 2) {
+            if (pressed && xMouse > 46 && xMouse < 52 && yMouse < Engine.HEIGHT + 6 && yMouse > Engine.HEIGHT + 2) {
                 initiateUndo();
                 StdDraw.pause(200);
                 pressed = false;
             }
-            if (pressed && x > 58 && x < 65 && y < Engine.HEIGHT + 6 && y > Engine.HEIGHT + 2) {
+            if (pressed && xMouse > 58 && xMouse < 65 && yMouse < Engine.HEIGHT + 6 && yMouse > Engine.HEIGHT + 2) {
                 flag = false;
             }
         }
@@ -118,13 +123,11 @@ public class Builder implements Serializable {
         Position startingPos;
 
         while (flag) {
-            boolean pressed = StdDraw.isMousePressed();
-            int x = (int) StdDraw.mouseX();
-            int y = (int) StdDraw.mouseY();
-            startingPos = new Position(x, y);
-            if (pressed && Engine.inBounds(startingPos) && world[x][y].equals(wallType)) {
+            mouseUpdate();
+            startingPos = new Position(xMouse, yMouse);
+            if (pressed && Engine.inBounds(startingPos) && world[xMouse][yMouse].equals(wallType)) {
                 saveState();
-                world[x][y] = floorType;
+                world[xMouse][yMouse] = floorType;
                 flag = false;
             }
         }
@@ -140,24 +143,20 @@ public class Builder implements Serializable {
         Position endingPos = null;
 
         while (flag) {
-            double x = StdDraw.mouseX();
-            double y = StdDraw.mouseY();
-            startingPos = new Position((int) x, (int) y);
+            mouseUpdate();
+            startingPos = new Position(xMouse, yMouse);
             boolean pressed = StdDraw.isMousePressed();
             if (pressed && Engine.inBounds(startingPos)) {
                 while (pressed) {
-                    pressed = StdDraw.isMousePressed();
-                    x = StdDraw.mouseX();
-                    y = StdDraw.mouseY();
-                    endingPos = new Position((int) x, (int) y);
+                    mouseUpdate();
+                    endingPos = new Position(xMouse, yMouse);
                     drawState(startingPos, endingPos);
                     StdDraw.pause(50);
                 }
                 flag = false;
             }
-            x = StdDraw.mouseX();
-            y = StdDraw.mouseY();
-            endingPos = new Position((int) x, (int) y);
+            mouseUpdate();
+            endingPos = new Position(xMouse, yMouse);
         }
 
         makeRoom(startingPos, endingPos);
@@ -168,24 +167,12 @@ public class Builder implements Serializable {
      * As the player makes a room, this shows the dimensions.
      */
     private void drawState(Position startingPos, Position endingPos) {
-        StdDraw.clear();
-        Font font = new Font("Monaco", Font.BOLD, 15);
-        StdDraw.setFont(font);
-        ter.renderFrame(world);
-        StdDraw.setPenColor(Color.GREEN);
-        font = new Font("Monaco", Font.BOLD, 30);
-        StdDraw.setFont(font);
-        StdDraw.text(14, Engine.HEIGHT + 4, "Add World Component");
-        StdDraw.text(35, Engine.HEIGHT + 4, "Add Door");
-        StdDraw.text(50, Engine.HEIGHT + 4, "Undo");
-        StdDraw.text(60, Engine.HEIGHT + 4, "Done");
-        StdDraw.setPenColor(Color.white);
-        StdDraw.line(0, Engine.HEIGHT + 1, Engine.WIDTH, Engine.HEIGHT + 1);
+        drawFrame();
 
         double x0 = Math.min(startingPos.getX(), endingPos.getX());
         double y0 = Math.min(startingPos.getY(), endingPos.getY());
-        int x1 = Math.max(startingPos.getX(), endingPos.getX());
-        int y1 = Math.max(startingPos.getY(), endingPos.getY());
+        // int x1 = Math.max(startingPos.getX(), endingPos.getX());
+        // int y1 = Math.max(startingPos.getY(), endingPos.getY());
 
         StdDraw.setPenColor(Color.GREEN);
         double width = Math.abs(startingPos.getX() - endingPos.getX()) + 1;
