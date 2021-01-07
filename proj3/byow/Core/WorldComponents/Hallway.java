@@ -25,6 +25,8 @@ public class Hallway  implements java.io.Serializable {
      * @param floorType: The TETile to use for the Hallway's floors.
      * @param wallType: The TETile to use for the Hallway's walls.
      */
+    private final boolean VERTICAL = true;
+    private final boolean HORIZONTAL = false;
     private TETile[][] world;
     private List<Room> rooms;
     private List<HallwayObj> halls;
@@ -112,34 +114,34 @@ public class Hallway  implements java.io.Serializable {
         // Try vertical and then horizontal generation from a.
         HallwayObj firstPart1;
         if (a.getY() > b.getY()) {
-            firstPart1 = makeVerticalHall(a, -length);
+            firstPart1 = makeHallway(a, -length, VERTICAL);
             a1 = -lengthOrg;
         } else {
-            firstPart1 = makeVerticalHall(a, length);
+            firstPart1 = makeHallway(a, length, VERTICAL);
             a1 = lengthOrg;
         }
         HallwayObj secondPart1;
         if (a.getX() > b.getX()) {
-            secondPart1 = makeHorizontalHall(b, width);
+            secondPart1 = makeHallway(b, width, HORIZONTAL);
         } else {
-            secondPart1 = makeHorizontalHall(b, -width);
+            secondPart1 = makeHallway(b, -width, HORIZONTAL);
         }
 
         // Then, try horizontal and then vertical generation from a.
         HallwayObj firstPart2;
         if (a.getX() > b.getX()) {
-            firstPart2 = makeHorizontalHall(a, -width);
+            firstPart2 = makeHallway(a, -width, HORIZONTAL);
             a2 = -widthOrg;
         } else {
-            firstPart2 = makeHorizontalHall(a, width);
+            firstPart2 = makeHallway(a, width, HORIZONTAL);
             a2 = widthOrg;
         }
         HallwayObj secondPart2;
         if (a.getY() > b.getY()) {
-            secondPart2 = makeVerticalHall(b, length);
+            secondPart2 = makeHallway(b, length, VERTICAL);
 
         } else {
-            secondPart2 = makeVerticalHall(b, -length);
+            secondPart2 = makeHallway(b, -length, VERTICAL);
         }
 
         if ((firstPart1 == null || secondPart1 == null)
@@ -181,60 +183,7 @@ public class Hallway  implements java.io.Serializable {
     }
 
 
-    /**
-     * Makes a vertical hallway.
-     * If it hits a wall before it reaches its desired length, still create the wall,
-     * thus merging the Hallway with another Hallway or a Room, as long as the wall
-     * is not a corner. If the hallway is built to its desired length, then it is a
-     * dead end hallway.
-     *
-     * Starts the Hallway of @param length from Position @param p.
-     * Orientation is determined by @param up: true = up, false = down.
-     * @Return the HallwayObj generated in the process.
-     */
-    public HallwayObj makeVerticalHall(Position p, int length) {
-        List<Position> floor = new ArrayList<>();
-        List<Position> wall = new ArrayList<>();
 
-
-        int absLength = Math.abs(length);
-        for (int j = 0; j < absLength; j++) {
-            int i;
-            if (length > 0) {
-                i = j;
-            } else {
-                i = -j;
-            }
-
-            Position pos = new Position(p, 0, i);
-            Position wall1 = new Position(pos, -1, 0);
-            Position wall2 = new Position(pos, 1, 0);
-
-            // If the position is not in bounds, a Hallway cannot be generated.
-            if (!Engine.inBounds(pos) || !Engine.inBounds(wall1) || !Engine.inBounds(wall2)) {
-                return null;
-            }
-
-            // Generation should also fail if the Hallway is going to hit a corner.
-            if (isCorner(pos, length, true)) {
-                return null;
-            }
-
-            // If the second thing you put down for floor hits floor, do not make the first floor
-            // a floor; it should become a wall in that case.
-            if (j == 0 && secondPlacedFloorIsFloor(pos, length, true)) {
-                wall.add(pos);
-            } else {
-                floor.add(pos);
-            }
-
-            wall.add(wall1);
-            wall.add(wall2);
-
-        }
-        HallwayObj hall = new HallwayObj(floor, wall, absLength, 3);
-        return hall;
-    }
 
     /**
      * @param p: The Position that is being considered.
@@ -265,7 +214,7 @@ public class Hallway  implements java.io.Serializable {
 
 
     /**
-     * Makes a horizontal hallway.
+     * Makes a hallway, vertical if @param vertical is true and horizontal if vertical is false.
      * If it hits a wall before it reaches its desired length, still create the wall,
      * thus merging the Hallway with another Hallway or a Room, as long as the wall
      * is not a corner. If the hallway is built to its desired length, then it is a
@@ -275,22 +224,31 @@ public class Hallway  implements java.io.Serializable {
      * Orientation is determined by @param up: true = up, false = down.
      * @Return the HallwayObj generated in the process.
      */
-    public HallwayObj makeHorizontalHall(Position p, int width) {
+    public HallwayObj makeHallway(Position p, int length, boolean vertical) {
         List<Position> floor = new ArrayList<>();
         List<Position> wall = new ArrayList<>();
 
-        int absWidth = Math.abs(width);
-        for (int j = 0; j < absWidth; j++) {
+        int absLength = Math.abs(length);
+        for (int j = 0; j < absLength; j++) {
             int i;
-            if (width > 0) {
+            if (length > 0) {
                 i = j;
             } else {
                 i = -j;
             }
 
-            Position pos = new Position(p, i, 0);
-            Position wall1 = new Position(pos, 0, -1);
-            Position wall2 = new Position(pos, 0, 1);
+            Position pos;
+            Position wall1;
+            Position wall2;
+            if (vertical) {
+                pos = new Position(p, 0, i);
+                wall1 = new Position(pos, -1, 0);
+                wall2 = new Position(pos, 1, 0);
+            } else {
+                pos = new Position(p, i, 0);
+                wall1 = new Position(pos, 0, -1);
+                wall2 = new Position(pos, 0, 1);
+            }
 
             // If the position is not in bounds, a Hallway cannot be generated.
             if (!Engine.inBounds(pos) || !Engine.inBounds(wall1) || !Engine.inBounds(wall2)) {
@@ -298,13 +256,15 @@ public class Hallway  implements java.io.Serializable {
             }
 
             // Generation should also fail if the Hallway is going to hit a corner.
-            if (isCorner(pos, width, false)) {
+            if (isCorner(pos, length, vertical)) {
                 return null;
             }
 
-            // If the second thing you put down for floor hits floor, do not make the first floor
-            // a floor; it should become a wall in that case.
-            if (j == 0 && secondPlacedFloorIsFloor(pos, width, false)) {
+            // If the second tile that you put down for floor hits floor, this happens
+            // in the instance you are beginning at the position of a wall tile, and then
+            // the second tile is inside some component; the first tile should then be a
+            // wall tile.
+            if (j == 0 && secondPlacedFloorIsFloor(pos, length, vertical)) {
                 wall.add(pos);
             } else {
                 floor.add(pos);
@@ -312,7 +272,13 @@ public class Hallway  implements java.io.Serializable {
             wall.add(wall1);
             wall.add(wall2);
         }
-        HallwayObj hall = new HallwayObj(floor, wall, 3, width);
+
+        HallwayObj hall;
+        if (vertical) {
+            hall = new HallwayObj(floor, wall, absLength, 3);
+        } else {
+            hall = new HallwayObj(floor, wall, 3, absLength);
+        }
         return hall;
     }
 
