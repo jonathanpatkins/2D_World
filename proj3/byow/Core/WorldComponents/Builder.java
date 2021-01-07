@@ -145,7 +145,6 @@ public class Builder implements Serializable {
         while (flag) {
             mouseUpdate();
             startingPos = new Position(xMouse, yMouse);
-            boolean pressed = StdDraw.isMousePressed();
             if (pressed && Engine.inBounds(startingPos)) {
                 while (pressed) {
                     mouseUpdate();
